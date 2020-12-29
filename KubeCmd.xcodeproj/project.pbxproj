@@ -1,0 +1,726 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		49608136259B4FBC0083F81F /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49608135259B4FBC0083F81F /* Tests_iOS.swift */; };
+		49608141259B4FBC0083F81F /* Tests_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49608140259B4FBC0083F81F /* Tests_macOS.swift */; };
+		49608143259B4FBC0083F81F /* KubeCmd.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 49608117259B4FBB0083F81F /* KubeCmd.xcdatamodeld */; };
+		49608144259B4FBC0083F81F /* KubeCmd.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 49608117259B4FBB0083F81F /* KubeCmd.xcdatamodeld */; };
+		49608145259B4FBC0083F81F /* KubeCmdApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49608119259B4FBB0083F81F /* KubeCmdApp.swift */; };
+		49608146259B4FBC0083F81F /* KubeCmdApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49608119259B4FBB0083F81F /* KubeCmdApp.swift */; };
+		49608147259B4FBC0083F81F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4960811A259B4FBB0083F81F /* ContentView.swift */; };
+		49608148259B4FBC0083F81F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4960811A259B4FBB0083F81F /* ContentView.swift */; };
+		49608149259B4FBC0083F81F /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4960811B259B4FBB0083F81F /* Persistence.swift */; };
+		4960814A259B4FBC0083F81F /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4960811B259B4FBB0083F81F /* Persistence.swift */; };
+		4960814B259B4FBC0083F81F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4960811C259B4FBC0083F81F /* Assets.xcassets */; };
+		4960814C259B4FBC0083F81F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4960811C259B4FBC0083F81F /* Assets.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		49608132259B4FBC0083F81F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 49608112259B4FBB0083F81F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 49608120259B4FBC0083F81F;
+			remoteInfo = "KubeCmd (iOS)";
+		};
+		4960813D259B4FBC0083F81F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 49608112259B4FBB0083F81F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 49608128259B4FBC0083F81F;
+			remoteInfo = "KubeCmd (macOS)";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		49608118259B4FBB0083F81F /* Shared.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Shared.xcdatamodel; sourceTree = "<group>"; };
+		49608119259B4FBB0083F81F /* KubeCmdApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KubeCmdApp.swift; sourceTree = "<group>"; };
+		4960811A259B4FBB0083F81F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		4960811B259B4FBB0083F81F /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
+		4960811C259B4FBC0083F81F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		49608121259B4FBC0083F81F /* KubeCmd.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KubeCmd.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		49608124259B4FBC0083F81F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		49608129259B4FBC0083F81F /* KubeCmd.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KubeCmd.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4960812B259B4FBC0083F81F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4960812C259B4FBC0083F81F /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
+		49608131259B4FBC0083F81F /* Tests iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		49608135259B4FBC0083F81F /* Tests_iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_iOS.swift; sourceTree = "<group>"; };
+		49608137259B4FBC0083F81F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4960813C259B4FBC0083F81F /* Tests macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		49608140259B4FBC0083F81F /* Tests_macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOS.swift; sourceTree = "<group>"; };
+		49608142259B4FBC0083F81F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4960811E259B4FBC0083F81F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		49608126259B4FBC0083F81F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4960812E259B4FBC0083F81F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		49608139259B4FBC0083F81F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		49608111259B4FBB0083F81F = {
+			isa = PBXGroup;
+			children = (
+				49608116259B4FBB0083F81F /* Shared */,
+				49608123259B4FBC0083F81F /* iOS */,
+				4960812A259B4FBC0083F81F /* macOS */,
+				49608134259B4FBC0083F81F /* Tests iOS */,
+				4960813F259B4FBC0083F81F /* Tests macOS */,
+				49608122259B4FBC0083F81F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		49608116259B4FBB0083F81F /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				49608119259B4FBB0083F81F /* KubeCmdApp.swift */,
+				4960811A259B4FBB0083F81F /* ContentView.swift */,
+				4960811B259B4FBB0083F81F /* Persistence.swift */,
+				4960811C259B4FBC0083F81F /* Assets.xcassets */,
+				49608117259B4FBB0083F81F /* KubeCmd.xcdatamodeld */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		49608122259B4FBC0083F81F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				49608121259B4FBC0083F81F /* KubeCmd.app */,
+				49608129259B4FBC0083F81F /* KubeCmd.app */,
+				49608131259B4FBC0083F81F /* Tests iOS.xctest */,
+				4960813C259B4FBC0083F81F /* Tests macOS.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		49608123259B4FBC0083F81F /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				49608124259B4FBC0083F81F /* Info.plist */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
+		4960812A259B4FBC0083F81F /* macOS */ = {
+			isa = PBXGroup;
+			children = (
+				4960812B259B4FBC0083F81F /* Info.plist */,
+				4960812C259B4FBC0083F81F /* macOS.entitlements */,
+			);
+			path = macOS;
+			sourceTree = "<group>";
+		};
+		49608134259B4FBC0083F81F /* Tests iOS */ = {
+			isa = PBXGroup;
+			children = (
+				49608135259B4FBC0083F81F /* Tests_iOS.swift */,
+				49608137259B4FBC0083F81F /* Info.plist */,
+			);
+			path = "Tests iOS";
+			sourceTree = "<group>";
+		};
+		4960813F259B4FBC0083F81F /* Tests macOS */ = {
+			isa = PBXGroup;
+			children = (
+				49608140259B4FBC0083F81F /* Tests_macOS.swift */,
+				49608142259B4FBC0083F81F /* Info.plist */,
+			);
+			path = "Tests macOS";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		49608120259B4FBC0083F81F /* KubeCmd (iOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4960814F259B4FBC0083F81F /* Build configuration list for PBXNativeTarget "KubeCmd (iOS)" */;
+			buildPhases = (
+				4960811D259B4FBC0083F81F /* Sources */,
+				4960811E259B4FBC0083F81F /* Frameworks */,
+				4960811F259B4FBC0083F81F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "KubeCmd (iOS)";
+			productName = "KubeCmd (iOS)";
+			productReference = 49608121259B4FBC0083F81F /* KubeCmd.app */;
+			productType = "com.apple.product-type.application";
+		};
+		49608128259B4FBC0083F81F /* KubeCmd (macOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 49608152259B4FBC0083F81F /* Build configuration list for PBXNativeTarget "KubeCmd (macOS)" */;
+			buildPhases = (
+				49608125259B4FBC0083F81F /* Sources */,
+				49608126259B4FBC0083F81F /* Frameworks */,
+				49608127259B4FBC0083F81F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "KubeCmd (macOS)";
+			productName = "KubeCmd (macOS)";
+			productReference = 49608129259B4FBC0083F81F /* KubeCmd.app */;
+			productType = "com.apple.product-type.application";
+		};
+		49608130259B4FBC0083F81F /* Tests iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 49608155259B4FBC0083F81F /* Build configuration list for PBXNativeTarget "Tests iOS" */;
+			buildPhases = (
+				4960812D259B4FBC0083F81F /* Sources */,
+				4960812E259B4FBC0083F81F /* Frameworks */,
+				4960812F259B4FBC0083F81F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				49608133259B4FBC0083F81F /* PBXTargetDependency */,
+			);
+			name = "Tests iOS";
+			productName = "Tests iOS";
+			productReference = 49608131259B4FBC0083F81F /* Tests iOS.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		4960813B259B4FBC0083F81F /* Tests macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 49608158259B4FBC0083F81F /* Build configuration list for PBXNativeTarget "Tests macOS" */;
+			buildPhases = (
+				49608138259B4FBC0083F81F /* Sources */,
+				49608139259B4FBC0083F81F /* Frameworks */,
+				4960813A259B4FBC0083F81F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4960813E259B4FBC0083F81F /* PBXTargetDependency */,
+			);
+			name = "Tests macOS";
+			productName = "Tests macOS";
+			productReference = 4960813C259B4FBC0083F81F /* Tests macOS.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		49608112259B4FBB0083F81F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1230;
+				LastUpgradeCheck = 1230;
+				TargetAttributes = {
+					49608120259B4FBC0083F81F = {
+						CreatedOnToolsVersion = 12.3;
+					};
+					49608128259B4FBC0083F81F = {
+						CreatedOnToolsVersion = 12.3;
+					};
+					49608130259B4FBC0083F81F = {
+						CreatedOnToolsVersion = 12.3;
+						TestTargetID = 49608120259B4FBC0083F81F;
+					};
+					4960813B259B4FBC0083F81F = {
+						CreatedOnToolsVersion = 12.3;
+						TestTargetID = 49608128259B4FBC0083F81F;
+					};
+				};
+			};
+			buildConfigurationList = 49608115259B4FBB0083F81F /* Build configuration list for PBXProject "KubeCmd" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 49608111259B4FBB0083F81F;
+			productRefGroup = 49608122259B4FBC0083F81F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				49608120259B4FBC0083F81F /* KubeCmd (iOS) */,
+				49608128259B4FBC0083F81F /* KubeCmd (macOS) */,
+				49608130259B4FBC0083F81F /* Tests iOS */,
+				4960813B259B4FBC0083F81F /* Tests macOS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		4960811F259B4FBC0083F81F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4960814B259B4FBC0083F81F /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		49608127259B4FBC0083F81F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4960814C259B4FBC0083F81F /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4960812F259B4FBC0083F81F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4960813A259B4FBC0083F81F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4960811D259B4FBC0083F81F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				49608143259B4FBC0083F81F /* KubeCmd.xcdatamodeld in Sources */,
+				49608149259B4FBC0083F81F /* Persistence.swift in Sources */,
+				49608145259B4FBC0083F81F /* KubeCmdApp.swift in Sources */,
+				49608147259B4FBC0083F81F /* ContentView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		49608125259B4FBC0083F81F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				49608144259B4FBC0083F81F /* KubeCmd.xcdatamodeld in Sources */,
+				4960814A259B4FBC0083F81F /* Persistence.swift in Sources */,
+				49608146259B4FBC0083F81F /* KubeCmdApp.swift in Sources */,
+				49608148259B4FBC0083F81F /* ContentView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4960812D259B4FBC0083F81F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				49608136259B4FBC0083F81F /* Tests_iOS.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		49608138259B4FBC0083F81F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				49608141259B4FBC0083F81F /* Tests_macOS.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		49608133259B4FBC0083F81F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 49608120259B4FBC0083F81F /* KubeCmd (iOS) */;
+			targetProxy = 49608132259B4FBC0083F81F /* PBXContainerItemProxy */;
+		};
+		4960813E259B4FBC0083F81F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 49608128259B4FBC0083F81F /* KubeCmd (macOS) */;
+			targetProxy = 4960813D259B4FBC0083F81F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		4960814D259B4FBC0083F81F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		4960814E259B4FBC0083F81F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		49608150259B4FBC0083F81F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3BZ4Q376K2;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = iOS/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.thomashorrobin.KubeCmd;
+				PRODUCT_NAME = KubeCmd;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		49608151259B4FBC0083F81F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3BZ4Q376K2;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = iOS/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.thomashorrobin.KubeCmd;
+				PRODUCT_NAME = KubeCmd;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		49608153259B4FBC0083F81F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 3BZ4Q376K2;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = macOS/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.thomashorrobin.KubeCmd;
+				PRODUCT_NAME = KubeCmd;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		49608154259B4FBC0083F81F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 3BZ4Q376K2;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = macOS/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.thomashorrobin.KubeCmd;
+				PRODUCT_NAME = KubeCmd;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		49608156259B4FBC0083F81F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3BZ4Q376K2;
+				INFOPLIST_FILE = "Tests iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.thomashorrobin.Tests-iOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "KubeCmd (iOS)";
+			};
+			name = Debug;
+		};
+		49608157259B4FBC0083F81F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3BZ4Q376K2;
+				INFOPLIST_FILE = "Tests iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.thomashorrobin.Tests-iOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "KubeCmd (iOS)";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		49608159259B4FBC0083F81F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 3BZ4Q376K2;
+				INFOPLIST_FILE = "Tests macOS/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.1;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.thomashorrobin.Tests-macOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = "KubeCmd (macOS)";
+			};
+			name = Debug;
+		};
+		4960815A259B4FBC0083F81F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 3BZ4Q376K2;
+				INFOPLIST_FILE = "Tests macOS/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.1;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.thomashorrobin.Tests-macOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = "KubeCmd (macOS)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		49608115259B4FBB0083F81F /* Build configuration list for PBXProject "KubeCmd" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4960814D259B4FBC0083F81F /* Debug */,
+				4960814E259B4FBC0083F81F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4960814F259B4FBC0083F81F /* Build configuration list for PBXNativeTarget "KubeCmd (iOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				49608150259B4FBC0083F81F /* Debug */,
+				49608151259B4FBC0083F81F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		49608152259B4FBC0083F81F /* Build configuration list for PBXNativeTarget "KubeCmd (macOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				49608153259B4FBC0083F81F /* Debug */,
+				49608154259B4FBC0083F81F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		49608155259B4FBC0083F81F /* Build configuration list for PBXNativeTarget "Tests iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				49608156259B4FBC0083F81F /* Debug */,
+				49608157259B4FBC0083F81F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		49608158259B4FBC0083F81F /* Build configuration list for PBXNativeTarget "Tests macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				49608159259B4FBC0083F81F /* Debug */,
+				4960815A259B4FBC0083F81F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		49608117259B4FBB0083F81F /* KubeCmd.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				49608118259B4FBB0083F81F /* Shared.xcdatamodel */,
+			);
+			currentVersion = 49608118259B4FBB0083F81F /* Shared.xcdatamodel */;
+			path = KubeCmd.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 49608112259B4FBB0083F81F /* Project object */;
+}
