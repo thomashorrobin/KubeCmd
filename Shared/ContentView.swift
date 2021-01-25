@@ -17,20 +17,29 @@ struct ContentView: View {
     private var items: FetchedResults<Item>
 
     var body: some View {
-        List {
-            ForEach(items) { item in
-                Text("Item at \(item.timestamp!, formatter: itemFormatter)")
+        NavigationView {
+            KubernetesMenuView()
+//            List {
+//                ForEach(1...14, id: \.self) { item in
+//                    Text("Number \(item)")
+//                }
+//            }.navigationTitle("select").navigationSubtitle("oh hello!")
+            List {
+                ForEach(items) { item in
+                    Text("Item at \(item.timestamp!, formatter: itemFormatter)")
+                }
+                .onDelete(perform: deleteItems)
             }
-            .onDelete(perform: deleteItems)
-        }
-        .toolbar {
-            #if os(iOS)
-            EditButton()
-            #endif
+            .toolbar {
+                #if os(iOS)
+                EditButton()
+                #endif
 
-            Button(action: addItem) {
-                Label("Add Item", systemImage: "plus")
+                Button(action: addItem) {
+                    Label("Add Item", systemImage: "plus")
+                }
             }
+            .navigationTitle("List")
         }
     }
 
