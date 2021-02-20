@@ -1,13 +1,13 @@
 //
-//  Tests_macOS.swift
-//  Tests macOS
+//  KubeCmdUITests.swift
+//  KubeCmdUITests
 //
-//  Created by Thomas Horrobin on 29/12/2020.
+//  Created by Thomas Horrobin on 20/02/2021.
 //
 
 import XCTest
 
-class Tests_macOS: XCTestCase {
+class KubeCmdUITests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.

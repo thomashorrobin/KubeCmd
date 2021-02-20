@@ -1,8 +1,8 @@
 //
 //  KubeCmdApp.swift
-//  Shared
+//  KubeCmd
 //
-//  Created by Thomas Horrobin on 29/12/2020.
+//  Created by Thomas Horrobin on 20/02/2021.
 //
 
 import SwiftUI

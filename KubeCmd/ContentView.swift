@@ -1,8 +1,8 @@
 //
 //  ContentView.swift
-//  Shared
+//  KubeCmd
 //
-//  Created by Thomas Horrobin on 29/12/2020.
+//  Created by Thomas Horrobin on 20/02/2021.
 //
 
 import SwiftUI
@@ -17,29 +17,16 @@ struct ContentView: View {
     private var items: FetchedResults<Item>
 
     var body: some View {
-        NavigationView {
-            KubernetesMenuView()
-//            List {
-//                ForEach(1...14, id: \.self) { item in
-//                    Text("Number \(item)")
-//                }
-//            }.navigationTitle("select").navigationSubtitle("oh hello!")
-            List {
-                ForEach(items) { item in
-                    Text("Item at \(item.timestamp!, formatter: itemFormatter)")
-                }
-                .onDelete(perform: deleteItems)
+        List {
+            ForEach(items) { item in
+                Text("Item at \(item.timestamp!, formatter: itemFormatter)")
             }
-            .toolbar {
-                #if os(iOS)
-                EditButton()
-                #endif
-
-                Button(action: addItem) {
-                    Label("Add Item", systemImage: "plus")
-                }
+            .onDelete(perform: deleteItems)
+        }
+        .toolbar {
+            Button(action: addItem) {
+                Label("Add Item", systemImage: "plus")
             }
-            .navigationTitle("List")
         }
     }
 

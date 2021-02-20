@@ -15,8 +15,8 @@
         "repositoryURL": "git@github.com:swiftkube/client.git",
         "state": {
           "branch": null,
-          "revision": "ea691b794265a5ee7d5a4f00acb4f2b5675b1b17",
-          "version": "0.5.0"
+          "revision": "fb078c2aeba66ee2fb1be85dd5ad286e3963aab7",
+          "version": "0.6.1"
         }
       },
       {
