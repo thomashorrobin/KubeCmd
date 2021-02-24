@@ -17,12 +17,6 @@ struct KubernetesMenuView: View {
     @State private var cronjobs = [batch.v1beta1.CronJob]()
     @State private var deployments = [apps.v1.Deployment]()
     @State private var jobs = [batch.v1.Job]()
-    init() {
-        guard let ds = try! client?.appsV1.deployments.list(in: .allNamespaces).wait() else {
-            return
-        }
-        self.deployments.append(contentsOf: ds.items)
-    }
     var body: some View {
         List {
             Button(action: {
@@ -94,16 +88,10 @@ struct DeploymentList: View {
 }
 
 struct PodList: View {
-    private var pods = [core.v1.Pod]()
-    init() {
-        guard let ds = try! client?.pods.list(in: .default).wait() else {
-            return
-        }
-        pods = ds.items
-    }
+    @EnvironmentObject var resources: ClusterResources
     var body: some View {
         VStack {
-            ForEach(pods, id: \.metadata!.uid) { d in
+            ForEach(resources.pods, id: \.metadata!.uid) { d in
                 NavigationLink(d.name ?? "error", destination: PodDetail(pod: d)).buttonStyle(PlainButtonStyle())
             }
         }
@@ -131,6 +119,6 @@ struct PodDetail: View {
 
 struct KubernetesMenuView_Previews: PreviewProvider {
     static var previews: some View {
-        KubernetesMenuView()
+        KubernetesMenuView().environmentObject(ClusterResources())
     }
 }

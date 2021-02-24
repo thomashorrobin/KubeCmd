@@ -7,8 +7,15 @@
 
 import SwiftUI
 import CoreData
+import SwiftkubeModel
+
+class ClusterResources: ObservableObject {
+    @Published var pods = [core.v1.Pod]()
+}
 
 struct ContentView: View {
+    @StateObject var resources = ClusterResources()
+    
     @Environment(\.managedObjectContext) private var viewContext
 
     @FetchRequest(
@@ -20,7 +27,12 @@ struct ContentView: View {
         NavigationView{
             KubernetesMenuView()
             Text("hellos!!")
-        }
+        }.environmentObject(resources).onAppear(perform: {
+            guard let ds = try! client?.pods.list(in: .default).wait() else {
+                return
+            }
+            self.resources.pods.append(contentsOf: ds.items)
+        })
     }
 
     private func addItem() {
