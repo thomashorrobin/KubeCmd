@@ -59,12 +59,38 @@ struct KubernetesMenuView: View {
                     Text("Jobs")
                 }
             }.buttonStyle(PlainButtonStyle())
+            Button(action: {
+                selectedResource = KubernetesResources.configmaps
+            }) {
+                HStack {
+                    Image("cm")
+                        .resizable()
+                        .frame(width: 14, height: 14)
+                    Text("Config Maps")
+                }
+            }.buttonStyle(PlainButtonStyle())
+            Button(action: {
+                selectedResource = KubernetesResources.secrets
+            }) {
+                HStack {
+                    Image("secret")
+                        .resizable()
+                        .frame(width: 14, height: 14)
+                    Text("Secrets")
+                }
+            }.buttonStyle(PlainButtonStyle())
             Text(selectedResource.rawValue).bold()
-            if (selectedResource == KubernetesResources.deployments) {
+            switch selectedResource {
+            case KubernetesResources.deployments:
                 DeploymentList()
-            }
-            if (selectedResource == KubernetesResources.pods) {
+            case KubernetesResources.pods:
                 PodList()
+            case KubernetesResources.secrets:
+                SecretList()
+            case KubernetesResources.configmaps:
+                ConfigMapList()
+            default:
+                Text("non")
             }
         }.listStyle(SidebarListStyle())
     }
@@ -98,6 +124,28 @@ struct PodList: View {
     }
 }
 
+struct ConfigMapList: View {
+    @EnvironmentObject var resources: ClusterResources
+    var body: some View {
+        VStack {
+            ForEach(resources.configmaps, id: \.metadata!.uid) { d in
+                NavigationLink(d.name ?? "error", destination: ConfigMapDetail(configMap: d)).buttonStyle(PlainButtonStyle())
+            }
+        }
+    }
+}
+
+struct SecretList: View {
+    @EnvironmentObject var resources: ClusterResources
+    var body: some View {
+        VStack {
+            ForEach(resources.secrets, id: \.metadata!.uid) { d in
+                NavigationLink(d.name ?? "error", destination: SecretDetail(secret: d)).buttonStyle(PlainButtonStyle())
+            }
+        }
+    }
+}
+
 struct DeploymentDetail: View {
     var deployment: apps.v1.Deployment
     var body: some View {
@@ -114,6 +162,26 @@ struct PodDetail: View {
             Text("API version: \(pod.apiVersion)")
             Text("Status: \(pod.status?.startTime ?? Date())")
         }.navigationTitle(pod.name!)
+    }
+}
+
+struct ConfigMapDetail: View {
+    var configMap: core.v1.ConfigMap
+    var body: some View {
+        VStack {
+            Text("API version: \(configMap.apiVersion)")
+            Text("Namespace: \(configMap.metadata?.namespace ?? "error")")
+        }.navigationTitle(configMap.name!)
+    }
+}
+
+struct SecretDetail: View {
+    var secret: core.v1.Secret
+    var body: some View {
+        VStack {
+            Text("API version: \(secret.apiVersion)")
+            Text("Namespace: \(secret.metadata?.namespace ?? "error")")
+        }.navigationTitle(secret.name!)
     }
 }
 

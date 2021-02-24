@@ -11,6 +11,8 @@ import SwiftkubeModel
 
 class ClusterResources: ObservableObject {
     @Published var pods = [core.v1.Pod]()
+    @Published var configmaps = [core.v1.ConfigMap]()
+    @Published var secrets = [core.v1.Secret]()
 }
 
 struct ContentView: View {
@@ -28,10 +30,13 @@ struct ContentView: View {
             KubernetesMenuView()
             Text("hellos!!")
         }.environmentObject(resources).onAppear(perform: {
-            guard let ds = try! client?.pods.list(in: .default).wait() else {
-                return
+            do {
+                self.resources.pods = try client?.pods.list(in: .default).wait().items ?? [core.v1.Pod]()
+                self.resources.configmaps = try client?.configMaps.list(in: .default).wait().items ?? [core.v1.ConfigMap]()
+                self.resources.secrets = try client?.secrets.list(in: .default).wait().items ?? [core.v1.Secret]()
+            } catch {
+                print("Unknown error: \(error)")
             }
-            self.resources.pods.append(contentsOf: ds.items)
         })
     }
 
