@@ -91,8 +91,8 @@ struct KubernetesMenuView: View {
                 ConfigMapList()
             case KubernetesResources.cronjobs:
                 CronJobList()
-            default:
-                Text("non")
+            case KubernetesResources.jobs:
+                JobList()
             }
         }.listStyle(SidebarListStyle())
     }
@@ -155,6 +155,27 @@ struct CronJobDetail: View {
             Text("API version: \(cronJob.apiVersion)")
             Text("Namespace: \(cronJob.metadata?.namespace ?? "error")")
         }.navigationTitle(cronJob.name!)
+    }
+}
+
+struct JobList: View {
+    @EnvironmentObject var resources: ClusterResources
+    var body: some View {
+        VStack {
+            ForEach(resources.jobs, id: \.metadata!.uid) { d in
+                NavigationLink(d.name ?? "error", destination: JobDetail(job: d)).buttonStyle(PlainButtonStyle())
+            }
+        }
+    }
+}
+
+struct JobDetail: View {
+    var job: batch.v1.Job
+    var body: some View {
+        VStack {
+            Text("API version: \(job.apiVersion)")
+            Text("Namespace: \(job.metadata?.namespace ?? "error")")
+        }.navigationTitle(job.name!)
     }
 }
 
