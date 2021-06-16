@@ -14,9 +14,9 @@
         "package": "SwiftkubeClient",
         "repositoryURL": "git@github.com:swiftkube/client.git",
         "state": {
-          "branch": null,
-          "revision": "fb078c2aeba66ee2fb1be85dd5ad286e3963aab7",
-          "version": "0.6.1"
+          "branch": "main",
+          "revision": "afb37d77184209de82a17faaaaa9c975e303f1dd",
+          "version": null
         }
       },
       {
@@ -24,8 +24,8 @@
         "repositoryURL": "https://github.com/swiftkube/model.git",
         "state": {
           "branch": null,
-          "revision": "317d369e6db56383884dccaab2e2854c40ed2eb2",
-          "version": "0.2.2"
+          "revision": "2f403f754d959bc5ffadd7297fbc880b22d7e8f0",
+          "version": "0.3.3"
         }
       },
       {
