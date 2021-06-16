@@ -13,6 +13,7 @@ class ClusterResources: ObservableObject {
     @Published var pods = [core.v1.Pod]()
     @Published var configmaps = [core.v1.ConfigMap]()
     @Published var secrets = [core.v1.Secret]()
+    @Published var cronjobs = [batch.v1beta1.CronJob]()
 }
 
 struct ContentView: View {
@@ -34,6 +35,7 @@ struct ContentView: View {
                 self.resources.pods = try client?.pods.list(in: .default).wait().items ?? [core.v1.Pod]()
                 self.resources.configmaps = try client?.configMaps.list(in: .default).wait().items ?? [core.v1.ConfigMap]()
                 self.resources.secrets = try client?.secrets.list(in: .default).wait().items ?? [core.v1.Secret]()
+                self.resources.cronjobs = try client?.batchV1Beta1.cronJobs.list(in: .default).wait().items ?? [batch.v1beta1.CronJob]()
             } catch {
                 print("Unknown error: \(error)")
             }
