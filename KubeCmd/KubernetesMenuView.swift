@@ -46,20 +46,7 @@ struct KubernetesMenuView: View {
                 TopLevelK8sMenuItem(name: "Secrets", imageName: "secret")
             }.buttonStyle(PlainButtonStyle())
             Text(selectedResource.rawValue).bold()
-            switch selectedResource {
-            case KubernetesResources.deployments:
-                DeploymentList()
-            case KubernetesResources.pods:
-                PodList()
-            case KubernetesResources.secrets:
-                SecretList()
-            case KubernetesResources.configmaps:
-                ConfigMapList()
-            case KubernetesResources.cronjobs:
-                CronJobList()
-            case KubernetesResources.jobs:
-                JobList()
-            }
+            SecondLevelK8sItems(selectedResource: selectedResource)
         }
     }
 }
