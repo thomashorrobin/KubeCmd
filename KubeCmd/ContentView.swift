@@ -10,12 +10,17 @@ import CoreData
 import SwiftkubeModel
 
 class ClusterResources: ObservableObject {
+    @Published var selectedResource = KubernetesResources.pods
     @Published var pods = [core.v1.Pod]()
     @Published var configmaps = [core.v1.ConfigMap]()
     @Published var secrets = [core.v1.Secret]()
     @Published var cronjobs = [batch.v1beta1.CronJob]()
     @Published var jobs = [batch.v1.Job]()
     @Published var deployments = [apps.v1.Deployment]()
+    
+    func setSelectedResource(resource: KubernetesResources) -> Void {
+        selectedResource = resource
+    }
 }
 
 struct ContentView: View {
@@ -27,12 +32,8 @@ struct ContentView: View {
         sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
         animation: .default)
     private var items: FetchedResults<Item>
-
-    var body: some View {
-        NavigationView{
-            KubernetesMenuView()
-            Text("hellos!!")
-        }.environmentObject(resources).onAppear(perform: {
+    
+    func loadData() -> Void {
             do {
                 self.resources.pods = try client?.pods.list(in: .default).wait().items ?? [core.v1.Pod]()
                 self.resources.configmaps = try client?.configMaps.list(in: .default).wait().items ?? [core.v1.ConfigMap]()
@@ -43,6 +44,23 @@ struct ContentView: View {
             } catch {
                 print("Unknown error: \(error)")
             }
+    }
+    
+    @State var buttonText = "Load data again"
+
+    var body: some View {
+        NavigationView{
+            KubernetesMenuView()
+            SecondLevelK8sItems(selectedResource: resources.selectedResource)
+            Button(action: {
+                buttonText = "loading..."
+                loadData()
+                buttonText = "Load data again"
+            }, label: {
+                Text(buttonText)
+            })
+        }.environmentObject(resources).onAppear(perform: {
+            loadData()
         })
     }
 

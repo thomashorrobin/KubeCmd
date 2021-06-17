@@ -12,41 +12,15 @@ import SwiftkubeModel
 let client = KubernetesClient()
 
 struct KubernetesMenuView: View {
-    @State private var selectedResource = KubernetesResources.pods
+    @EnvironmentObject var resources: ClusterResources
     var body: some View {
         ScrollView {
-            Button(action: {
-                selectedResource = KubernetesResources.cronjobs
-            }) {
-                TopLevelK8sMenuItem(name: "CronJobs", imageName: "cronjob", itemCount: 0)
-            }.buttonStyle(PlainButtonStyle())
-            Button(action: {
-                selectedResource = KubernetesResources.deployments
-            }) {
-                TopLevelK8sMenuItem(name: "Deployments", imageName: "deploy")
-            }.buttonStyle(PlainButtonStyle())
-            Button(action: {
-                selectedResource = KubernetesResources.pods
-            }) {
-                TopLevelK8sMenuItem(name: "Pods", imageName: "pod")
-            }.buttonStyle(PlainButtonStyle())
-            Button(action: {
-                selectedResource = KubernetesResources.jobs
-            }) {
-                TopLevelK8sMenuItem(name: "Jobs", imageName: "job")
-            }.buttonStyle(PlainButtonStyle())
-            Button(action: {
-                selectedResource = KubernetesResources.configmaps
-            }) {
-                TopLevelK8sMenuItem(name: "Config Maps", imageName: "cm")
-            }.buttonStyle(PlainButtonStyle())
-            Button(action: {
-                selectedResource = KubernetesResources.secrets
-            }) {
-                TopLevelK8sMenuItem(name: "Secrets", imageName: "secret")
-            }.buttonStyle(PlainButtonStyle())
-            Text(selectedResource.rawValue).bold()
-            SecondLevelK8sItems(selectedResource: selectedResource)
+            TopLevelK8sMenuItem(a: {resources.setSelectedResource(resource: .cronjobs)}, name: "CronJobs", imageName: "cronjob", itemCount: resources.cronjobs.count)
+            TopLevelK8sMenuItem(a: {resources.setSelectedResource(resource:(.deployments))}, name: "Deployments", imageName: "deploy", itemCount: resources.deployments.count)
+            TopLevelK8sMenuItem(a: {resources.setSelectedResource(resource: .pods)}, name: "Pods", imageName: "pod", itemCount: resources.pods.count)
+            TopLevelK8sMenuItem(a: {resources.setSelectedResource(resource:.jobs)}, name: "Jobs", imageName: "job", itemCount: resources.jobs.count)
+            TopLevelK8sMenuItem(a: {resources.setSelectedResource(resource:.configmaps)}, name: "Config Maps", imageName: "cm", itemCount: resources.configmaps.count)
+            TopLevelK8sMenuItem(a: {resources.setSelectedResource(resource:.secrets)}, name: "Secrets", imageName: "secret", itemCount: resources.secrets.count)
         }
     }
 }
