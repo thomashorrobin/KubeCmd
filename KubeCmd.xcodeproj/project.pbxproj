@@ -18,6 +18,7 @@
 		49782B4825E094C100D92F4C /* SwiftkubeClient in Frameworks */ = {isa = PBXBuildFile; productRef = 49782B4725E094C100D92F4C /* SwiftkubeClient */; };
 		49782B4E25E2F4BF00D92F4C /* KubernetesResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49782B4C25E2F4BF00D92F4C /* KubernetesResources.swift */; };
 		49782B4F25E2F4BF00D92F4C /* KubernetesMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49782B4D25E2F4BF00D92F4C /* KubernetesMenuView.swift */; };
+		49FBB8E3267BB8F1004C7824 /* TopLevelK8sMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FBB8E2267BB8F1004C7824 /* TopLevelK8sMenuItem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,7 @@
 		49782B3725E08DD800D92F4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		49782B4C25E2F4BF00D92F4C /* KubernetesResources.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KubernetesResources.swift; sourceTree = "<group>"; };
 		49782B4D25E2F4BF00D92F4C /* KubernetesMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KubernetesMenuView.swift; sourceTree = "<group>"; };
+		49FBB8E2267BB8F1004C7824 /* TopLevelK8sMenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopLevelK8sMenuItem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +118,7 @@
 				49782B2125E08DD800D92F4C /* KubeCmd.entitlements */,
 				49782B1D25E08DD800D92F4C /* KubeCmd.xcdatamodeld */,
 				49782B1825E08DD800D92F4C /* Preview Content */,
+				49FBB8E2267BB8F1004C7824 /* TopLevelK8sMenuItem.swift */,
 			);
 			path = KubeCmd;
 			sourceTree = "<group>";
@@ -283,6 +286,7 @@
 			files = (
 				49782B1C25E08DD800D92F4C /* Persistence.swift in Sources */,
 				49782B4E25E2F4BF00D92F4C /* KubernetesResources.swift in Sources */,
+				49FBB8E3267BB8F1004C7824 /* TopLevelK8sMenuItem.swift in Sources */,
 				49782B1525E08DD700D92F4C /* ContentView.swift in Sources */,
 				49782B4F25E2F4BF00D92F4C /* KubernetesMenuView.swift in Sources */,
 				49782B1325E08DD700D92F4C /* KubeCmdApp.swift in Sources */,

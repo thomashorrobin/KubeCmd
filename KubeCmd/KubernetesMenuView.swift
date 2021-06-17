@@ -14,66 +14,36 @@ let client = KubernetesClient()
 struct KubernetesMenuView: View {
     @State private var selectedResource = KubernetesResources.pods
     var body: some View {
-        List {
+        ScrollView {
             Button(action: {
                 selectedResource = KubernetesResources.cronjobs
             }) {
-                HStack {
-                    Image("cronjob")
-                        .resizable()
-                        .frame(width: 14, height: 14)
-                    Text("CronJobs")
-                }
+                TopLevelK8sMenuItem(name: "CronJobs", imageName: "cronjob", itemCount: 0)
             }.buttonStyle(PlainButtonStyle())
             Button(action: {
                 selectedResource = KubernetesResources.deployments
             }) {
-                HStack {
-                    Image("deploy")
-                        .resizable()
-                        .frame(width: 14, height: 14)
-                    Text("Deployments")
-                }
+                TopLevelK8sMenuItem(name: "Deployments", imageName: "deploy")
             }.buttonStyle(PlainButtonStyle())
             Button(action: {
                 selectedResource = KubernetesResources.pods
             }) {
-                HStack {
-                    Image("pod")
-                        .resizable()
-                        .frame(width: 14, height: 14)
-                    Text("Pods")
-                }
+                TopLevelK8sMenuItem(name: "Pods", imageName: "pod")
             }.buttonStyle(PlainButtonStyle())
             Button(action: {
                 selectedResource = KubernetesResources.jobs
             }) {
-                HStack {
-                    Image("job")
-                        .resizable()
-                        .frame(width: 14, height: 14)
-                    Text("Jobs")
-                }
+                TopLevelK8sMenuItem(name: "Jobs", imageName: "job")
             }.buttonStyle(PlainButtonStyle())
             Button(action: {
                 selectedResource = KubernetesResources.configmaps
             }) {
-                HStack {
-                    Image("cm")
-                        .resizable()
-                        .frame(width: 14, height: 14)
-                    Text("Config Maps")
-                }
+                TopLevelK8sMenuItem(name: "Config Maps", imageName: "cm")
             }.buttonStyle(PlainButtonStyle())
             Button(action: {
                 selectedResource = KubernetesResources.secrets
             }) {
-                HStack {
-                    Image("secret")
-                        .resizable()
-                        .frame(width: 14, height: 14)
-                    Text("Secrets")
-                }
+                TopLevelK8sMenuItem(name: "Secrets", imageName: "secret")
             }.buttonStyle(PlainButtonStyle())
             Text(selectedResource.rawValue).bold()
             switch selectedResource {
@@ -90,7 +60,7 @@ struct KubernetesMenuView: View {
             case KubernetesResources.jobs:
                 JobList()
             }
-        }.listStyle(SidebarListStyle())
+        }
     }
 }
 
