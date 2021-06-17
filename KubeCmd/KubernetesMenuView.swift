@@ -13,10 +13,6 @@ let client = KubernetesClient()
 
 struct KubernetesMenuView: View {
     @State private var selectedResource = KubernetesResources.pods
-    @State private var pods = [core.v1.Pod]()
-    @State private var cronjobs = [batch.v1beta1.CronJob]()
-    @State private var deployments = [apps.v1.Deployment]()
-    @State private var jobs = [batch.v1.Job]()
     var body: some View {
         List {
             Button(action: {
@@ -99,16 +95,10 @@ struct KubernetesMenuView: View {
 }
 
 struct DeploymentList: View {
-    var deployments = [apps.v1.Deployment]()
-    init() {
-        guard let ds = try! client?.appsV1.deployments.list(in: .default).wait() else {
-            return
-        }
-        deployments = ds.items
-    }
+    @EnvironmentObject var resources: ClusterResources
     var body: some View {
         VStack {
-            ForEach(deployments, id: \.metadata!.uid) { d in
+            ForEach(resources.deployments, id: \.metadata!.uid) { d in
                 NavigationLink(d.name ?? "error", destination: DeploymentDetail(deployment: d)).buttonStyle(PlainButtonStyle())
             }
         }

@@ -15,6 +15,7 @@ class ClusterResources: ObservableObject {
     @Published var secrets = [core.v1.Secret]()
     @Published var cronjobs = [batch.v1beta1.CronJob]()
     @Published var jobs = [batch.v1.Job]()
+    @Published var deployments = [apps.v1.Deployment]()
 }
 
 struct ContentView: View {
@@ -38,6 +39,7 @@ struct ContentView: View {
                 self.resources.secrets = try client?.secrets.list(in: .default).wait().items ?? [core.v1.Secret]()
                 self.resources.cronjobs = try client?.batchV1Beta1.cronJobs.list(in: .default).wait().items ?? [batch.v1beta1.CronJob]()
                 self.resources.jobs = try client?.batchV1.jobs.list(in: .default).wait().items ?? [batch.v1.Job]()
+                self.resources.deployments = try client?.appsV1.deployments.list(in: .default).wait().items ?? [apps.v1.Deployment]()
             } catch {
                 print("Unknown error: \(error)")
             }
