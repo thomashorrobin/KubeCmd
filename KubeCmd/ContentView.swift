@@ -65,7 +65,7 @@ struct ContentView: View {
             }, label: {
                 Text(buttonText)
             })
-        }.environmentObject(resources).onAppear(perform: {
+        }.navigationViewStyle(DoubleColumnNavigationViewStyle()).environmentObject(resources).onAppear(perform: {
             loadData()
         })
     }
