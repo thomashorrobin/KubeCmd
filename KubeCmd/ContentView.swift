@@ -57,7 +57,6 @@ struct ContentView: View {
     var body: some View {
         NavigationView{
             KubernetesMenuView()
-            SecondLevelK8sItems()
             Button(action: {
                 buttonText = "loading..."
                 loadData()
