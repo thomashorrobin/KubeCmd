@@ -8,21 +8,21 @@
 import SwiftUI
 
 struct SecondLevelK8sItems: View {
-    var selectedResource:KubernetesResources = KubernetesResources.pods
+    @EnvironmentObject var resources: ClusterResources
     var body: some View {
-        switch selectedResource {
+        switch resources.selectedResource {
         case KubernetesResources.deployments:
-            DeploymentList()
+            KubernetesAPIResourceList(resources: resources.deployments)
         case KubernetesResources.pods:
-            PodList()
+            KubernetesAPIResourceList(resources: resources.pods)
         case KubernetesResources.secrets:
-            SecretList()
+            KubernetesAPIResourceList(resources: resources.secrets)
         case KubernetesResources.configmaps:
-            ConfigMapList()
+            KubernetesAPIResourceList(resources: resources.configmaps)
         case KubernetesResources.cronjobs:
-            CronJobList()
+            KubernetesAPIResourceList(resources: resources.cronjobs)
         case KubernetesResources.jobs:
-            JobList()
+            KubernetesAPIResourceList(resources: resources.jobs)
         }
     }
 }
