@@ -64,7 +64,7 @@ struct ContentView: View {
 
     var body: some View {
         NavigationView{
-            KubernetesMenuView()
+            MenuView()
             Button(action: {
                 buttonText = "loading..."
                 loadData()
