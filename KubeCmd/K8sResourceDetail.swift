@@ -38,9 +38,12 @@ struct K8sResourceDetail: View {
             }
             Spacer()
             Divider()
-            Button(action: deleteResource, label: {
-                Text("Delete")
-            }).padding(.all, 40).disabled(resourceDeleting)
+            HStack{
+                Spacer()
+                Button(action: deleteResource, label: {
+                    Text("Delete")
+                }).padding(.all, 40).disabled(resourceDeleting)
+            }
         })
     }
     func deleteResource() -> Void {
