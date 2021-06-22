@@ -26,7 +26,7 @@ struct K8sResourceDetail: View {
             case "Pod":
                 Text("I'm a pod!!")
             case "CronJob":
-                CronJob(res: resource)
+                CronJob(res: resource).padding(.all, 40)
             case "Job":
                 Text("I'm a Job!!")
             case "Secret":

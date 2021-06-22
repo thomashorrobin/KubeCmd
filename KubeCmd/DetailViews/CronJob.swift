@@ -14,7 +14,13 @@ struct CronJob: View {
         self.cronJob = res as! batch.v1beta1.CronJob
     }
     var body: some View {
-        Text("great detail")
+        VStack(alignment: .leading, spacing: CGFloat(5), content: {
+            Text("Status").font(.title2)
+            Text("Schedule: \(cronJob.spec?.schedule ?? "error")")
+            Text("Suspended: \(String(cronJob.spec?.suspend ?? true))")
+            Divider().padding(.vertical, 30)
+            Text("Spec").font(.title2)
+        })
     }
 }
 
