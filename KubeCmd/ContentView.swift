@@ -63,8 +63,10 @@ struct ContentView: View {
     @State var buttonText = "Load data again"
 
     var body: some View {
-        NavigationView{
-            MenuView()
+        NavigationView
+        {
+            TopLevelK8sMenu()
+            SecondLevelK8sItems()
             Button(action: {
                 buttonText = "loading..."
                 loadData()
@@ -72,9 +74,19 @@ struct ContentView: View {
             }, label: {
                 Text(buttonText)
             })
-        }.navigationViewStyle(DoubleColumnNavigationViewStyle()).environmentObject(resources).onAppear(perform: {
+        }.environmentObject(resources).onAppear(perform: {
             loadData()
+        }).toolbar(content: {
+            ToolbarItem(placement: .navigation) {
+                Button(action: toggleSidebar, label: {
+                    Image(systemName: "sidebar.left")
+                })
+            }
         })
+    }
+    
+    func toggleSidebar() {
+        NSApp.keyWindow?.contentViewController?.tryToPerform(#selector(NSSplitViewController.toggleSidebar(_:)), with: nil)
     }
 
     private func addItem() {

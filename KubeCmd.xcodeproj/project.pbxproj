@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		495A6904267F98FF00DA2EDD /* K8sResourceDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495A6903267F98FF00DA2EDD /* K8sResourceDetail.swift */; };
 		495A6907267FA37300DA2EDD /* CronJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495A6906267FA37300DA2EDD /* CronJob.swift */; };
-		495A690B2680C0B500DA2EDD /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495A690A2680C0B500DA2EDD /* MenuView.swift */; };
 		49782B1325E08DD700D92F4C /* KubeCmdApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49782B1225E08DD700D92F4C /* KubeCmdApp.swift */; };
 		49782B1525E08DD700D92F4C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49782B1425E08DD700D92F4C /* ContentView.swift */; };
 		49782B1725E08DD800D92F4C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49782B1625E08DD800D92F4C /* Assets.xcassets */; };
@@ -46,7 +45,6 @@
 /* Begin PBXFileReference section */
 		495A6903267F98FF00DA2EDD /* K8sResourceDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = K8sResourceDetail.swift; sourceTree = "<group>"; };
 		495A6906267FA37300DA2EDD /* CronJob.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CronJob.swift; sourceTree = "<group>"; };
-		495A690A2680C0B500DA2EDD /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		49782B0F25E08DD700D92F4C /* KubeCmd.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KubeCmd.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49782B1225E08DD700D92F4C /* KubeCmdApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KubeCmdApp.swift; sourceTree = "<group>"; };
 		49782B1425E08DD700D92F4C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -141,7 +139,6 @@
 				49FBB8E4267BC121004C7824 /* SecondLevelK8sItems.swift */,
 				49FBB8E6267CAC73004C7824 /* KubernetesAPIResourceList.swift */,
 				495A6903267F98FF00DA2EDD /* K8sResourceDetail.swift */,
-				495A690A2680C0B500DA2EDD /* MenuView.swift */,
 			);
 			path = KubeCmd;
 			sourceTree = "<group>";
@@ -308,7 +305,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				49FBB8E5267BC121004C7824 /* SecondLevelK8sItems.swift in Sources */,
-				495A690B2680C0B500DA2EDD /* MenuView.swift in Sources */,
 				495A6907267FA37300DA2EDD /* CronJob.swift in Sources */,
 				49782B1C25E08DD800D92F4C /* Persistence.swift in Sources */,
 				49782B4E25E2F4BF00D92F4C /* KubernetesResources.swift in Sources */,

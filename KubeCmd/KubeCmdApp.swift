@@ -16,5 +16,8 @@ struct KubeCmdApp: App {
             ContentView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
+        .commands {
+            SidebarCommands()
+        }
     }
 }
