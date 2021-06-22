@@ -14,15 +14,7 @@ struct CronJob: View {
         self.cronJob = res as! batch.v1beta1.CronJob
     }
     var body: some View {
-        VStack(alignment: .leading, content: {
-            HStack {
-                Text(cronJob.name ?? "no name").font(.title)
-                Spacer()
-                Text("Cron Job").font(.largeTitle).bold()
-            }.padding(.all, 40)
-            Divider()
-            Text("great detail")
-        })
+        Text("great detail")
     }
 }
 
