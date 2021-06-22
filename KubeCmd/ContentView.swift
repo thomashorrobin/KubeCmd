@@ -82,6 +82,9 @@ struct ContentView: View {
                     Image(systemName: "sidebar.left")
                 })
             }
+            ToolbarItem(placement: .primaryAction) {
+                Image(systemName: "plus")
+            }
         })
     }
     
