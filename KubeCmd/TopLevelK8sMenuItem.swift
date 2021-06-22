@@ -19,7 +19,7 @@ struct TopLevelK8sMenuItem: View {
                 Text(name).bold()
                 Spacer()
                 Text(String(itemCount)).padding(.trailing, 20)
-            }.padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
+            }.padding(.all, 10)
             .contentShape(Rectangle())
         }.buttonStyle(PlainButtonStyle())
     }
