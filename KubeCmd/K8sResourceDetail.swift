@@ -30,7 +30,7 @@ struct K8sResourceDetail: View {
             case "Job":
                 Text("I'm a Job!!")
             case "Secret":
-                Text("I'm a Secret!!")
+                Secret(res: resource).padding(.all, 40)
             case "Deployment":
                 Text("I'm a Deployment!!")
             default:
