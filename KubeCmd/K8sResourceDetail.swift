@@ -33,6 +33,8 @@ struct K8sResourceDetail: View {
                 Secret(res: resource).padding(.all, 40)
             case "Deployment":
                 Text("I'm a Deployment!!")
+            case "ConfigMap":
+                ConfigMap(res: resource).padding(.all, 40)
             default:
                 Text("unknown")
             }

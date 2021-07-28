@@ -10,6 +10,7 @@
 		495A6904267F98FF00DA2EDD /* K8sResourceDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495A6903267F98FF00DA2EDD /* K8sResourceDetail.swift */; };
 		495A6907267FA37300DA2EDD /* CronJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495A6906267FA37300DA2EDD /* CronJob.swift */; };
 		4961B4CC26B1D0E1000A55D7 /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4961B4CB26B1D0E1000A55D7 /* Secret.swift */; };
+		4961B4CE26B1DC53000A55D7 /* ConfigMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4961B4CD26B1DC53000A55D7 /* ConfigMap.swift */; };
 		49782B1325E08DD700D92F4C /* KubeCmdApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49782B1225E08DD700D92F4C /* KubeCmdApp.swift */; };
 		49782B1525E08DD700D92F4C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49782B1425E08DD700D92F4C /* ContentView.swift */; };
 		49782B1725E08DD800D92F4C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49782B1625E08DD800D92F4C /* Assets.xcassets */; };
@@ -47,6 +48,7 @@
 		495A6903267F98FF00DA2EDD /* K8sResourceDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = K8sResourceDetail.swift; sourceTree = "<group>"; };
 		495A6906267FA37300DA2EDD /* CronJob.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CronJob.swift; sourceTree = "<group>"; };
 		4961B4CB26B1D0E1000A55D7 /* Secret.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secret.swift; sourceTree = "<group>"; };
+		4961B4CD26B1DC53000A55D7 /* ConfigMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigMap.swift; sourceTree = "<group>"; };
 		49782B0F25E08DD700D92F4C /* KubeCmd.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KubeCmd.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49782B1225E08DD700D92F4C /* KubeCmdApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KubeCmdApp.swift; sourceTree = "<group>"; };
 		49782B1425E08DD700D92F4C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -100,6 +102,7 @@
 			children = (
 				495A6906267FA37300DA2EDD /* CronJob.swift */,
 				4961B4CB26B1D0E1000A55D7 /* Secret.swift */,
+				4961B4CD26B1DC53000A55D7 /* ConfigMap.swift */,
 			);
 			path = DetailViews;
 			sourceTree = "<group>";
@@ -318,6 +321,7 @@
 				49782B1325E08DD700D92F4C /* KubeCmdApp.swift in Sources */,
 				495A6904267F98FF00DA2EDD /* K8sResourceDetail.swift in Sources */,
 				49FBB8E7267CAC73004C7824 /* KubernetesAPIResourceList.swift in Sources */,
+				4961B4CE26B1DC53000A55D7 /* ConfigMap.swift in Sources */,
 				49782B1F25E08DD800D92F4C /* KubeCmd.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,0 +1,31 @@
+//
+//  ConfigMap.swift
+//  KubeCmd
+//
+//  Created by Thomas Horrobin on 28/07/2021.
+//
+
+import SwiftUI
+import SwiftkubeModel
+
+struct ConfigMap: View {
+    let configmap:core.v1.ConfigMap
+    init(res:KubernetesAPIResource) {
+        self.configmap = res as! core.v1.ConfigMap
+    }
+    var body: some View {
+        VStack(alignment: .leading, spacing: CGFloat(5), content: {
+            Text("Data").font(.title2)
+            ForEach((configmap.data?.sorted(by: >))!, id: \.key) { x in
+                Text(x.key)
+                Text(x.value).italic()
+            }
+        })
+    }
+}
+
+//struct ConfigMap_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ConfigMap()
+//    }
+//}
