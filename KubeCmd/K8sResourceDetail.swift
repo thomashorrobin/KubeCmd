@@ -72,8 +72,9 @@ struct K8sResourceDetail: View {
                 print("resource.kind not handled by deleteResource()")
             }
             resourceDeleting = false
+            print("sucessfully deleted \(resource.name ?? "nil") (\(resource.kind))")
         } catch {
-            print("there was a major error from deleteResource()")
+            print("there was a major error from deleteResource() \(error)")
             resourceDeleting = false
         }
     }
