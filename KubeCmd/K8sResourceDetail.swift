@@ -24,15 +24,15 @@ struct K8sResourceDetail: View {
             Divider()
             switch resource.kind {
             case "Pod":
-                Text("I'm a pod!!")
+                Pod(res: resource).padding(.all, 40)
             case "CronJob":
                 CronJob(res: resource).padding(.all, 40)
             case "Job":
-                Text("I'm a Job!!")
+                Job(res: resource).padding(.all, 40)
             case "Secret":
                 Secret(res: resource).padding(.all, 40)
             case "Deployment":
-                Text("I'm a Deployment!!")
+                Deployment(res: resource).padding(.all, 40)
             case "ConfigMap":
                 ConfigMap(res: resource).padding(.all, 40)
             default:
