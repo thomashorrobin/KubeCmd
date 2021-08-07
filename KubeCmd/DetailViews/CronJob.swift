@@ -8,10 +8,50 @@
 import SwiftUI
 import SwiftkubeModel
 
+
+struct SuspendButton: View {
+    var cronJob:batch.v1beta1.CronJob
+    let suspended:Bool
+    var body: some View {
+        if suspended {
+            Button(action: unsuspendCronJob, label: {
+                Text("Unsuspend")
+            }).padding(.all, 40)
+        } else {
+            Button(action: suspendCronJob, label: {
+                Text("Suspend")
+            }).padding(.all, 40)
+        }
+    }
+    func unsuspendCronJob() -> Void {
+        var newThing = self.cronJob
+        newThing.spec?.suspend = false
+        print("newthing suspended \(newThing.spec?.suspend ?? false)")
+        do {
+            let x = try client?.batchV1Beta1.cronJobs.update(newThing).wait()
+            print("Suspended \(x?.spec?.suspend ?? false)")
+        } catch {
+            print(error)
+        }
+    }
+    func suspendCronJob() -> Void {
+        var newThing = self.cronJob
+        newThing.spec?.suspend = true
+        do {
+            let x = try client?.batchV1Beta1.cronJobs.update(newThing).wait()
+            print("Suspended \(x?.spec?.suspend ?? false)")
+        } catch {
+            print(error)
+        }
+    }
+}
+
 struct CronJob: View {
     let cronJob:batch.v1beta1.CronJob
+    let suspended:Bool
     init(res:KubernetesAPIResource) {
         self.cronJob = res as! batch.v1beta1.CronJob
+        self.suspended = self.cronJob.spec?.suspend ?? false
     }
     var body: some View {
         VStack(alignment: .leading, spacing: CGFloat(5), content: {
@@ -23,6 +63,7 @@ struct CronJob: View {
             Button(action: triggerCronJob, label: {
                 Text("Trigger")
             }).padding(.all, 40)
+            SuspendButton(cronJob: self.cronJob, suspended: self.suspended)
         })
     }
     func triggerCronJob() -> Void {
