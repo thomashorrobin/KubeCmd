@@ -22,6 +22,16 @@ class ClusterResources: ObservableObject {
         selectedResource = resource
     }
     
+    func setCronJob(cronjob: batch.v1beta1.CronJob) -> Bool {
+        let cronJobUUID = UUID(uuidString: (cronjob.metadata!.uid!))!
+        if cronjobs.keys.contains(cronJobUUID) {
+            cronjobs[cronJobUUID] = cronjob
+            return true
+        } else {
+            return false
+        }
+    }
+    
     static func dummyCronJob() -> batch.v1beta1.CronJob {
         return batch.v1beta1.CronJob(metadata: meta.v1.ObjectMeta(clusterName: "directly-apply-main-cluster", creationTimestamp: Date(), deletionGracePeriodSeconds: 100, labels: ["feed" : "ziprecruiter"], managedFields: [meta.v1.ManagedFieldsEntry](), name: "great cronjob", namespace: "default", ownerReferences: [meta.v1.OwnerReference](), resourceVersion: "appv1", uid: "F3493650-A9DF-410F-B1A4-E8F5386E5B53"), spec: batch.v1beta1.CronJobSpec(failedJobsHistoryLimit: 5, jobTemplate: batch.v1beta1.JobTemplateSpec(), schedule: "15 10 * * *", startingDeadlineSeconds: 100, successfulJobsHistoryLimit: 2, suspend: false), status: batch.v1beta1.CronJobStatus(active: [core.v1.ObjectReference](), lastScheduleTime: Date()))
     }

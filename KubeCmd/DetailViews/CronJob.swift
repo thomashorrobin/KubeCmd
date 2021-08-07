@@ -10,6 +10,7 @@ import SwiftkubeModel
 
 
 struct SuspendButton: View {
+    @EnvironmentObject var resources: ClusterResources
     var cronJob:batch.v1beta1.CronJob
     let suspended:Bool
     var body: some View {
@@ -29,7 +30,8 @@ struct SuspendButton: View {
         print("newthing suspended \(newThing.spec?.suspend ?? false)")
         do {
             let x = try client?.batchV1Beta1.cronJobs.update(newThing).wait()
-            print("Suspended \(x?.spec?.suspend ?? false)")
+            let worked = resources.setCronJob(cronjob: x!)
+            print("Update worked: \(worked)")
         } catch {
             print(error)
         }
@@ -39,7 +41,8 @@ struct SuspendButton: View {
         newThing.spec?.suspend = true
         do {
             let x = try client?.batchV1Beta1.cronJobs.update(newThing).wait()
-            print("Suspended \(x?.spec?.suspend ?? false)")
+            let worked = resources.setCronJob(cronjob: x!)
+            print("Update worked: \(worked)")
         } catch {
             print(error)
         }
