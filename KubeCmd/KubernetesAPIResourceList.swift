@@ -11,7 +11,7 @@ import SwiftkubeModel
 struct KubernetesAPIResourceList: View {
     var resources: [KubernetesAPIResource]
     var body: some View {
-        ScrollView{
+        List{
             ForEach(resources, id: \.metadata!.uid) { r in
                 KubernetesAPIResourceRow(resource: r)
             }
