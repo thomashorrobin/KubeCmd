@@ -11,12 +11,12 @@ import SwiftkubeModel
 
 class ClusterResources: ObservableObject {
     @Published var selectedResource = KubernetesResources.pods
-    @Published var pods = [core.v1.Pod]()
-    @Published var configmaps = [core.v1.ConfigMap]()
-    @Published var secrets = [core.v1.Secret]()
-    @Published var cronjobs = [batch.v1beta1.CronJob]()
-    @Published var jobs = [batch.v1.Job]()
-    @Published var deployments = [apps.v1.Deployment]()
+    @Published var pods = [UUID:core.v1.Pod]()
+    @Published var configmaps = [UUID:core.v1.ConfigMap]()
+    @Published var secrets = [UUID:core.v1.Secret]()
+    @Published var cronjobs = [UUID:batch.v1beta1.CronJob]()
+    @Published var jobs = [UUID:batch.v1.Job]()
+    @Published var deployments = [UUID:apps.v1.Deployment]()
     
     func setSelectedResource(resource: KubernetesResources) -> Void {
         selectedResource = resource
@@ -32,7 +32,7 @@ class ClusterResources: ObservableObject {
     
     func populateTestData() -> ClusterResources {
         let pod1 = ClusterResources.dummyPod()
-        pods.append(pod1)
+        pods[UUID(uuidString: (pod1.metadata?.uid)!)!] = pod1
         return self
     }
 }
@@ -49,12 +49,30 @@ struct ContentView: View {
     
     func loadData() -> Void {
             do {
-                self.resources.pods = try client?.pods.list(in: .default).wait().items ?? [core.v1.Pod]()
-                self.resources.configmaps = try client?.configMaps.list(in: .default).wait().items ?? [core.v1.ConfigMap]()
-                self.resources.secrets = try client?.secrets.list(in: .default).wait().items ?? [core.v1.Secret]()
-                self.resources.cronjobs = try client?.batchV1Beta1.cronJobs.list(in: .default).wait().items ?? [batch.v1beta1.CronJob]()
-                self.resources.jobs = try client?.batchV1.jobs.list(in: .default).wait().items ?? [batch.v1.Job]()
-                self.resources.deployments = try client?.appsV1.deployments.list(in: .default).wait().items ?? [apps.v1.Deployment]()
+                let pods = try client?.pods.list(in: .default).wait().items ?? [core.v1.Pod]()
+                for pod in pods {
+                    self.resources.pods[UUID(uuidString: (pod.metadata?.uid)!)!] = pod
+                }
+                let configmaps = try client?.configMaps.list(in: .default).wait().items ?? [core.v1.ConfigMap]()
+                for configmap in configmaps {
+                    self.resources.configmaps[UUID(uuidString: (configmap.metadata?.uid)!)!] = configmap
+                }
+                let secrets = try client?.secrets.list(in: .default).wait().items ?? [core.v1.Secret]()
+                for secret in secrets {
+                    self.resources.secrets[UUID(uuidString: (secret.metadata?.uid)!)!] = secret
+                }
+                let cronjobs = try client?.batchV1Beta1.cronJobs.list(in: .default).wait().items ?? [batch.v1beta1.CronJob]()
+                for cronjob in cronjobs {
+                    self.resources.cronjobs[UUID(uuidString: (cronjob.metadata?.uid)!)!] = cronjob
+                }
+                let jobs = try client?.batchV1.jobs.list(in: .default).wait().items ?? [batch.v1.Job]()
+                for job in jobs {
+                    self.resources.jobs[UUID(uuidString: (job.metadata?.uid)!)!] = job
+                }
+                let deployments = try client?.appsV1.deployments.list(in: .default).wait().items ?? [apps.v1.Deployment]()
+                for deployment in deployments {
+                    self.resources.deployments[UUID(uuidString: (deployment.metadata?.uid)!)!] = deployment
+                }
             } catch {
                 print("Unknown error: \(error)")
             }
