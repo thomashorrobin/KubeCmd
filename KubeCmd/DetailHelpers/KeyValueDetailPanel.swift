@@ -9,12 +9,24 @@ import SwiftUI
 
 struct KeyValueDetailPanel: View {
     var data:[String:String]
+    var pasteboard:NSPasteboard
+    init(data:[String:String]) {
+        self.data = data
+        pasteboard = NSPasteboard.general
+        self.pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
+    }
     var body: some View {
         VStack(alignment: .leading, spacing: CGFloat(5), content: {
             Text("Data").font(.title2)
             ForEach((data.sorted(by: >)), id: \.key) { x in
                 Text(x.key)
-                Text(x.value).italic()
+                HStack{
+                    Text(x.value).italic().background(Color.white)
+                    Button(action: {
+                            self.pasteboard.setString(x.value, forType: NSPasteboard.PasteboardType.string)                            }) {
+                        Image(systemName: "doc.on.doc")
+                    }
+                }
             }
         })
     }
