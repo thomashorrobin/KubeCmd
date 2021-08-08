@@ -14,12 +14,10 @@ struct Secret: View {
         self.secret = res as! core.v1.Secret
     }
     var body: some View {
-        VStack(alignment: .leading, spacing: CGFloat(5), content: {
-            Text("Data").font(.title2)
-            ForEach((secret.data?.sorted(by: >))!, id: \.key) { x in
-                Text(x.key)
-                Text(x.value).italic()
-            }
-        })
+        if let data = secret.data {
+            KeyValueDetailPanel(data: data)
+        } else {
+            Text("No data")
+        }
     }
 }

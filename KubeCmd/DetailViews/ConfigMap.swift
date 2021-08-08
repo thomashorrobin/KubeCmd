@@ -14,13 +14,11 @@ struct ConfigMap: View {
         self.configmap = res as! core.v1.ConfigMap
     }
     var body: some View {
-        VStack(alignment: .leading, spacing: CGFloat(5), content: {
-            Text("Data").font(.title2)
-            ForEach((configmap.data?.sorted(by: >))!, id: \.key) { x in
-                Text(x.key)
-                Text(x.value).italic()
-            }
-        })
+        if let data = configmap.data {
+            KeyValueDetailPanel(data: data)
+        } else {
+            Text("No data")
+        }
     }
 }
 
