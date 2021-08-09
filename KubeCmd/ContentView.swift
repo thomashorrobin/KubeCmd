@@ -22,6 +22,25 @@ class ClusterResources: ObservableObject {
         selectedResource = resource
     }
     
+    func deleteResource(uuid:UUID, kind:String) -> Void {
+        switch kind {
+        case "Pod":
+            pods.removeValue(forKey: uuid)
+        case "CronJob":
+            cronjobs.removeValue(forKey: uuid)
+        case "Job":
+            jobs.removeValue(forKey: uuid)
+        case "Secret":
+            secrets.removeValue(forKey: uuid)
+        case "Deployment":
+            deployments.removeValue(forKey: uuid)
+        case "ConfigMap":
+            configmaps.removeValue(forKey: uuid)
+        default:
+            print("error: resource not handled")
+        }
+    }
+    
     func setResource(resource: KubernetesAPIResource) -> Void {
         let uuid = UUID(uuidString: resource.metadata!.uid!)!
         switch resource.kind {

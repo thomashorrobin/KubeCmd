@@ -9,44 +9,50 @@ import SwiftUI
 import SwiftkubeModel
 
 struct K8sResourceDetail: View {
+    @EnvironmentObject var resources: ClusterResources
     var resource:KubernetesAPIResource
     @State var resourceDeleting = false
+    @State var deleted = false
     var body: some View {
-        VStack(alignment: .leading, content: {
-            HStack {
-                Text(resource.name ?? "no name").font(.title)
+        if deleted {
+            Text("resource deleted")
+        } else {
+            VStack(alignment: .leading, content: {
+                HStack {
+                    Text(resource.name ?? "no name").font(.title)
+                    Spacer()
+                    VStack (alignment: .trailing, content: {
+                        Text(resource.kind).font(.largeTitle).bold()
+                        Text(resource.apiVersion).italic()
+                    })
+                }.padding(.all, 40)
+                Divider()
+                switch resource.kind {
+                case "Pod":
+                    Pod(res: resource).padding(.all, 40)
+                case "CronJob":
+                    CronJob(res: resource).padding(.all, 40)
+                case "Job":
+                    Job(res: resource).padding(.all, 40)
+                case "Secret":
+                    Secret(res: resource).padding(.all, 40)
+                case "Deployment":
+                    Deployment(res: resource).padding(.all, 40)
+                case "ConfigMap":
+                    ConfigMap(res: resource).padding(.all, 40)
+                default:
+                    Text("unknown")
+                }
                 Spacer()
-                VStack (alignment: .trailing, content: {
-                    Text(resource.kind).font(.largeTitle).bold()
-                    Text(resource.apiVersion).italic()
-                })
-            }.padding(.all, 40)
-            Divider()
-            switch resource.kind {
-            case "Pod":
-                Pod(res: resource).padding(.all, 40)
-            case "CronJob":
-                CronJob(res: resource).padding(.all, 40)
-            case "Job":
-                Job(res: resource).padding(.all, 40)
-            case "Secret":
-                Secret(res: resource).padding(.all, 40)
-            case "Deployment":
-                Deployment(res: resource).padding(.all, 40)
-            case "ConfigMap":
-                ConfigMap(res: resource).padding(.all, 40)
-            default:
-                Text("unknown")
-            }
-            Spacer()
-            Divider()
-            HStack{
-                Spacer()
-                Button(action: deleteResource, label: {
-                    Text("Delete")
-                }).padding(.all, 40).disabled(resourceDeleting)
-            }
-        })
+                Divider()
+                HStack{
+                    Spacer()
+                    Button(action: deleteResource, label: {
+                        Text("Delete")
+                    }).padding(.all, 40).disabled(resourceDeleting)
+                }
+            })
+        }
     }
     func deleteResource() -> Void {
         resourceDeleting = true
@@ -73,6 +79,8 @@ struct K8sResourceDetail: View {
             }
             resourceDeleting = false
             print("sucessfully deleted \(resource.name ?? "nil") (\(resource.kind))")
+            deleted = true
+            resources.deleteResource(uuid: UUID(uuidString: resource.metadata!.uid!)!, kind: resource.kind)
         } catch {
             print("there was a major error from deleteResource() \(error)")
             resourceDeleting = false
