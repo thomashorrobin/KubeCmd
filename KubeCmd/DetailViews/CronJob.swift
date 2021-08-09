@@ -27,11 +27,9 @@ struct SuspendButton: View {
     func unsuspendCronJob() -> Void {
         var newThing = self.cronJob
         newThing.spec?.suspend = false
-        print("newthing suspended \(newThing.spec?.suspend ?? false)")
         do {
             let x = try client?.batchV1Beta1.cronJobs.update(newThing).wait()
-            let worked = resources.setCronJob(cronjob: x!)
-            print("Update worked: \(worked)")
+            resources.setResource(resource: x!)
         } catch {
             print(error)
         }
@@ -41,8 +39,7 @@ struct SuspendButton: View {
         newThing.spec?.suspend = true
         do {
             let x = try client?.batchV1Beta1.cronJobs.update(newThing).wait()
-            let worked = resources.setCronJob(cronjob: x!)
-            print("Update worked: \(worked)")
+            resources.setResource(resource: x!)
         } catch {
             print(error)
         }

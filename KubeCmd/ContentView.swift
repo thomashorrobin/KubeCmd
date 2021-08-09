@@ -22,13 +22,23 @@ class ClusterResources: ObservableObject {
         selectedResource = resource
     }
     
-    func setCronJob(cronjob: batch.v1beta1.CronJob) -> Bool {
-        let cronJobUUID = UUID(uuidString: (cronjob.metadata!.uid!))!
-        if cronjobs.keys.contains(cronJobUUID) {
-            cronjobs[cronJobUUID] = cronjob
-            return true
-        } else {
-            return false
+    func setResource(resource: KubernetesAPIResource) -> Void {
+        let uuid = UUID(uuidString: resource.metadata!.uid!)!
+        switch resource.kind {
+        case "Pod":
+            pods[uuid] = (resource as! core.v1.Pod)
+        case "CronJob":
+            cronjobs[uuid] = (resource as! batch.v1beta1.CronJob)
+        case "Job":
+            jobs[uuid] = (resource as! batch.v1.Job)
+        case "Secret":
+            secrets[uuid] = (resource as! core.v1.Secret)
+        case "Deployment":
+            deployments[uuid] = (resource as! apps.v1.Deployment)
+        case "ConfigMap":
+            configmaps[uuid] = (resource as! core.v1.ConfigMap)
+        default:
+            print("error: resource not handled")
         }
     }
     
