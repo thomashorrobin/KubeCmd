@@ -12,17 +12,17 @@ struct SecondLevelK8sItems: View {
     var body: some View {
         switch resources.selectedResource {
         case KubernetesResources.deployments:
-            KubernetesAPIResourceList(resources: Array(resources.deployments.values))
+            KubernetesAPIResourceList(resources: Array(resources.deployments.values), sortingFucntion: nameSort)
         case KubernetesResources.pods:
-            KubernetesAPIResourceList(resources: Array(resources.pods.values))
+            KubernetesAPIResourceList(resources: Array(resources.pods.values), sortingFucntion: dateSort)
         case KubernetesResources.secrets:
-            KubernetesAPIResourceList(resources: Array(resources.secrets.values))
+            KubernetesAPIResourceList(resources: Array(resources.secrets.values), sortingFucntion: nameSort)
         case KubernetesResources.configmaps:
-            KubernetesAPIResourceList(resources: Array(resources.configmaps.values))
+            KubernetesAPIResourceList(resources: Array(resources.configmaps.values), sortingFucntion: nameSort)
         case KubernetesResources.cronjobs:
-            KubernetesAPIResourceList(resources: Array(resources.cronjobs.values))
+            KubernetesAPIResourceList(resources: Array(resources.cronjobs.values), sortingFucntion: nameSort)
         case KubernetesResources.jobs:
-            KubernetesAPIResourceList(resources: Array(resources.jobs.values))
+            KubernetesAPIResourceList(resources: Array(resources.jobs.values), sortingFucntion: dateSort)
         }
     }
 }
