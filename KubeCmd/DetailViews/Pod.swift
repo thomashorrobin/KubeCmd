@@ -15,8 +15,11 @@ struct Pod: View {
     }
     var body: some View {
         VStack(alignment: .leading, spacing: CGFloat(5), content: {
+            if let metadata = pod.metadata {
+                MetaDataSection(metadata: metadata)
+                Divider().padding(.vertical, 30)
+            }
             Text("Status").font(.title2)
-            Text("UUID: \(pod.metadata?.uid ?? "error")")
             Text("Reason: \(pod.status?.reason ?? "xxxx")")
             Divider().padding(.vertical, 30)
             Text("Spec").font(.title2)

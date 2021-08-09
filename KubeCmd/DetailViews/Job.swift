@@ -15,8 +15,11 @@ struct Job: View {
     }
     var body: some View {
         VStack(alignment: .leading, spacing: CGFloat(5), content: {
+            if let metadata = job.metadata {
+                MetaDataSection(metadata: metadata)
+                Divider().padding(.vertical, 30)
+            }
             Text("Status").font(.title2)
-            Text("UUID: \(job.metadata?.uid ?? "error")")
             Divider().padding(.vertical, 30)
             Text("Spec").font(.title2)
         })

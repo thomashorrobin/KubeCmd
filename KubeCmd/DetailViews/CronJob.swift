@@ -55,6 +55,10 @@ struct CronJob: View {
     }
     var body: some View {
         VStack(alignment: .leading, spacing: CGFloat(5), content: {
+            if let metadata = cronJob.metadata {
+                MetaDataSection(metadata: metadata)
+                Divider().padding(.vertical, 30)
+            }
             Text("Status").font(.title2)
             Text("Schedule: \(cronJob.spec?.schedule ?? "error")")
             Text("Suspended: \(String(cronJob.spec?.suspend ?? true))")

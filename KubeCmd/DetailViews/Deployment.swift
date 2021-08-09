@@ -15,8 +15,11 @@ struct Deployment: View {
     }
     var body: some View {
         VStack(alignment: .leading, spacing: CGFloat(5), content: {
+            if let metadata = deployment.metadata {
+                MetaDataSection(metadata: metadata)
+                Divider().padding(.vertical, 30)
+            }
             Text("Status").font(.title2)
-            Text("UUID: \(deployment.metadata?.uid ?? "error")")
             Text("Suspended: \(String(deployment.spec?.paused ?? true))")
             Divider().padding(.vertical, 30)
             Text("Spec").font(.title2)

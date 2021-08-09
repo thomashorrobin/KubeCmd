@@ -17,41 +17,43 @@ struct K8sResourceDetail: View {
         if deleted {
             Text("resource deleted")
         } else {
-            VStack(alignment: .leading, content: {
-                HStack {
-                    Text(resource.name ?? "no name").font(.title)
+            ScrollView(.vertical){
+                VStack(alignment: .leading, content: {
+                    HStack {
+                        Text(resource.name ?? "no name").font(.title)
+                        Spacer()
+                        VStack (alignment: .trailing, content: {
+                            Text(resource.kind).font(.largeTitle).bold()
+                            Text(resource.apiVersion).italic()
+                        })
+                    }.padding(.all, 40)
+                    Divider()
+                    switch resource.kind {
+                    case "Pod":
+                        Pod(res: resource).padding(.all, 40)
+                    case "CronJob":
+                        CronJob(res: resource).padding(.all, 40)
+                    case "Job":
+                        Job(res: resource).padding(.all, 40)
+                    case "Secret":
+                        Secret(res: resource).padding(.all, 40)
+                    case "Deployment":
+                        Deployment(res: resource).padding(.all, 40)
+                    case "ConfigMap":
+                        ConfigMap(res: resource).padding(.all, 40)
+                    default:
+                        Text("unknown")
+                    }
                     Spacer()
-                    VStack (alignment: .trailing, content: {
-                        Text(resource.kind).font(.largeTitle).bold()
-                        Text(resource.apiVersion).italic()
-                    })
-                }.padding(.all, 40)
-                Divider()
-                switch resource.kind {
-                case "Pod":
-                    Pod(res: resource).padding(.all, 40)
-                case "CronJob":
-                    CronJob(res: resource).padding(.all, 40)
-                case "Job":
-                    Job(res: resource).padding(.all, 40)
-                case "Secret":
-                    Secret(res: resource).padding(.all, 40)
-                case "Deployment":
-                    Deployment(res: resource).padding(.all, 40)
-                case "ConfigMap":
-                    ConfigMap(res: resource).padding(.all, 40)
-                default:
-                    Text("unknown")
-                }
-                Spacer()
-                Divider()
-                HStack{
-                    Spacer()
-                    Button(action: deleteResource, label: {
-                        Text("Delete")
-                    }).padding(.all, 40).disabled(resourceDeleting)
-                }
-            })
+                    Divider()
+                    HStack{
+                        Spacer()
+                        Button(action: deleteResource, label: {
+                            Text("Delete")
+                        }).padding(.all, 40).disabled(resourceDeleting)
+                    }
+                })
+            }
         }
     }
     func deleteResource() -> Void {
