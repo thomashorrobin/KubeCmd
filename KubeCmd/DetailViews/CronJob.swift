@@ -49,6 +49,7 @@ struct SuspendButton: View {
 struct CronJob: View {
     let cronJob:batch.v1beta1.CronJob
     let suspended:Bool
+    @EnvironmentObject var resources: ClusterResources
     init(res:KubernetesAPIResource) {
         self.cronJob = res as! batch.v1beta1.CronJob
         self.suspended = self.cronJob.spec?.suspend ?? false
@@ -72,11 +73,7 @@ struct CronJob: View {
     }
     func triggerCronJob() -> Void {
         let job = createJobFromCronJob(cronJob: self.cronJob)
-        do {
-            let _ = try client?.batchV1.jobs.create(inNamespace: .default, job).wait()
-        } catch {
-            print(error)
-        }
+        resources.addJob(job: job)
     }
 }
 

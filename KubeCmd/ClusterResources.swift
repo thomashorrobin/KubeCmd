@@ -21,6 +21,14 @@ class ClusterResources: ObservableObject {
         selectedResource = resource
     }
     
+    func addJob(job: batch.v1.Job) -> Void {
+        do {
+            let _ = try client?.batchV1.jobs.create(inNamespace: .default, job).wait()
+        } catch {
+            print(error)
+        }
+    }
+    
     func deleteResource(uuid:UUID, kind:String) -> Void {
         switch kind {
         case "Pod":
