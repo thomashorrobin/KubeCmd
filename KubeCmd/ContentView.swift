@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreData
+import SwiftkubeClient
 import SwiftkubeModel
 
 class ClusterResources: ObservableObject {
@@ -42,7 +43,7 @@ class ClusterResources: ObservableObject {
     }
     
     func setResource(resource: KubernetesAPIResource) -> Void {
-        let uuid = UUID(uuidString: resource.metadata!.uid!)!
+        let uuid = try! UUID.fromK8sMetadata(resource: resource)
         switch resource.kind {
         case "Pod":
             pods[uuid] = (resource as! core.v1.Pod)
@@ -71,8 +72,19 @@ class ClusterResources: ObservableObject {
     
     func populateTestData() -> ClusterResources {
         let pod1 = ClusterResources.dummyPod()
-        pods[UUID(uuidString: (pod1.metadata?.uid)!)!] = pod1
+        let uuid = try! UUID.fromK8sMetadata(resource: pod1)
+        pods[uuid] = pod1
         return self
+    }
+}
+
+public extension UUID {
+    static func fromK8sMetadata(resource: KubernetesAPIResource) throws -> UUID {
+        guard let metadata = resource.metadata else { throw SwiftkubeModelError.unknownAPIObject("metadata error") }
+        guard let uid = metadata.uid else { throw SwiftkubeModelError.unknownAPIObject("metadata error") }
+        guard let uuid = UUID(uuidString: uid) else { throw
+            SwiftkubeModelError.unknownAPIObject("metadata error") }
+        return uuid
     }
 }
 
@@ -87,30 +99,46 @@ struct ContentView: View {
     private var items: FetchedResults<Item>
     
     func loadData() -> Void {
+        guard let client = client else {
+            return
+        }
+        let strategy = RetryStrategy(
+            policy: .maxAttemtps(20),
+            backoff: .exponential(maximumDelay: 60, multiplier: 2.0)
+        )
             do {
-                let pods = try client?.pods.list(in: .default).wait().items ?? [core.v1.Pod]()
+                let _ = try client.pods.watch(in: .default, retryStrategy: strategy) { (event, pod) in
+                    print(event)
+                }
+                let pods = try client.pods.list(in: .default).wait().items
                 for pod in pods {
-                    self.resources.pods[UUID(uuidString: (pod.metadata?.uid)!)!] = pod
+                    let uuid = try! UUID.fromK8sMetadata(resource: pod)
+                    self.resources.pods[uuid] = pod
                 }
-                let configmaps = try client?.configMaps.list(in: .default).wait().items ?? [core.v1.ConfigMap]()
+                let configmaps = try client.configMaps.list(in: .default).wait().items
                 for configmap in configmaps {
-                    self.resources.configmaps[UUID(uuidString: (configmap.metadata?.uid)!)!] = configmap
+                    let uuid = try! UUID.fromK8sMetadata(resource: configmap)
+                    self.resources.configmaps[uuid] = configmap
                 }
-                let secrets = try client?.secrets.list(in: .default).wait().items ?? [core.v1.Secret]()
+                let secrets = try client.secrets.list(in: .default).wait().items
                 for secret in secrets {
-                    self.resources.secrets[UUID(uuidString: (secret.metadata?.uid)!)!] = secret
+                    let uuid = try! UUID.fromK8sMetadata(resource: secret)
+                    self.resources.secrets[uuid] = secret
                 }
-                let cronjobs = try client?.batchV1Beta1.cronJobs.list(in: .default).wait().items ?? [batch.v1beta1.CronJob]()
+                let cronjobs = try client.batchV1Beta1.cronJobs.list(in: .default).wait().items
                 for cronjob in cronjobs {
-                    self.resources.cronjobs[UUID(uuidString: (cronjob.metadata?.uid)!)!] = cronjob
+                    let uuid = try! UUID.fromK8sMetadata(resource: cronjob)
+                    self.resources.cronjobs[uuid] = cronjob
                 }
-                let jobs = try client?.batchV1.jobs.list(in: .default).wait().items ?? [batch.v1.Job]()
+                let jobs = try client.batchV1.jobs.list(in: .default).wait().items
                 for job in jobs {
-                    self.resources.jobs[UUID(uuidString: (job.metadata?.uid)!)!] = job
+                    let uuid = try! UUID.fromK8sMetadata(resource: job)
+                    self.resources.jobs[uuid] = job
                 }
-                let deployments = try client?.appsV1.deployments.list(in: .default).wait().items ?? [apps.v1.Deployment]()
+                let deployments = try client.appsV1.deployments.list(in: .default).wait().items
                 for deployment in deployments {
-                    self.resources.deployments[UUID(uuidString: (deployment.metadata?.uid)!)!] = deployment
+                    let uuid = try! UUID.fromK8sMetadata(resource: deployment)
+                    self.resources.deployments[uuid] = deployment
                 }
             } catch {
                 print("Unknown error: \(error)")

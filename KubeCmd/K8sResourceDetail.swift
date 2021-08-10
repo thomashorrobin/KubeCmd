@@ -82,7 +82,7 @@ struct K8sResourceDetail: View {
             resourceDeleting = false
             print("sucessfully deleted \(resource.name ?? "nil") (\(resource.kind))")
             deleted = true
-            resources.deleteResource(uuid: UUID(uuidString: resource.metadata!.uid!)!, kind: resource.kind)
+            resources.deleteResource(uuid: try UUID.fromK8sMetadata(resource: resource), kind: resource.kind)
         } catch {
             print("there was a major error from deleteResource() \(error)")
             resourceDeleting = false
