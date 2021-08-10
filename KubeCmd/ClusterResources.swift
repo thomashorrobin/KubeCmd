@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftkubeClient
 import SwiftkubeModel
 
 class ClusterResources: ObservableObject {
@@ -16,6 +17,55 @@ class ClusterResources: ObservableObject {
     @Published var cronjobs = [UUID:batch.v1beta1.CronJob]()
     @Published var jobs = [UUID:batch.v1.Job]()
     @Published var deployments = [UUID:apps.v1.Deployment]()
+    var client:KubernetesClient
+    
+    init(client:KubernetesClient) {
+        self.client = client
+    }
+    
+    func loadData() -> Void {
+        let strategy = RetryStrategy(
+            policy: .maxAttemtps(20),
+            backoff: .exponential(maximumDelay: 60, multiplier: 2.0)
+        )
+            do {
+                let _ = try client.pods.watch(in: .default, retryStrategy: strategy) { (event, pod) in
+                    print("\(event): \(pod.metadata!.uid!)")
+                }
+                let pods = try client.pods.list(in: .default).wait().items
+                for pod in pods {
+                    let uuid = try! UUID.fromK8sMetadata(resource: pod)
+                    self.pods[uuid] = pod
+                }
+                let configmaps = try client.configMaps.list(in: .default).wait().items
+                for configmap in configmaps {
+                    let uuid = try! UUID.fromK8sMetadata(resource: configmap)
+                    self.configmaps[uuid] = configmap
+                }
+                let secrets = try client.secrets.list(in: .default).wait().items
+                for secret in secrets {
+                    let uuid = try! UUID.fromK8sMetadata(resource: secret)
+                    self.secrets[uuid] = secret
+                }
+                let cronjobs = try client.batchV1Beta1.cronJobs.list(in: .default).wait().items
+                for cronjob in cronjobs {
+                    let uuid = try! UUID.fromK8sMetadata(resource: cronjob)
+                    self.cronjobs[uuid] = cronjob
+                }
+                let jobs = try client.batchV1.jobs.list(in: .default).wait().items
+                for job in jobs {
+                    let uuid = try! UUID.fromK8sMetadata(resource: job)
+                    self.jobs[uuid] = job
+                }
+                let deployments = try client.appsV1.deployments.list(in: .default).wait().items
+                for deployment in deployments {
+                    let uuid = try! UUID.fromK8sMetadata(resource: deployment)
+                    self.deployments[uuid] = deployment
+                }
+            } catch {
+                print("Unknown error: \(error)")
+            }
+    }
     
     func setSelectedResource(resource: KubernetesResources) -> Void {
         selectedResource = resource
@@ -23,7 +73,28 @@ class ClusterResources: ObservableObject {
     
     func addJob(job: batch.v1.Job) -> Void {
         do {
-            let _ = try client?.batchV1.jobs.create(inNamespace: .default, job).wait()
+            let _ = try client.batchV1.jobs.create(inNamespace: .default, job).wait()
+        } catch {
+            print(error)
+        }
+    }
+    
+    func unsuspendCronJob(cronjob: batch.v1beta1.CronJob) -> Void {
+        var newThing = cronjob
+        newThing.spec?.suspend = false
+        do {
+            let x = try client.batchV1Beta1.cronJobs.update(newThing).wait()
+            setResource(resource: x)
+        } catch {
+            print(error)
+        }
+    }
+    func suspendCronJob(cronjob: batch.v1beta1.CronJob) -> Void {
+        var newThing = cronjob
+        newThing.spec?.suspend = true
+        do {
+            let x = try client.batchV1Beta1.cronJobs.update(newThing).wait()
+            setResource(resource: x)
         } catch {
             print(error)
         }
@@ -55,27 +126,27 @@ class ClusterResources: ObservableObject {
         guard let metadata = resource.metadata else { return }
         guard let name = metadata.name else { return }
         guard let namespace = metadata.namespace else { return }
-        do {
-            switch resource.kind {
-            case "CronJob":
-                _ = client?.batchV1Beta1.cronJobs.delete(in: .namespace(namespace), name: name, options: deleteOptions)
-            case "Job":
-                _ = try client?.batchV1.jobs.delete(in: .namespace(resource.metadata?.namespace ?? "default"), name: resource.name ?? "error", options: deleteOptions).wait()
-            case "Deployment":
-                _ = try client?.appsV1.deployments.delete(in: .namespace(resource.metadata?.namespace ?? "default"), name: resource.name ?? "error", options: deleteOptions).wait()
-            case "Pod":
-                _ = try client?.pods.delete(in: .namespace(resource.metadata?.namespace ?? "default"), name: resource.name ?? "error", options: deleteOptions).wait()
-            case "ConfigMap":
-                _ = try client?.configMaps.delete(in: .namespace(resource.metadata?.namespace ?? "default"), name: resource.name ?? "error", options: deleteOptions).wait()
-            case "Secret":
-                _ = try client?.secrets.delete(in: .namespace(resource.metadata?.namespace ?? "default"), name: resource.name ?? "error", options: deleteOptions).wait()
-            default:
-                print("resource.kind not handled by deleteResource()")
-            }
-            print("sucessfully deleted \(resource.name ?? "nil") (\(resource.kind))")
-        } catch {
-            print("there was a major error from deleteResource() \(error)")
+        switch resource.kind {
+        case "CronJob":
+            _ = client.batchV1Beta1.cronJobs.delete(in: .namespace(namespace), name: name, options: deleteOptions)
+        case "Job":
+            _ = client.batchV1.jobs.delete(in: .namespace(namespace), name: name, options: deleteOptions)
+            
+        case "Deployment":
+            _ = client.appsV1.deployments.delete(in: .namespace(namespace), name: name, options: deleteOptions)
+            
+        case "Pod":
+            _ = client.pods.delete(in: .namespace(namespace), name: name, options: deleteOptions)
+            
+        case "ConfigMap":
+            _ = client.configMaps.delete(in: .namespace(namespace), name: name, options: deleteOptions)
+            
+        case "Secret":
+            _ = client.secrets.delete(in: .namespace(namespace), name: name, options: deleteOptions)
+        default:
+            print("resource.kind not handled by deleteResource()")
         }
+        print("sucessfully deleted \(resource.name ?? "nil") (\(resource.kind))")
     }
     
     func setResource(resource: KubernetesAPIResource) -> Void {

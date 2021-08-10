@@ -42,11 +42,11 @@ struct KubernetesAPIResourceRow: View {
     }
 }
 
-struct KubernetesAPIResourceList_Previews: PreviewProvider {
-
-    static var arr1:[KubernetesAPIResource] = Array(ClusterResources().populateTestData().pods.values)
-    
-    static var previews: some View {
-        KubernetesAPIResourceList(resources: arr1, sortingFucntion: nameSort)
-    }
-}
+//struct KubernetesAPIResourceList_Previews: PreviewProvider {
+//
+//    static var arr1:[KubernetesAPIResource] = Array(ClusterResources().populateTestData().pods.values)
+//    
+//    static var previews: some View {
+//        KubernetesAPIResourceList(resources: arr1, sortingFucntion: nameSort)
+//    }
+//}

@@ -25,24 +25,10 @@ struct SuspendButton: View {
         }
     }
     func unsuspendCronJob() -> Void {
-        var newThing = self.cronJob
-        newThing.spec?.suspend = false
-        do {
-            let x = try client?.batchV1Beta1.cronJobs.update(newThing).wait()
-            resources.setResource(resource: x!)
-        } catch {
-            print(error)
-        }
+        resources.unsuspendCronJob(cronjob: self.cronJob)
     }
     func suspendCronJob() -> Void {
-        var newThing = self.cronJob
-        newThing.spec?.suspend = true
-        do {
-            let x = try client?.batchV1Beta1.cronJobs.update(newThing).wait()
-            resources.setResource(resource: x!)
-        } catch {
-            print(error)
-        }
+        resources.suspendCronJob(cronjob: self.cronJob)
     }
 }
 

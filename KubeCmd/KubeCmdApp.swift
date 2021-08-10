@@ -6,15 +6,22 @@
 //
 
 import SwiftUI
+import SwiftkubeClient
 
 @main
 struct KubeCmdApp: App {
     let persistenceController = PersistenceController.shared
+    
+    let client = KubernetesClient()
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            if let client = client {
+                ContentView(resources: ClusterResources(client: client))
+                    .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            } else {
+                Text("error loading content").frame(width: 500, height: 400, alignment: .center)
+            }
         }
         .commands {
             SidebarCommands()

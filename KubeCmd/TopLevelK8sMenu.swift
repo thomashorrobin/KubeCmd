@@ -9,8 +9,6 @@ import SwiftUI
 import SwiftkubeClient
 import SwiftkubeModel
 
-let client = KubernetesClient()
-
 struct TopLevelK8sMenu: View {
     @EnvironmentObject var resources: ClusterResources
     var body: some View {
