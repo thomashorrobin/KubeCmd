@@ -10,16 +10,6 @@ import CoreData
 import SwiftkubeClient
 import SwiftkubeModel
 
-public extension UUID {
-    static func fromK8sMetadata(resource: KubernetesAPIResource) throws -> UUID {
-        guard let metadata = resource.metadata else { throw SwiftkubeModelError.unknownAPIObject("metadata error") }
-        guard let uid = metadata.uid else { throw SwiftkubeModelError.unknownAPIObject("metadata error") }
-        guard let uuid = UUID(uuidString: uid) else { throw
-            SwiftkubeModelError.unknownAPIObject("metadata error") }
-        return uuid
-    }
-}
-
 struct ContentView: View {
     @StateObject var resources = ClusterResources()
     

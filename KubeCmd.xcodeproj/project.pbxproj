@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4944731B26C2F2F60070E338 /* ClusterResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4944731A26C2F2F60070E338 /* ClusterResources.swift */; };
+		4944731D26C2F3D10070E338 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4944731C26C2F3D10070E338 /* Extensions.swift */; };
 		495A6904267F98FF00DA2EDD /* K8sResourceDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495A6903267F98FF00DA2EDD /* K8sResourceDetail.swift */; };
 		495A6907267FA37300DA2EDD /* CronJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495A6906267FA37300DA2EDD /* CronJob.swift */; };
 		4961B4CC26B1D0E1000A55D7 /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4961B4CB26B1D0E1000A55D7 /* Secret.swift */; };
@@ -52,6 +53,7 @@
 
 /* Begin PBXFileReference section */
 		4944731A26C2F2F60070E338 /* ClusterResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterResources.swift; sourceTree = "<group>"; };
+		4944731C26C2F3D10070E338 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		495A6903267F98FF00DA2EDD /* K8sResourceDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = K8sResourceDetail.swift; sourceTree = "<group>"; };
 		495A6906267FA37300DA2EDD /* CronJob.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CronJob.swift; sourceTree = "<group>"; };
 		4961B4CB26B1D0E1000A55D7 /* Secret.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secret.swift; sourceTree = "<group>"; };
@@ -162,6 +164,7 @@
 				49FBB8E6267CAC73004C7824 /* KubernetesAPIResourceList.swift */,
 				495A6903267F98FF00DA2EDD /* K8sResourceDetail.swift */,
 				4944731A26C2F2F60070E338 /* ClusterResources.swift */,
+				4944731C26C2F3D10070E338 /* Extensions.swift */,
 			);
 			path = KubeCmd;
 			sourceTree = "<group>";
@@ -351,6 +354,7 @@
 				49782B1325E08DD700D92F4C /* KubeCmdApp.swift in Sources */,
 				495A6904267F98FF00DA2EDD /* K8sResourceDetail.swift in Sources */,
 				49FBB8E7267CAC73004C7824 /* KubernetesAPIResourceList.swift in Sources */,
+				4944731D26C2F3D10070E338 /* Extensions.swift in Sources */,
 				4961B4CE26B1DC53000A55D7 /* ConfigMap.swift in Sources */,
 				49782B1F25E08DD800D92F4C /* KubeCmd.xcdatamodeld in Sources */,
 				4995D4D126BEFA2D00A7831B /* KeyValueDetailSection.swift in Sources */,
