@@ -18,20 +18,143 @@ class ClusterResources: ObservableObject {
     @Published var jobs = [UUID:batch.v1.Job]()
     @Published var deployments = [UUID:apps.v1.Deployment]()
     var client:KubernetesClient
+    var k8sTasks = [SwiftkubeClientTask]()
     
     init(client:KubernetesClient) {
         self.client = client
     }
     
+    func disconnectWatches() -> Void {
+        for t in k8sTasks {
+            t.cancel()
+        }
+    }
+    
+    func connectWatches() throws -> Void {
+        
+            let strategy = RetryStrategy(
+                policy: .maxAttemtps(20),
+                backoff: .exponential(maximumDelay: 60, multiplier: 2.0)
+            )
+        k8sTasks.append(try! client.batchV1Beta1.cronJobs.watch(in: .default, retryStrategy: strategy) { (event, resource) in
+            let uuid = try! UUID.fromK8sMetadata(resource: resource)
+            switch event.rawValue {
+            case "ADDED":
+                DispatchQueue.main.async {
+                    self.setResource(resource: resource)
+                  }
+            case "MODIFIED":
+                DispatchQueue.main.async {
+                    self.setResource(resource: resource)
+                  }
+            case "DELETED":
+                DispatchQueue.main.async {
+                    self.deleteResource(uuid: uuid, kind: resource.kind)
+                  }
+            default:
+                break
+            }
+        })
+        k8sTasks.append(try! client.secrets.watch(in: .default, retryStrategy: strategy) { (event, resource) in
+            let uuid = try! UUID.fromK8sMetadata(resource: resource)
+            switch event.rawValue {
+            case "ADDED":
+                DispatchQueue.main.async {
+                    self.setResource(resource: resource)
+                  }
+            case "MODIFIED":
+                DispatchQueue.main.async {
+                    self.setResource(resource: resource)
+                  }
+            case "DELETED":
+                DispatchQueue.main.async {
+                    self.deleteResource(uuid: uuid, kind: resource.kind)
+                  }
+            default:
+                break
+            }
+        })
+        k8sTasks.append(try! client.configMaps.watch(in: .default, retryStrategy: strategy) { (event, resource) in
+            let uuid = try! UUID.fromK8sMetadata(resource: resource)
+            switch event.rawValue {
+            case "ADDED":
+                DispatchQueue.main.async {
+                    self.setResource(resource: resource)
+                  }
+            case "MODIFIED":
+                DispatchQueue.main.async {
+                    self.setResource(resource: resource)
+                  }
+            case "DELETED":
+                DispatchQueue.main.async {
+                    self.deleteResource(uuid: uuid, kind: resource.kind)
+                  }
+            default:
+                break
+            }
+        })
+        k8sTasks.append(try! client.appsV1.deployments.watch(in: .default, retryStrategy: strategy) { (event, resource) in
+            let uuid = try! UUID.fromK8sMetadata(resource: resource)
+            switch event.rawValue {
+            case "ADDED":
+                DispatchQueue.main.async {
+                    self.setResource(resource: resource)
+                  }
+            case "MODIFIED":
+                DispatchQueue.main.async {
+                    self.setResource(resource: resource)
+                  }
+            case "DELETED":
+                DispatchQueue.main.async {
+                    self.deleteResource(uuid: uuid, kind: resource.kind)
+                  }
+            default:
+                break
+            }
+        })
+        k8sTasks.append(try! client.pods.watch(in: .default, retryStrategy: strategy) { (event, resource) in
+            let uuid = try! UUID.fromK8sMetadata(resource: resource)
+            switch event.rawValue {
+            case "ADDED":
+                DispatchQueue.main.async {
+                    self.setResource(resource: resource)
+                  }
+            case "MODIFIED":
+                DispatchQueue.main.async {
+                    self.setResource(resource: resource)
+                  }
+            case "DELETED":
+                DispatchQueue.main.async {
+                    self.deleteResource(uuid: uuid, kind: resource.kind)
+                  }
+            default:
+                break
+            }
+        })
+        k8sTasks.append(try! client.batchV1.jobs.watch(in: .default, retryStrategy: strategy) { (event, resource) in
+            let uuid = try! UUID.fromK8sMetadata(resource: resource)
+            switch event.rawValue {
+            case "ADDED":
+                DispatchQueue.main.async {
+                    self.setResource(resource: resource)
+                  }
+            case "MODIFIED":
+                DispatchQueue.main.async {
+                    self.setResource(resource: resource)
+                  }
+            case "DELETED":
+                DispatchQueue.main.async {
+                    self.deleteResource(uuid: uuid, kind: resource.kind)
+                  }
+            default:
+                break
+            }
+        })
+        
+    }
+    
     func loadData() -> Void {
-        let strategy = RetryStrategy(
-            policy: .maxAttemtps(20),
-            backoff: .exponential(maximumDelay: 60, multiplier: 2.0)
-        )
             do {
-                let _ = try client.pods.watch(in: .default, retryStrategy: strategy) { (event, pod) in
-                    print("\(event): \(pod.metadata!.uid!)")
-                }
                 let pods = try client.pods.list(in: .default).wait().items
                 for pod in pods {
                     let uuid = try! UUID.fromK8sMetadata(resource: pod)

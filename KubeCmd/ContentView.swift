@@ -36,6 +36,13 @@ struct ContentView: View {
             })
         }.environmentObject(resources).onAppear(perform: {
             resources.loadData()
+            do {
+                try resources.connectWatches()
+            } catch {
+                print(error)
+            }
+        }).onDisappear(perform: {
+            resources.disconnectWatches()
         }).toolbar(content: {
             ToolbarItem(placement: .navigation) {
                 Button(action: toggleSidebar, label: {
