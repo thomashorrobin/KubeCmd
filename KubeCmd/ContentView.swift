@@ -30,7 +30,7 @@ struct ContentView: View {
         )
             do {
                 let _ = try client.pods.watch(in: .default, retryStrategy: strategy) { (event, pod) in
-                    print(event)
+                    print("\(event): \(pod.metadata!.uid!)")
                 }
                 let pods = try client.pods.list(in: .default).wait().items
                 for pod in pods {
