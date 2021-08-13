@@ -50,6 +50,7 @@ struct K8sResourceDetail: View {
                     Spacer()
                     Divider()
                     HStack{
+                        CustomButtons(resource: resource)
                         Spacer()
                         Button(action: deleteResource, label: {
                             Text("Delete")
@@ -66,3 +67,15 @@ struct K8sResourceDetail: View {
 //        K8sResourceDetail(resource: ClusterResources.dummyPod())
 //    }
 //}
+
+struct CustomButtons: View {
+    var resource:KubernetesAPIResource
+    var body: some View {
+        switch resource.kind {
+        case "CronJob":
+            SuspendButton(cronJob: resource as! batch.v1beta1.CronJob)
+        default:
+            EmptyView()
+        }
+    }
+}

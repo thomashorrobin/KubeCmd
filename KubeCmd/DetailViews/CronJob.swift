@@ -56,7 +56,6 @@ struct CronJob: View {
             Button(action: triggerCronJob, label: {
                 Text("Trigger")
             }).padding(.all, 40)
-            SuspendButton(cronJob: self.cronJob)
         })
     }
     func triggerCronJob() -> Void {
