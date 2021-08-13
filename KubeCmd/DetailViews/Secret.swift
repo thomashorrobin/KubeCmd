@@ -14,14 +14,16 @@ struct Secret: View {
         self.secret = res as! core.v1.Secret
     }
     var body: some View {
-        if let metadata = secret.metadata {
-            MetaDataSection(metadata: metadata)
-            Divider().padding(.vertical, 30)
-        }
-        if let data = secret.data {
-            KeyValueDetailPanel(data: data)
-        } else {
-            Text("No data")
-        }
+        VStack(alignment: .leading, spacing: CGFloat(5), content:{
+            if let metadata = secret.metadata {
+                MetaDataSection(metadata: metadata)
+                Divider().padding(.vertical, 30)
+            }
+            if let data = secret.data {
+                KeyValueDetailPanel(data: data)
+            } else {
+                Text("No data")
+            }
+        })
     }
 }

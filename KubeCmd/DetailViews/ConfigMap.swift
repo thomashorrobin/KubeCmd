@@ -14,15 +14,17 @@ struct ConfigMap: View {
         self.configmap = res as! core.v1.ConfigMap
     }
     var body: some View {
-        if let metadata = configmap.metadata {
-            MetaDataSection(metadata: metadata)
-            Divider().padding(.vertical, 30)
-        }
-        if let data = configmap.data {
-            KeyValueDetailPanel(data: data)
-        } else {
-            Text("No data")
-        }
+        VStack(alignment: .leading, spacing: CGFloat(5), content:{
+            if let metadata = configmap.metadata {
+                MetaDataSection(metadata: metadata)
+                Divider().padding(.vertical, 30)
+            }
+            if let data = configmap.data {
+                KeyValueDetailPanel(data: data)
+            } else {
+                Text("No data")
+            }
+        })
     }
 }
 
