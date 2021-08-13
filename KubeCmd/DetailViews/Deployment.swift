@@ -17,12 +17,40 @@ struct Deployment: View {
         VStack(alignment: .leading, spacing: CGFloat(5), content: {
             if let metadata = deployment.metadata {
                 MetaDataSection(metadata: metadata)
-                Divider().padding(.vertical, 30)
             }
-            Text("Status").font(.title2)
-            Text("Suspended: \(String(deployment.spec?.paused ?? true))")
-            Divider().padding(.vertical, 30)
-            Text("Spec").font(.title2)
+            if let status = deployment.status {
+                Divider().padding(.vertical, 30)
+                Text("Status").font(.title2)
+                if let availableReplicas = status.availableReplicas {
+                    Text("Available Replicas: \(availableReplicas)")
+                }
+                if let collisionCount = status.collisionCount {
+                    Text("Collision Count: \(collisionCount)")
+                }
+                if let observedGeneration = status.observedGeneration {
+                    Text("Observed Generation: \(observedGeneration)")
+                }
+                if let readyReplicas = status.readyReplicas {
+                    Text("Ready Replicas: \(readyReplicas)")
+                }
+                if let replicas = status.replicas {
+                    Text("Replicas: \(replicas)")
+                }
+                if let unavailableReplicas = status.unavailableReplicas {
+                    Text("Unavailable Replicas: \(unavailableReplicas)")
+                }
+                if let updatedReplicas = status.updatedReplicas {
+                    Text("Updated Replicas: \(updatedReplicas)")
+                }
+            }
+            if let spec = deployment.spec {
+                Divider().padding(.vertical, 30)
+                Text("Spec").font(.title2)
+                Text("Suspended: \(String(spec.paused ?? false))")
+                if let replicas = spec.replicas {
+                    Text("Desired Replicas: \(replicas)")
+                }
+            }
         })
     }
 }
