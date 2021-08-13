@@ -21,11 +21,11 @@ struct SuspendButton: View {
         if suspended {
             Button(action: unsuspendCronJob, label: {
                 Text("Unsuspend")
-            }).padding(.all, 40)
+            })
         } else {
             Button(action: suspendCronJob, label: {
                 Text("Suspend")
-            }).padding(.all, 40)
+            })
         }
     }
     func unsuspendCronJob() -> Void {
@@ -38,7 +38,6 @@ struct SuspendButton: View {
 
 struct CronJob: View {
     let cronJob:batch.v1beta1.CronJob
-    @EnvironmentObject var resources: ClusterResources
     init(res:KubernetesAPIResource) {
         self.cronJob = res as! batch.v1beta1.CronJob
     }
@@ -53,9 +52,16 @@ struct CronJob: View {
             Text("Suspended: \(String(cronJob.spec?.suspend ?? true))")
             Divider().padding(.vertical, 30)
             Text("Spec").font(.title2)
-            Button(action: triggerCronJob, label: {
-                Text("Trigger")
-            }).padding(.all, 40)
+        })
+    }
+}
+
+struct TriggerCronJobButton : View {
+    let cronJob:batch.v1beta1.CronJob
+    @EnvironmentObject var resources: ClusterResources
+    var body: some View {
+        Button(action: triggerCronJob, label: {
+            Text("Trigger")
         })
     }
     func triggerCronJob() -> Void {

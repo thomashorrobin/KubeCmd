@@ -72,7 +72,11 @@ struct CustomButtons: View {
     var body: some View {
         switch resource.kind {
         case "CronJob":
-            SuspendButton(cronJob: resource as! batch.v1beta1.CronJob)
+            let cronJob = resource as! batch.v1beta1.CronJob
+            HStack(spacing: 15){
+                SuspendButton(cronJob: cronJob)
+                TriggerCronJobButton(cronJob: cronJob)
+            }.padding(.all, 40)
         default:
             EmptyView()
         }
