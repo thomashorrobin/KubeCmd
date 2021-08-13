@@ -8,12 +8,18 @@
 import Foundation
 import SwiftkubeModel
 
+enum UUIDErrors: Error {
+    case noMetadata
+    case noUid
+    case parseError
+}
+
 public extension UUID {
     static func fromK8sMetadata(resource: KubernetesAPIResource) throws -> UUID {
-        guard let metadata = resource.metadata else { throw SwiftkubeModelError.unknownAPIObject("metadata error") }
-        guard let uid = metadata.uid else { throw SwiftkubeModelError.unknownAPIObject("metadata error") }
+        guard let metadata = resource.metadata else { throw UUIDErrors.noMetadata }
+        guard let uid = metadata.uid else { throw UUIDErrors.noUid }
         guard let uuid = UUID(uuidString: uid) else { throw
-            SwiftkubeModelError.unknownAPIObject("metadata error") }
+            UUIDErrors.parseError}
         return uuid
     }
 }
