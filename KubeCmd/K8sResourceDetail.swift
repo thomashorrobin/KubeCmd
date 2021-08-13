@@ -50,11 +50,11 @@ struct K8sResourceDetail: View {
                 }
                 Divider()
                 HStack{
-                    CustomButtons(resource: resource)
-                    Spacer()
                     Button(action: deleteResource, label: {
                         Text("Delete")
                     }).padding(.all, 40).disabled(resourceDeleting)
+                    Spacer()
+                    CustomButtons(resource: resource)
                 }
             })
         }
