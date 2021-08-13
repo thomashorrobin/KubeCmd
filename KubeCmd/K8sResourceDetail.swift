@@ -20,17 +20,17 @@ struct K8sResourceDetail: View {
         if deleted {
             Text("resource deleted")
         } else {
-            ScrollView(.vertical){
-                VStack(alignment: .leading, content: {
-                    HStack {
-                        Text(resource.name ?? "no name").font(.title)
-                        Spacer()
-                        VStack (alignment: .trailing, content: {
-                            Text(resource.kind).font(.largeTitle).bold()
-                            Text(resource.apiVersion).italic()
-                        })
-                    }.padding(.all, 40)
-                    Divider()
+            VStack(alignment: .leading, content: {
+                HStack {
+                    Text(resource.name ?? "no name").font(.title)
+                    Spacer()
+                    VStack (alignment: .trailing, content: {
+                        Text(resource.kind).font(.largeTitle).bold()
+                        Text(resource.apiVersion).italic()
+                    })
+                }.padding(.all, 40)
+                Divider()
+                ScrollView(.vertical){
                     switch resource.kind {
                     case "Pod":
                         Pod(res: resource).padding(.all, 40)
@@ -47,17 +47,16 @@ struct K8sResourceDetail: View {
                     default:
                         Text("unknown")
                     }
+                }
+                Divider()
+                HStack{
+                    CustomButtons(resource: resource)
                     Spacer()
-                    Divider()
-                    HStack{
-                        CustomButtons(resource: resource)
-                        Spacer()
-                        Button(action: deleteResource, label: {
-                            Text("Delete")
-                        }).padding(.all, 40).disabled(resourceDeleting)
-                    }
-                })
-            }
+                    Button(action: deleteResource, label: {
+                        Text("Delete")
+                    }).padding(.all, 40).disabled(resourceDeleting)
+                }
+            })
         }
     }
 }
