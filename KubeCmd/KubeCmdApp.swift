@@ -21,12 +21,18 @@ struct KubeCmdApp: App {
                     .environment(\.managedObjectContext, persistenceController.container.viewContext)
             } else {
                 VStack{
-                    OpenConfigFileButton()
+                    VStack{
+                        Text("Load from config file").font(.title2)
+                        OpenConfigFileButton()
+                    }.padding(.all, 20).frame(alignment: .leading)
                     Divider()
-                    Button("load local file"){
-                        client = KubernetesClient()
-                    }
-                }.frame(width: 800, height: 600)
+                    VStack{
+                        Text("Load from kubectl").font(.title2)
+                        Button("load local file"){
+                            client = KubernetesClient()
+                        }
+                    }.padding(.all, 20)
+                }.frame(width: 400, alignment: .leading)
             }
         }
         .commands {
