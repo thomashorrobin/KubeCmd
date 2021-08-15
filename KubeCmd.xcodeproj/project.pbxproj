@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4944731B26C2F2F60070E338 /* ClusterResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4944731A26C2F2F60070E338 /* ClusterResources.swift */; };
 		4944731D26C2F3D10070E338 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4944731C26C2F3D10070E338 /* Extensions.swift */; };
+		4944732226C917080070E338 /* LocalConfigFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4944732126C917080070E338 /* LocalConfigFile.swift */; };
 		495A6904267F98FF00DA2EDD /* K8sResourceDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495A6903267F98FF00DA2EDD /* K8sResourceDetail.swift */; };
 		495A6907267FA37300DA2EDD /* CronJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495A6906267FA37300DA2EDD /* CronJob.swift */; };
 		4961B4CC26B1D0E1000A55D7 /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4961B4CB26B1D0E1000A55D7 /* Secret.swift */; };
@@ -54,6 +55,7 @@
 /* Begin PBXFileReference section */
 		4944731A26C2F2F60070E338 /* ClusterResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterResources.swift; sourceTree = "<group>"; };
 		4944731C26C2F3D10070E338 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		4944732126C917080070E338 /* LocalConfigFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalConfigFile.swift; sourceTree = "<group>"; };
 		495A6903267F98FF00DA2EDD /* K8sResourceDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = K8sResourceDetail.swift; sourceTree = "<group>"; };
 		495A6906267FA37300DA2EDD /* CronJob.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CronJob.swift; sourceTree = "<group>"; };
 		4961B4CB26B1D0E1000A55D7 /* Secret.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secret.swift; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 				495A6903267F98FF00DA2EDD /* K8sResourceDetail.swift */,
 				4944731A26C2F2F60070E338 /* ClusterResources.swift */,
 				4944731C26C2F3D10070E338 /* Extensions.swift */,
+				4944732126C917080070E338 /* LocalConfigFile.swift */,
 			);
 			path = KubeCmd;
 			sourceTree = "<group>";
@@ -345,6 +348,7 @@
 				4961B4CC26B1D0E1000A55D7 /* Secret.swift in Sources */,
 				495A6907267FA37300DA2EDD /* CronJob.swift in Sources */,
 				49782B1C25E08DD800D92F4C /* Persistence.swift in Sources */,
+				4944732226C917080070E338 /* LocalConfigFile.swift in Sources */,
 				49782B4E25E2F4BF00D92F4C /* KubernetesResources.swift in Sources */,
 				4995D4D426C146A000A7831B /* MetaDataSection.swift in Sources */,
 				49FBB8E3267BB8F1004C7824 /* TopLevelK8sMenuItem.swift in Sources */,

@@ -12,7 +12,7 @@ import SwiftkubeClient
 struct KubeCmdApp: App {
     let persistenceController = PersistenceController.shared
     
-    let client = KubernetesClient()
+    @State var client:KubernetesClient? = nil
 
     var body: some Scene {
         WindowGroup {
@@ -20,7 +20,13 @@ struct KubeCmdApp: App {
                 ContentView(resources: ClusterResources(client: client))
                     .environment(\.managedObjectContext, persistenceController.container.viewContext)
             } else {
-                Text("error loading content").frame(width: 500, height: 400, alignment: .center)
+                VStack{
+                    OpenConfigFileButton()
+                    Divider()
+                    Button("load local file"){
+                        client = KubernetesClient()
+                    }
+                }.frame(width: 800, height: 600)
             }
         }
         .commands {
