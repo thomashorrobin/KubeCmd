@@ -25,15 +25,15 @@ struct ContentView: View {
     var body: some View {
         NavigationView
         {
-            TopLevelK8sMenu()
-            SecondLevelK8sItems()
+            TopLevelK8sMenu().frame(minWidth: 130)
+            SecondLevelK8sItems().frame(minWidth: 130)
             Button(action: {
                 buttonText = "loading..."
                 resources.loadData()
                 buttonText = "Load data again"
             }, label: {
                 Text(buttonText)
-            })
+            }).frame(minWidth: 130)
         }.environmentObject(resources).onAppear(perform: {
             resources.loadData()
             do {
@@ -52,7 +52,7 @@ struct ContentView: View {
             ToolbarItem(placement: .primaryAction) {
                 Image(systemName: "plus")
             }
-        })
+        }).frame(minWidth: 600, idealWidth: 750, maxWidth: .infinity, minHeight: 400, idealHeight: 550, maxHeight: .infinity)
     }
     
     func toggleSidebar() {
