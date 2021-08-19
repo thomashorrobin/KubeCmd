@@ -16,7 +16,9 @@ import UniformTypeIdentifiers
 struct OpenConfigFileButton: View {
     var types = [UTType]()
     @State var fileString:String? = nil
-    init() {
+    let successfulParseOfFileCallback: (_ config: KubernetesClientConfig) -> Void
+    init(cb: @escaping (_ config: KubernetesClientConfig) -> Void) {
+        self.successfulParseOfFileCallback = cb
         types.append(UTType(filenameExtension: "yaml")!)
     }
     var body: some View {
@@ -26,9 +28,13 @@ struct OpenConfigFileButton: View {
             }
             HStack{
                 Button("Open", action: openFile)
-                if fileString != nil {
+                if let fs = fileString {
                     Button("Parse"){
                         print("not implemented")
+                        let client123 = try! KubernetesClient.loadConfigFromPath(logger: Logger(label: "SKC-do-not-log", factory: { _ in SwiftLogNoOpLogHandler() }), path: fs)
+                        if let client = client123 {
+                            successfulParseOfFileCallback(client)
+                        }
                     }
                 }
 

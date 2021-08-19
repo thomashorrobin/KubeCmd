@@ -13,6 +13,10 @@ struct KubeCmdApp: App {
     let persistenceController = PersistenceController.shared
     
     @State var client:KubernetesClient? = nil
+    
+    func loadKubernetesClientFromConfig(config: KubernetesClientConfig) -> Void {
+        client = KubernetesClient(config: config)
+    }
 
     var body: some Scene {
         WindowGroup {
@@ -23,7 +27,7 @@ struct KubeCmdApp: App {
                 VStack{
                     VStack{
                         Text("Load from config file").font(.title2)
-                        OpenConfigFileButton()
+                        OpenConfigFileButton(cb: loadKubernetesClientFromConfig)
                     }.padding(.all, 20).frame(alignment: .leading)
                     Divider()
                     VStack{
