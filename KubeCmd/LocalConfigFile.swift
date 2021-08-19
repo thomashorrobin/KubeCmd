@@ -30,7 +30,7 @@ struct OpenConfigFileButton: View {
                 Button("Open", action: openFile)
                 if let fs = fileString {
                     Button("Parse"){
-                        let client123 = try! KubernetesClient.loadConfigFromPath(logger: Logger(label: "SKC-do-not-log", factory: { _ in SwiftLogNoOpLogHandler() }), path: fs)
+                        let client123 = try! KubernetesClientConfig.loadConfigFromPath(logger: Logger(label: "SKC-do-not-log", factory: { _ in SwiftLogNoOpLogHandler() }), path: fs)
                         if let client = client123 {
                             successfulParseOfFileCallback(client)
                         }
