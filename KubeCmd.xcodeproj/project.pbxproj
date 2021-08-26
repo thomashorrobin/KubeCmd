@@ -689,7 +689,7 @@
 /* Begin XCRemoteSwiftPackageReference section */
 		49782B4625E094C100D92F4C /* XCRemoteSwiftPackageReference "client" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "git@github.com:thomashorrobin/client.git";
+			repositoryURL = "git@github.com:swiftkube/client.git";
 			requirement = {
 				branch = main;
 				kind = branch;

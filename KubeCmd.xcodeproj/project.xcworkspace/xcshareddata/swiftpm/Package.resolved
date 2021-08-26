@@ -12,10 +12,10 @@
       },
       {
         "package": "SwiftkubeClient",
-        "repositoryURL": "git@github.com:thomashorrobin/client.git",
+        "repositoryURL": "git@github.com:swiftkube/client.git",
         "state": {
           "branch": "main",
-          "revision": "d346f1b7e469ab7e88be02d3edbd87ff0f837d5e",
+          "revision": "5818b8f5422e0407197e43e4f1b09bdce1bc849a",
           "version": null
         }
       },
