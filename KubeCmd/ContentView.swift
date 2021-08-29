@@ -25,8 +25,8 @@ struct ContentView: View {
     var body: some View {
         NavigationView
         {
-            TopLevelK8sMenu().frame(minWidth: 130, idealWidth: 340)
-            SecondLevelK8sItems().frame(minWidth: 130, idealWidth: 340)
+            TopLevelK8sMenu().frame(minWidth: 330, idealWidth: 500)
+            SecondLevelK8sItems().frame(minWidth: 330, idealWidth: 500)
             Button(action: {
                 buttonText = "loading..."
                 resources.loadData()
