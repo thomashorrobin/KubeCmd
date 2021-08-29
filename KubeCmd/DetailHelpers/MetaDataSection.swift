@@ -19,6 +19,9 @@ struct MetaDataSection: View {
             if let creationTimestamp = metadata.creationTimestamp {
                 Text("Created: \(creationTimestamp)")
             }
+			if let namespace = metadata.namespace {
+				Text("Namespace: \(namespace)")
+			}
             if let labels = metadata.labels {
                 if labels.count > 0 {
                     Text("Labels")
