@@ -25,8 +25,8 @@ struct ContentView: View {
     var body: some View {
         NavigationView
         {
-            TopLevelK8sMenu().frame(minWidth: 330, idealWidth: 500)
-            SecondLevelK8sItems().frame(minWidth: 330, idealWidth: 500)
+            TopLevelK8sMenu().frame(minWidth: 290, idealWidth: 390)
+            SecondLevelK8sItems().frame(minWidth: 290, idealWidth: 390)
             Button(action: {
                 buttonText = "loading..."
                 resources.loadData()
@@ -52,7 +52,7 @@ struct ContentView: View {
             ToolbarItem(placement: .primaryAction) {
                 Image(systemName: "plus")
             }
-        }).frame(minWidth: 880, idealWidth: 2050, maxWidth: .infinity, minHeight: 660, idealHeight: 1140, maxHeight: .infinity)
+        }).frame(minWidth: 980, idealWidth: 2050, maxWidth: .infinity, minHeight: 660, idealHeight: 1140, maxHeight: .infinity)
     }
     
     func toggleSidebar() {
