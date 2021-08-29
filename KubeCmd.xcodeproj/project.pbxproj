@@ -27,6 +27,7 @@
 		49782B4825E094C100D92F4C /* SwiftkubeClient in Frameworks */ = {isa = PBXBuildFile; productRef = 49782B4725E094C100D92F4C /* SwiftkubeClient */; };
 		49782B4E25E2F4BF00D92F4C /* KubernetesResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49782B4C25E2F4BF00D92F4C /* KubernetesResources.swift */; };
 		49782B4F25E2F4BF00D92F4C /* TopLevelK8sMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49782B4D25E2F4BF00D92F4C /* TopLevelK8sMenu.swift */; };
+		49801A6026DC26BB00DC16DC /* SwiftCron in Frameworks */ = {isa = PBXBuildFile; productRef = 49801A5F26DC26BB00DC16DC /* SwiftCron */; };
 		4995D4D126BEFA2D00A7831B /* KeyValueDetailSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4995D4D026BEFA2D00A7831B /* KeyValueDetailSection.swift */; };
 		4995D4D426C146A000A7831B /* MetaDataSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4995D4D326C146A000A7831B /* MetaDataSection.swift */; };
 		49FBB8E3267BB8F1004C7824 /* TopLevelK8sMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FBB8E2267BB8F1004C7824 /* TopLevelK8sMenuItem.swift */; };
@@ -90,6 +91,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49801A6026DC26BB00DC16DC /* SwiftCron in Frameworks */,
 				49782B4825E094C100D92F4C /* SwiftkubeClient in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -222,6 +224,7 @@
 			name = KubeCmd;
 			packageProductDependencies = (
 				49782B4725E094C100D92F4C /* SwiftkubeClient */,
+				49801A5F26DC26BB00DC16DC /* SwiftCron */,
 			);
 			productName = KubeCmd;
 			productReference = 49782B0F25E08DD700D92F4C /* KubeCmd.app */;
@@ -296,6 +299,7 @@
 			mainGroup = 49782B0625E08DD700D92F4C;
 			packageReferences = (
 				49782B4625E094C100D92F4C /* XCRemoteSwiftPackageReference "client" */,
+				49801A5E26DC26BB00DC16DC /* XCRemoteSwiftPackageReference "SwiftCron" */,
 			);
 			productRefGroup = 49782B1025E08DD700D92F4C /* Products */;
 			projectDirPath = "";
@@ -691,6 +695,14 @@
 				kind = branch;
 			};
 		};
+		49801A5E26DC26BB00DC16DC /* XCRemoteSwiftPackageReference "SwiftCron" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "git@github.com:thomashorrobin/SwiftCron.git";
+			requirement = {
+				kind = revision;
+				revision = 3b843d1edb94e0d509f5bdab0e9b9b9013a7bcf2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -698,6 +710,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 49782B4625E094C100D92F4C /* XCRemoteSwiftPackageReference "client" */;
 			productName = SwiftkubeClient;
+		};
+		49801A5F26DC26BB00DC16DC /* SwiftCron */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 49801A5E26DC26BB00DC16DC /* XCRemoteSwiftPackageReference "SwiftCron" */;
+			productName = SwiftCron;
 		};
 /* End XCSwiftPackageProductDependency section */
 

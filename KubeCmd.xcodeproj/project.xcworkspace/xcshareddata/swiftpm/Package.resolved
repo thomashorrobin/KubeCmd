@@ -83,6 +83,15 @@
         }
       },
       {
+        "package": "SwiftCron",
+        "repositoryURL": "git@github.com:thomashorrobin/SwiftCron.git",
+        "state": {
+          "branch": null,
+          "revision": "3b843d1edb94e0d509f5bdab0e9b9b9013a7bcf2",
+          "version": null
+        }
+      },
+      {
         "package": "Yams",
         "repositoryURL": "https://github.com/jpsim/Yams.git",
         "state": {
