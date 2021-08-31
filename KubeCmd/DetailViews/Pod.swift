@@ -19,10 +19,22 @@ struct Pod: View {
                 MetaDataSection(metadata: metadata)
                 Divider().padding(.vertical, 30)
             }
+			if let status = pod.status {
             Text("Status").font(.title2)
-            Text("Reason: \(pod.status?.reason ?? "xxxx")")
+				if let reason = status.reason {
+					Text("Reason: \(reason)")
+				}
+				if let message = status.message {
+					Text("Message: \(message)")
+				}
+				if let startTime = status.startTime {
+					Text("Start Time: \(startTime)")
+				}
+				if let phase = status.phase {
+					Text("Phase: \(phase)")
+				}
             Divider().padding(.vertical, 30)
-            Text("Spec").font(.title2)
+			}
         })
     }
 }
