@@ -34,6 +34,7 @@ struct Pod: View {
 					Text("Phase: \(phase)")
 				}
             Divider().padding(.vertical, 30)
+				LogsHandler(podName: pod.name!)
 			}
         })
     }

@@ -24,6 +24,10 @@ class ClusterResources: ObservableObject {
 		self.client = client
 	}
 	
+	func followLogs(name: String, cb: @escaping LogWatcherCallback.LineHandler) throws -> SwiftkubeClientTask {
+		return try client.pods.follow(name: name, lineHandler: cb)
+	}
+	
 	func disconnectWatches() -> Void {
 		for t in k8sTasks {
 			t.cancel()
