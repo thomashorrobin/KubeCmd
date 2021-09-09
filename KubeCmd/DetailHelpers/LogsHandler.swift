@@ -34,20 +34,25 @@ struct LogsHandler: View {
 struct LogsView: View {
 	var logs:[String]
 	var body: some View {
-		VStack{
-			Text("Logs").font(.title2)
+		VStack(alignment: .leading){
+			Text("Logs").font(.title2).frame(alignment: .center)
 			ScrollView{
-				VStack{
-					ForEach(logs, id: \.self) { log in
-						Text(log).foregroundColor(Color.green)
-					}
-				}.frame(
+				VStack(alignment: .leading){
+				 ForEach(logs, id: \.self) { log in
+				  Text(log).frame(
 					minWidth: 0,
-					maxWidth: .infinity,
-					minHeight: 0,
-					maxHeight: .infinity,
-					alignment: .topLeading
-				).background(Color.black)
+				 maxWidth: .infinity,
+				 minHeight: 0,
+				 maxHeight: .infinity,
+					alignment: .leading
+			 ).foregroundColor(Color.green)
+			  }.frame(
+				  minWidth: 0,
+				  maxWidth: .infinity,
+				  minHeight: 0,
+				  maxHeight: .infinity
+			  ).background(Color.black)
+			 }
 			}
 		}
 	}
