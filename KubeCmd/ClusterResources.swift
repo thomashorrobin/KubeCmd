@@ -263,21 +263,21 @@ class ClusterResources: ObservableObject {
 		guard let namespace = metadata.namespace else { return }
 		switch resource.kind {
 		case "CronJob":
-			_ = client.batchV1Beta1.cronJobs.delete(in: .namespace(namespace), name: name, options: deleteOptions)
+			_ = client.batchV1Beta1.cronJobs.delete(inNamespace: .namespace(namespace), name: name, options: deleteOptions)
 		case "Job":
-			_ = client.batchV1.jobs.delete(in: .namespace(namespace), name: name, options: deleteOptions)
+			_ = client.batchV1.jobs.delete(inNamespace: .namespace(namespace), name: name, options: deleteOptions)
 			
 		case "Deployment":
-			_ = client.appsV1.deployments.delete(in: .namespace(namespace), name: name, options: deleteOptions)
+			_ = client.appsV1.deployments.delete(inNamespace: .namespace(namespace), name: name, options: deleteOptions)
 			
 		case "Pod":
-			_ = client.pods.delete(in: .namespace(namespace), name: name, options: deleteOptions)
+			_ = client.pods.delete(inNamespace: .namespace(namespace), name: name, options: deleteOptions)
 			
 		case "ConfigMap":
-			_ = client.configMaps.delete(in: .namespace(namespace), name: name, options: deleteOptions)
+			_ = client.configMaps.delete(inNamespace: .namespace(namespace), name: name, options: deleteOptions)
 			
 		case "Secret":
-			_ = client.secrets.delete(in: .namespace(namespace), name: name, options: deleteOptions)
+			_ = client.secrets.delete(inNamespace: .namespace(namespace), name: name, options: deleteOptions)
 		default:
 			print("resource.kind not handled by deleteResource()")
 		}
