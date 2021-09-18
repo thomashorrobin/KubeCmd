@@ -29,13 +29,13 @@ struct ContentView: View {
             SecondLevelK8sItems().frame(minWidth: 290, idealWidth: 390)
             Button(action: {
                 buttonText = "loading..."
-                resources.loadData()
+				resources.loadData(namespace: .default)
                 buttonText = "Load data again"
             }, label: {
                 Text(buttonText)
             }).frame(minWidth: 130)
         }.environmentObject(resources).onAppear(perform: {
-            resources.loadData()
+			resources.loadData(namespace: .default)
             do {
                 try resources.connectWatches()
             } catch {

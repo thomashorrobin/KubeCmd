@@ -157,34 +157,34 @@ class ClusterResources: ObservableObject {
 		
 	}
 	
-	func loadData() -> Void {
+	func loadData(namespace: NamespaceSelector) -> Void {
 		do {
-			let pods = try client.pods.list(in: .default).wait().items
+			let pods = try client.pods.list(in: namespace).wait().items
 			for pod in pods {
 				let uuid = try! UUID.fromK8sMetadata(resource: pod)
 				self.pods[uuid] = pod
 			}
-			let configmaps = try client.configMaps.list(in: .default).wait().items
+			let configmaps = try client.configMaps.list(in: namespace).wait().items
 			for configmap in configmaps {
 				let uuid = try! UUID.fromK8sMetadata(resource: configmap)
 				self.configmaps[uuid] = configmap
 			}
-			let secrets = try client.secrets.list(in: .default).wait().items
+			let secrets = try client.secrets.list(in: namespace).wait().items
 			for secret in secrets {
 				let uuid = try! UUID.fromK8sMetadata(resource: secret)
 				self.secrets[uuid] = secret
 			}
-			let cronjobs = try client.batchV1Beta1.cronJobs.list(in: .default).wait().items
+			let cronjobs = try client.batchV1Beta1.cronJobs.list(in: namespace).wait().items
 			for cronjob in cronjobs {
 				let uuid = try! UUID.fromK8sMetadata(resource: cronjob)
 				self.cronjobs[uuid] = cronjob
 			}
-			let jobs = try client.batchV1.jobs.list(in: .default).wait().items
+			let jobs = try client.batchV1.jobs.list(in: namespace).wait().items
 			for job in jobs {
 				let uuid = try! UUID.fromK8sMetadata(resource: job)
 				self.jobs[uuid] = job
 			}
-			let deployments = try client.appsV1.deployments.list(in: .default).wait().items
+			let deployments = try client.appsV1.deployments.list(in: namespace).wait().items
 			for deployment in deployments {
 				let uuid = try! UUID.fromK8sMetadata(resource: deployment)
 				self.deployments[uuid] = deployment
