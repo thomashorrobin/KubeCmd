@@ -11,91 +11,91 @@ import SwiftkubeClient
 import SwiftkubeModel
 
 struct ContentView: View {
-    @StateObject var resources:ClusterResources
-    
-    @Environment(\.managedObjectContext) private var viewContext
-
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
-        animation: .default)
-    private var items: FetchedResults<Item>
-    
-    @State var buttonText = "Load data again"
-
-    var body: some View {
-        NavigationView
-        {
-            TopLevelK8sMenu().frame(minWidth: 290, idealWidth: 390)
-            SecondLevelK8sItems().frame(minWidth: 290, idealWidth: 390)
-            Button(action: {
-                buttonText = "loading..."
+	@StateObject var resources:ClusterResources
+	
+	@Environment(\.managedObjectContext) private var viewContext
+	
+	@FetchRequest(
+		sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
+		animation: .default)
+	private var items: FetchedResults<Item>
+	
+	@State var buttonText = "Load data again"
+	
+	var body: some View {
+		NavigationView
+		{
+			TopLevelK8sMenu().frame(minWidth: 290, idealWidth: 390)
+			SecondLevelK8sItems().frame(minWidth: 290, idealWidth: 390)
+			Button(action: {
+				buttonText = "loading..."
 				resources.loadData(namespace: .default)
-                buttonText = "Load data again"
-            }, label: {
-                Text(buttonText)
-            }).frame(minWidth: 130)
-        }.environmentObject(resources).onAppear(perform: {
+				buttonText = "Load data again"
+			}, label: {
+				Text(buttonText)
+			}).frame(minWidth: 130)
+		}.environmentObject(resources).onAppear(perform: {
 			resources.loadData(namespace: .default)
-            do {
-                try resources.connectWatches()
-            } catch {
-                print(error)
-            }
-        }).onDisappear(perform: {
-            resources.disconnectWatches()
-        }).toolbar(content: {
-            ToolbarItem(placement: .navigation) {
-                Button(action: toggleSidebar, label: {
-                    Image(systemName: "sidebar.left")
-                })
-            }
-            ToolbarItem(placement: .primaryAction) {
-                Image(systemName: "plus")
-            }
-        }).frame(minWidth: 980, idealWidth: 2050, maxWidth: .infinity, minHeight: 660, idealHeight: 1140, maxHeight: .infinity)
-    }
-    
-    func toggleSidebar() {
-        NSApp.keyWindow?.contentViewController?.tryToPerform(#selector(NSSplitViewController.toggleSidebar(_:)), with: nil)
-    }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
-
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            offsets.map { items[$0] }.forEach(viewContext.delete)
-
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
-        }
-    }
+			do {
+				try resources.connectWatches()
+			} catch {
+				print(error)
+			}
+		}).onDisappear(perform: {
+			resources.disconnectWatches()
+		}).toolbar(content: {
+			ToolbarItem(placement: .navigation) {
+				Button(action: toggleSidebar, label: {
+					Image(systemName: "sidebar.left")
+				})
+			}
+			ToolbarItem(placement: .primaryAction) {
+				Image(systemName: "plus")
+			}
+		}).frame(minWidth: 980, idealWidth: 2050, maxWidth: .infinity, minHeight: 660, idealHeight: 1140, maxHeight: .infinity)
+	}
+	
+	func toggleSidebar() {
+		NSApp.keyWindow?.contentViewController?.tryToPerform(#selector(NSSplitViewController.toggleSidebar(_:)), with: nil)
+	}
+	
+	private func addItem() {
+		withAnimation {
+			let newItem = Item(context: viewContext)
+			newItem.timestamp = Date()
+			
+			do {
+				try viewContext.save()
+			} catch {
+				// Replace this implementation with code to handle the error appropriately.
+				// fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+				let nsError = error as NSError
+				fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+			}
+		}
+	}
+	
+	private func deleteItems(offsets: IndexSet) {
+		withAnimation {
+			offsets.map { items[$0] }.forEach(viewContext.delete)
+			
+			do {
+				try viewContext.save()
+			} catch {
+				// Replace this implementation with code to handle the error appropriately.
+				// fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+				let nsError = error as NSError
+				fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+			}
+		}
+	}
 }
 
 private let itemFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .medium
-    return formatter
+	let formatter = DateFormatter()
+	formatter.dateStyle = .short
+	formatter.timeStyle = .medium
+	return formatter
 }()
 
 //struct ContentView_Previews: PreviewProvider {

@@ -8,10 +8,10 @@
 import Foundation
 
 enum KubernetesResources: String {
-    case pods = "Pods"
-    case cronjobs = "Cronjobs"
-    case deployments = "Deployments"
-    case jobs = "Jobs"
-    case configmaps = "ConfigMaps"
-    case secrets = "Secrets"
+	case pods = "Pods"
+	case cronjobs = "Cronjobs"
+	case deployments = "Deployments"
+	case jobs = "Jobs"
+	case configmaps = "ConfigMaps"
+	case secrets = "Secrets"
 }

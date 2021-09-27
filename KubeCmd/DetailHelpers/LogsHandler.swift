@@ -38,21 +38,21 @@ struct LogsView: View {
 			Text("Logs").font(.title2).frame(alignment: .center)
 			ScrollView{
 				VStack(alignment: .leading){
-				 ForEach(logs, id: \.self) { log in
-				  Text(log).frame(
-					minWidth: 0,
-				 maxWidth: .infinity,
-				 minHeight: 0,
-				 maxHeight: .infinity,
-					alignment: .leading
-			 ).foregroundColor(Color.green)
-			  }.frame(
-				  minWidth: 0,
-				  maxWidth: .infinity,
-				  minHeight: 0,
-				  maxHeight: .infinity
-			  ).background(Color.black)
-			 }
+					ForEach(logs, id: \.self) { log in
+						Text(log).frame(
+							minWidth: 0,
+							maxWidth: .infinity,
+							minHeight: 0,
+							maxHeight: .infinity,
+							alignment: .leading
+						).foregroundColor(Color.green)
+					}.frame(
+						minWidth: 0,
+						maxWidth: .infinity,
+						minHeight: 0,
+						maxHeight: .infinity
+					).background(Color.black)
+				}
 			}
 		}
 	}

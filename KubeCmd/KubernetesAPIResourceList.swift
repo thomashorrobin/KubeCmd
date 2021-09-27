@@ -9,37 +9,37 @@ import SwiftUI
 import SwiftkubeModel
 
 func nameSort(x:KubernetesAPIResource, y:KubernetesAPIResource) -> Bool {
-    return x.name! < y.name!
+	return x.name! < y.name!
 }
 
 func dateSort(x:KubernetesAPIResource, y:KubernetesAPIResource) -> Bool {
-    return x.metadata!.creationTimestamp! > y.metadata!.creationTimestamp!
+	return x.metadata!.creationTimestamp! > y.metadata!.creationTimestamp!
 }
 
 struct KubernetesAPIResourceList: View {
-    var resources: [KubernetesAPIResource]
-    var sortingFucntion: (KubernetesAPIResource, KubernetesAPIResource) -> Bool
-    var body: some View {
-        List{
-            ForEach(resources.sorted(by: sortingFucntion), id: \.metadata!.uid) { r in
-                KubernetesAPIResourceRow(resource: r)
-            }
-        }
-    }
+	var resources: [KubernetesAPIResource]
+	var sortingFucntion: (KubernetesAPIResource, KubernetesAPIResource) -> Bool
+	var body: some View {
+		List{
+			ForEach(resources.sorted(by: sortingFucntion), id: \.metadata!.uid) { r in
+				KubernetesAPIResourceRow(resource: r)
+			}
+		}
+	}
 }
 
 struct KubernetesAPIResourceRow: View {
-    var resource: KubernetesAPIResource
-    var body: some View {
-        HStack{
-            NavigationLink(resource.name ?? "unknown", destination: K8sResourceDetail(resource: resource )).buttonStyle(PlainButtonStyle())
-            Spacer()
-            VStack(alignment: .trailing, content: {
-                Text(resource.kind).bold()
-                Text(resource.apiVersion).italic()
-            })
-        }.padding(.all, 20)
-    }
+	var resource: KubernetesAPIResource
+	var body: some View {
+		HStack{
+			NavigationLink(resource.name ?? "unknown", destination: K8sResourceDetail(resource: resource )).buttonStyle(PlainButtonStyle())
+			Spacer()
+			VStack(alignment: .trailing, content: {
+				Text(resource.kind).bold()
+				Text(resource.apiVersion).italic()
+			})
+		}.padding(.all, 20)
+	}
 }
 
 //struct KubernetesAPIResourceList_Previews: PreviewProvider {
