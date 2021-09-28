@@ -50,7 +50,7 @@ struct KubeCmdApp: App {
 		let panel = NSOpenPanel()
 		panel.allowsMultipleSelection = false
 		panel.canChooseDirectories = false
-		panel.allowedContentTypes = [UTType(filenameExtension: "yaml")!]
+		panel.allowedContentTypes = [UTType(filenameExtension: "yaml")!, UTType(filenameExtension: "yml")!]
 		if panel.runModal() == .OK {
 			print(panel.url?.path ?? "<none>")
 			if let u = panel.url {
