@@ -9,14 +9,15 @@ import SwiftUI
 import SwiftkubeClient
 import SwiftkubeModel
 
-struct TopLevelK8sMenu: View, NamespaceFilterable {
-	var namespace: NamespaceSelector{
-		get {
-			return resources.namespace
-		}
-	}
-	
+struct TopLevelK8sMenu: View {
 	@EnvironmentObject var resources: ClusterResources
+	func filterByNamespace(kubernetesAPIResource: KubernetesAPIResource) -> Bool {
+		guard let metadata = kubernetesAPIResource.metadata else { return false }
+		guard let ns = metadata.namespace else { return false }
+		let x = NamespaceSelector.namespace(ns)
+		let namespaceMatch = x == resources.namespace
+		return namespaceMatch
+	}
 	var body: some View {
 		List {
 			TopLevelK8sMenuItem(a: {resources.setSelectedResource(resource: .cronjobs)}, name: "CronJobs", imageName: "cronjob", itemCount: resources.cronjobs.values.filter(self.filterByNamespace).count)
