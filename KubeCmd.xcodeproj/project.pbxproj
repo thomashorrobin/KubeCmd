@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		491C6E912703980400FCA5DC /* NamespaceFilterable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491C6E902703980400FCA5DC /* NamespaceFilterable.swift */; };
 		4944731B26C2F2F60070E338 /* ClusterResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4944731A26C2F2F60070E338 /* ClusterResources.swift */; };
 		4944731D26C2F3D10070E338 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4944731C26C2F3D10070E338 /* Extensions.swift */; };
 		495A6904267F98FF00DA2EDD /* K8sResourceDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495A6903267F98FF00DA2EDD /* K8sResourceDetail.swift */; };
@@ -54,6 +55,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		491C6E902703980400FCA5DC /* NamespaceFilterable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamespaceFilterable.swift; sourceTree = "<group>"; };
 		4944731A26C2F2F60070E338 /* ClusterResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterResources.swift; sourceTree = "<group>"; };
 		4944731C26C2F3D10070E338 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		495A6903267F98FF00DA2EDD /* K8sResourceDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = K8sResourceDetail.swift; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 				495A6903267F98FF00DA2EDD /* K8sResourceDetail.swift */,
 				4944731A26C2F2F60070E338 /* ClusterResources.swift */,
 				4944731C26C2F3D10070E338 /* Extensions.swift */,
+				491C6E902703980400FCA5DC /* NamespaceFilterable.swift */,
 			);
 			path = KubeCmd;
 			sourceTree = "<group>";
@@ -357,6 +360,7 @@
 				49FBB8E3267BB8F1004C7824 /* TopLevelK8sMenuItem.swift in Sources */,
 				49782B1525E08DD700D92F4C /* ContentView.swift in Sources */,
 				49B0FADB26E1EDC0002679A3 /* LogsHandler.swift in Sources */,
+				491C6E912703980400FCA5DC /* NamespaceFilterable.swift in Sources */,
 				49782B4F25E2F4BF00D92F4C /* TopLevelK8sMenu.swift in Sources */,
 				4961B4D026B1E4A5000A55D7 /* Deployment.swift in Sources */,
 				49782B1325E08DD700D92F4C /* KubeCmdApp.swift in Sources */,

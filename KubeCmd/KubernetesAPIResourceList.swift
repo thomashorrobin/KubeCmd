@@ -17,17 +17,10 @@ func dateSort(x:KubernetesAPIResource, y:KubernetesAPIResource) -> Bool {
 	return x.metadata!.creationTimestamp! > y.metadata!.creationTimestamp!
 }
 
-struct KubernetesAPIResourceList: View {
+struct KubernetesAPIResourceList: View, NamespaceFilterable {
 	var resources: [KubernetesAPIResource]
 	var sortingFucntion: (KubernetesAPIResource, KubernetesAPIResource) -> Bool
 	var namespace: NamespaceSelector
-	func filterByNamespace(kubernetesAPIResource: KubernetesAPIResource) -> Bool {
-		guard let metadata = kubernetesAPIResource.metadata else { return false }
-		guard let ns = metadata.namespace else { return false }
-		let x = NamespaceSelector.namespace(ns)
-		let namespaceMatch = x == namespace
-		return namespaceMatch
-	}
 	var body: some View {
 		List{
 			ForEach(resources.filter(filterByNamespace).sorted(by: sortingFucntion), id: \.metadata!.uid) { r in
