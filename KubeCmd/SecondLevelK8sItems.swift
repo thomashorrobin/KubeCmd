@@ -12,17 +12,17 @@ struct SecondLevelK8sItems: View {
 	var body: some View {
 		switch resources.selectedResource {
 		case KubernetesResources.deployments:
-			KubernetesAPIResourceList(resources: Array(resources.deployments.values), sortingFucntion: nameSort)
+			KubernetesAPIResourceList(resources: Array(resources.deployments.values), sortingFucntion: nameSort, namespace: resources.namespace)
 		case KubernetesResources.pods:
-			KubernetesAPIResourceList(resources: Array(resources.pods.values), sortingFucntion: dateSort)
+			KubernetesAPIResourceList(resources: Array(resources.pods.values), sortingFucntion: dateSort, namespace: resources.namespace)
 		case KubernetesResources.secrets:
-			KubernetesAPIResourceList(resources: Array(resources.secrets.values), sortingFucntion: nameSort)
+			KubernetesAPIResourceList(resources: Array(resources.secrets.values), sortingFucntion: nameSort, namespace: resources.namespace)
 		case KubernetesResources.configmaps:
-			KubernetesAPIResourceList(resources: Array(resources.configmaps.values), sortingFucntion: nameSort)
+			KubernetesAPIResourceList(resources: Array(resources.configmaps.values), sortingFucntion: nameSort, namespace: resources.namespace)
 		case KubernetesResources.cronjobs:
-			KubernetesAPIResourceList(resources: Array(resources.cronjobs.values), sortingFucntion: nameSort)
+			KubernetesAPIResourceList(resources: Array(resources.cronjobs.values), sortingFucntion: nameSort, namespace: resources.namespace)
 		case KubernetesResources.jobs:
-			KubernetesAPIResourceList(resources: Array(resources.jobs.values), sortingFucntion: dateSort)
+			KubernetesAPIResourceList(resources: Array(resources.jobs.values), sortingFucntion: dateSort, namespace: resources.namespace)
 		}
 	}
 }

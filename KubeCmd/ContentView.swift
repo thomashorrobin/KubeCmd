@@ -29,14 +29,20 @@ struct ContentView: View {
 			SecondLevelK8sItems().frame(minWidth: 290, idealWidth: 390)
 			Button(action: {
 				buttonText = "loading..."
-				resources.loadData(namespace: .default)
+				resources.loadData(namespace: .allNamespaces)
+				do {
+					try resources.fetchNamespaces()
+				} catch {
+					print(error)
+				}
 				buttonText = "Load data again"
 			}, label: {
 				Text(buttonText)
 			}).frame(minWidth: 130)
 		}.environmentObject(resources).onAppear(perform: {
-			resources.loadData(namespace: .default)
+			resources.loadData(namespace: .allNamespaces)
 			do {
+				try resources.fetchNamespaces()
 				try resources.connectWatches()
 			} catch {
 				print(error)
@@ -50,7 +56,16 @@ struct ContentView: View {
 				})
 			}
 			ToolbarItem(placement: .primaryAction) {
-				Image(systemName: "plus")
+				Menu{
+					Picker("Namespace", selection: $resources.namespace) {
+						ForEach(resources.namespaces.items, id: \.name) { ns in
+							Text(ns.name!).tag(NamespaceSelector.namespace(ns.name!))
+						}
+					}
+					.pickerStyle(InlinePickerStyle())
+				} label: {
+					Label("Namespace Filter", systemImage: "square.on.square.dashed")
+				}
 			}
 		}).frame(minWidth: 980, idealWidth: 2050, maxWidth: .infinity, minHeight: 660, idealHeight: 1140, maxHeight: .infinity)
 	}

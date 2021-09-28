@@ -17,11 +17,17 @@ class ClusterResources: ObservableObject {
 	@Published var cronjobs = [UUID:batch.v1beta1.CronJob]()
 	@Published var jobs = [UUID:batch.v1.Job]()
 	@Published var deployments = [UUID:apps.v1.Deployment]()
+	@Published var namespace = NamespaceSelector.namespace("default")
+	@Published var namespaces = core.v1.NamespaceList(metadata: nil, items: [core.v1.Namespace]())
 	var client:KubernetesClient
 	var k8sTasks = [SwiftkubeClientTask]()
 	
 	init(client:KubernetesClient) {
 		self.client = client
+	}
+	
+	func fetchNamespaces() throws -> Void {
+		self.namespaces = try client.namespaces.list(options: nil).wait()
 	}
 	
 	func followLogs(name: String, cb: @escaping LogWatcherCallback.LineHandler) throws -> SwiftkubeClientTask {
