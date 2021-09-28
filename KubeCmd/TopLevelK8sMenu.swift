@@ -10,7 +10,11 @@ import SwiftkubeClient
 import SwiftkubeModel
 
 struct TopLevelK8sMenu: View, NamespaceFilterable {
-	var namespace: NamespaceSelector
+	var namespace: NamespaceSelector{
+		get {
+			return resources.namespace
+		}
+	}
 	
 	@EnvironmentObject var resources: ClusterResources
 	var body: some View {
