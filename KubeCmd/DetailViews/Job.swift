@@ -17,11 +17,17 @@ struct Job: View {
 		VStack(alignment: .leading, spacing: CGFloat(5), content: {
 			if let metadata = job.metadata {
 				MetaDataSection(metadata: metadata)
-				Divider().padding(.vertical, 30)
 			}
-			Text("Status").font(.title2)
-			Divider().padding(.vertical, 30)
-			Text("Spec").font(.title2)
+			if let status = job.status {
+				Divider().padding(.vertical, 30)
+				Text("Status").font(.title2)
+				if let startTime = status.startTime {
+					Text("Start Time: \(startTime)")
+				}
+				if let completionTime = status.completionTime {
+					Text("Completion Time: \(completionTime)")
+				}
+			}
 		})
 	}
 }
