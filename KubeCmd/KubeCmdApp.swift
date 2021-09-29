@@ -25,6 +25,12 @@ struct KubeCmdApp: App {
 	let persistenceController = PersistenceController.shared
 	
 	@State var client:KubernetesClient? = nil
+	@State var urlForReload:URL? = nil
+	
+	func reloadURL() -> Void {
+		guard let url = urlForReload else { return }
+		self.client = KubernetesClient(fromURL: url)
+	}
 	
 	func loadKubernetesClientFromConfig(client: KubernetesClient) -> Void {
 		self.client = client
@@ -45,7 +51,7 @@ struct KubeCmdApp: App {
 		}
 		.commands {
 			SidebarCommands()
-			DataCommands(refreashable: self.client != nil)
+			DataCommands(refreashable: self.client != nil, reload: reloadURL)
 		}
 	}
 	func openFile() -> Void {
@@ -56,8 +62,8 @@ struct KubeCmdApp: App {
 		if panel.runModal() == .OK {
 			print(panel.url?.path ?? "<none>")
 			if let u = panel.url {
-				let url = URL(fileURLWithPath: u.path)
-				self.client = KubernetesClient(fromURL: url)
+				self.urlForReload = URL(fileURLWithPath: u.path)
+				self.client = KubernetesClient(fromURL: self.urlForReload!)
 			}
 		}
 	}

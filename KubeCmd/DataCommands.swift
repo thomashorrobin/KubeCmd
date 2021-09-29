@@ -10,10 +10,12 @@ import SwiftUI
 
 struct DataCommands: Commands {
 	var refreashable: Bool
+	var reload: () -> Void
 	var body: some Commands {
 		CommandMenu("Data") {
 			Button("Refreash Data"){
 				print("unimplemented")
+				reload()
 			}.keyboardShortcut("R").disabled(!refreashable)
 		}
 	}
