@@ -26,6 +26,16 @@ class ClusterResources: ObservableObject {
 		self.client = client
 	}
 	
+	func refreshData() -> Void {
+		self.pods.removeAll()
+		self.configmaps.removeAll()
+		self.secrets.removeAll()
+		self.cronjobs.removeAll()
+		self.jobs.removeAll()
+		self.deployments.removeAll()
+		self.loadData(namespace: .allNamespaces)
+	}
+	
 	func fetchNamespaces() throws -> Void {
 		self.namespaces = try client.namespaces.list(options: nil).wait()
 	}
