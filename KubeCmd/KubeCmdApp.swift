@@ -45,6 +45,7 @@ struct KubeCmdApp: App {
 		}
 		.commands {
 			SidebarCommands()
+			DataCommands(refreashable: self.client != nil)
 		}
 	}
 	func openFile() -> Void {
