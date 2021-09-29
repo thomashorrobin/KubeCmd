@@ -21,6 +21,7 @@ struct BlueButton: ButtonStyle {
 
 @main
 struct KubeCmdApp: App {
+	@NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 	let persistenceController = PersistenceController.shared
 	
 	@State var client:KubernetesClient? = nil
