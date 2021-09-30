@@ -26,7 +26,9 @@ struct MetaDataSection: View {
 				if labels.count > 0 {
 					Text("Labels")
 					ForEach((labels.sorted(by: >)), id: \.key) { label in
-						Text("\(label.key): \(label.value)").background(Color.gray)
+						Text("\(label.key): \(label.value)").padding(.all, 6).overlay(
+							RoundedRectangle(cornerRadius: 16).foregroundColor(Color.gray.opacity(0.5))
+						)
 					}
 				}
 			}
