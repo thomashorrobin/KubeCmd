@@ -33,6 +33,7 @@
 		49801A6026DC26BB00DC16DC /* SwiftCron in Frameworks */ = {isa = PBXBuildFile; productRef = 49801A5F26DC26BB00DC16DC /* SwiftCron */; };
 		4995D4D126BEFA2D00A7831B /* KeyValueDetailSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4995D4D026BEFA2D00A7831B /* KeyValueDetailSection.swift */; };
 		4995D4D426C146A000A7831B /* MetaDataSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4995D4D326C146A000A7831B /* MetaDataSection.swift */; };
+		49A5A6DD270881A6002BDF5B /* CreateResourceCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A5A6DC270881A6002BDF5B /* CreateResourceCommands.swift */; };
 		49B0FADB26E1EDC0002679A3 /* LogsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B0FADA26E1EDC0002679A3 /* LogsHandler.swift */; };
 		49FBB8E3267BB8F1004C7824 /* TopLevelK8sMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FBB8E2267BB8F1004C7824 /* TopLevelK8sMenuItem.swift */; };
 		49FBB8E5267BC121004C7824 /* SecondLevelK8sItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FBB8E4267BC121004C7824 /* SecondLevelK8sItems.swift */; };
@@ -88,6 +89,7 @@
 		49782B4D25E2F4BF00D92F4C /* TopLevelK8sMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopLevelK8sMenu.swift; sourceTree = "<group>"; };
 		4995D4D026BEFA2D00A7831B /* KeyValueDetailSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueDetailSection.swift; sourceTree = "<group>"; };
 		4995D4D326C146A000A7831B /* MetaDataSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetaDataSection.swift; sourceTree = "<group>"; };
+		49A5A6DC270881A6002BDF5B /* CreateResourceCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateResourceCommands.swift; sourceTree = "<group>"; };
 		49B0FADA26E1EDC0002679A3 /* LogsHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogsHandler.swift; sourceTree = "<group>"; };
 		49FBB8E2267BB8F1004C7824 /* TopLevelK8sMenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopLevelK8sMenuItem.swift; sourceTree = "<group>"; };
 		49FBB8E4267BC121004C7824 /* SecondLevelK8sItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondLevelK8sItems.swift; sourceTree = "<group>"; };
@@ -178,6 +180,7 @@
 				491C6E902703980400FCA5DC /* NamespaceFilterable.swift */,
 				49595D4A27047EE3005F9D42 /* AppDelegate.swift */,
 				49595D4C2704A649005F9D42 /* DataCommands.swift */,
+				49A5A6DC270881A6002BDF5B /* CreateResourceCommands.swift */,
 			);
 			path = KubeCmd;
 			sourceTree = "<group>";
@@ -370,6 +373,7 @@
 				49782B4F25E2F4BF00D92F4C /* TopLevelK8sMenu.swift in Sources */,
 				4961B4D026B1E4A5000A55D7 /* Deployment.swift in Sources */,
 				49782B1325E08DD700D92F4C /* KubeCmdApp.swift in Sources */,
+				49A5A6DD270881A6002BDF5B /* CreateResourceCommands.swift in Sources */,
 				495A6904267F98FF00DA2EDD /* K8sResourceDetail.swift in Sources */,
 				49FBB8E7267CAC73004C7824 /* KubernetesAPIResourceList.swift in Sources */,
 				49595D4D2704A649005F9D42 /* DataCommands.swift in Sources */,
