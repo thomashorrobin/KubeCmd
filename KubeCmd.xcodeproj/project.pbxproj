@@ -33,6 +33,7 @@
 		49801A6026DC26BB00DC16DC /* SwiftCron in Frameworks */ = {isa = PBXBuildFile; productRef = 49801A5F26DC26BB00DC16DC /* SwiftCron */; };
 		4995D4D126BEFA2D00A7831B /* KeyValueDetailSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4995D4D026BEFA2D00A7831B /* KeyValueDetailSection.swift */; };
 		4995D4D426C146A000A7831B /* MetaDataSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4995D4D326C146A000A7831B /* MetaDataSection.swift */; };
+		49A5A6DF2708B91D002BDF5B /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 49A5A6DE2708B91D002BDF5B /* Credits.rtf */; };
 		49B0FADB26E1EDC0002679A3 /* LogsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B0FADA26E1EDC0002679A3 /* LogsHandler.swift */; };
 		49FBB8E3267BB8F1004C7824 /* TopLevelK8sMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FBB8E2267BB8F1004C7824 /* TopLevelK8sMenuItem.swift */; };
 		49FBB8E5267BC121004C7824 /* SecondLevelK8sItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FBB8E4267BC121004C7824 /* SecondLevelK8sItems.swift */; };
@@ -88,6 +89,7 @@
 		49782B4D25E2F4BF00D92F4C /* TopLevelK8sMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopLevelK8sMenu.swift; sourceTree = "<group>"; };
 		4995D4D026BEFA2D00A7831B /* KeyValueDetailSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueDetailSection.swift; sourceTree = "<group>"; };
 		4995D4D326C146A000A7831B /* MetaDataSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetaDataSection.swift; sourceTree = "<group>"; };
+		49A5A6DE2708B91D002BDF5B /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		49B0FADA26E1EDC0002679A3 /* LogsHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogsHandler.swift; sourceTree = "<group>"; };
 		49FBB8E2267BB8F1004C7824 /* TopLevelK8sMenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopLevelK8sMenuItem.swift; sourceTree = "<group>"; };
 		49FBB8E4267BC121004C7824 /* SecondLevelK8sItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondLevelK8sItems.swift; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 		49782B1125E08DD700D92F4C /* KubeCmd */ = {
 			isa = PBXGroup;
 			children = (
+				49A5A6DE2708B91D002BDF5B /* Credits.rtf */,
 				4995D4CF26BEFA0700A7831B /* DetailHelpers */,
 				495A6905267FA32C00DA2EDD /* DetailViews */,
 				49782B4D25E2F4BF00D92F4C /* TopLevelK8sMenu.swift */,
@@ -330,6 +333,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				49782B1A25E08DD800D92F4C /* Preview Assets.xcassets in Resources */,
+				49A5A6DF2708B91D002BDF5B /* Credits.rtf in Resources */,
 				49782B1725E08DD800D92F4C /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
