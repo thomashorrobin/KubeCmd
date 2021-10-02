@@ -10,6 +10,7 @@ import SwiftkubeModel
 
 struct MetaDataSection: View {
 	let metadata:meta.v1.ObjectMeta
+	@State private var showingSheet = false
 	var body: some View {
 		VStack(alignment: .leading, spacing: CGFloat(5)){
 			Text("Metadata").font(.title2)
@@ -32,8 +33,39 @@ struct MetaDataSection: View {
 					}
 				}
 			}
+			Button("Add label") {
+				showingSheet.toggle()
+			}
+			.sheet(isPresented: $showingSheet) {
+				SheetView(dismiss: {
+					showingSheet.toggle()
+				})
+			}
 		}
 	}
+}
+
+struct SheetView: View {
+	var dismiss:() -> Void
+	@State private var key: String = ""
+	@State private var value: String = ""
+	
+	var body: some View {
+		VStack(alignment: .leading) {
+			Text("Add Lable").font(.title2)
+			TextField("key", text: $key)
+			TextField("value", text: $value)
+			HStack{
+				Button("Cancel") {
+			  dismiss()
+		  }
+				Button("Add") {
+			  print("unimplemented")
+					
+				}
+			}
+		}
+		.padding(.all, 100)	}
 }
 
 struct MetaDataSection_Previews: PreviewProvider {
