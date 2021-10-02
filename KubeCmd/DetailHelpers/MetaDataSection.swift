@@ -62,7 +62,7 @@ struct SheetView: View {
 				Button("Add") {
 			  print("unimplemented")
 					
-				}
+				}.disabled(key == "" || value == "")
 			}
 		}
 		.padding(.all, 100)	}
