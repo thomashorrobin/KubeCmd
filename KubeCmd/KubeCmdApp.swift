@@ -53,6 +53,7 @@ struct KubeCmdApp: App {
 			SidebarCommands()
 			DataCommands(refreashable: self.client != nil, reload: reloadURL)
 			CommandGroup(replacing: .newItem) {}
+			CommandGroup(replacing: .undoRedo) {}
 		}
 	}
 	func openFile() -> Void {
