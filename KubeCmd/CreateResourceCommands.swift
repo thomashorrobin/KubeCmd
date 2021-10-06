@@ -12,16 +12,16 @@ struct CreateResourceCommands: Commands {
 	var body: some Commands {
 		CommandMenu("Cluster") {
 			Button("Create Cronjob"){
-				print("unimplemented")
+				CreateCronjob().openInWindow(title: "Cronjob", sender: self)
 			}.disabled(!activeClient)
 			Button("Create Job"){
-				print("unimplemented")
+				CreateJob().openInWindow(title: "Job", sender: self)
 			}.disabled(!activeClient)
 			Button("Create ConfigMap"){
-				print("unimplemented")
+				CreateConfigMap().openInWindow(title: "ConfigMap", sender: self)
 			}.disabled(!activeClient)
 			Button("Create Secret"){
-				print("unimplemented")
+				CreateSecret().openInWindow(title: "Secret", sender: self)
 			}.disabled(!activeClient)
 		}
 	}

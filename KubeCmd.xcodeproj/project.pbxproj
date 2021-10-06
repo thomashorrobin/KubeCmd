@@ -36,6 +36,11 @@
 		49A5A6DD270881A6002BDF5B /* CreateResourceCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A5A6DC270881A6002BDF5B /* CreateResourceCommands.swift */; };
 		49A5A6DF2708B91D002BDF5B /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 49A5A6DE2708B91D002BDF5B /* Credits.rtf */; };
 		49B0FADB26E1EDC0002679A3 /* LogsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B0FADA26E1EDC0002679A3 /* LogsHandler.swift */; };
+		49E7DB88270E0A7F0010F079 /* CreateCronjob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E7DB87270E0A7F0010F079 /* CreateCronjob.swift */; };
+		49E7DB8A270E0BB40010F079 /* ViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E7DB89270E0BB40010F079 /* ViewExtensions.swift */; };
+		49E7DB8C270E0D500010F079 /* CreateJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E7DB8B270E0D500010F079 /* CreateJob.swift */; };
+		49E7DB8E270E0D980010F079 /* CreateConfigMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E7DB8D270E0D980010F079 /* CreateConfigMap.swift */; };
+		49E7DB90270E0DC00010F079 /* CreateSecret.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E7DB8F270E0DC00010F079 /* CreateSecret.swift */; };
 		49FBB8E3267BB8F1004C7824 /* TopLevelK8sMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FBB8E2267BB8F1004C7824 /* TopLevelK8sMenuItem.swift */; };
 		49FBB8E5267BC121004C7824 /* SecondLevelK8sItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FBB8E4267BC121004C7824 /* SecondLevelK8sItems.swift */; };
 		49FBB8E7267CAC73004C7824 /* KubernetesAPIResourceList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FBB8E6267CAC73004C7824 /* KubernetesAPIResourceList.swift */; };
@@ -93,6 +98,11 @@
 		49A5A6DC270881A6002BDF5B /* CreateResourceCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateResourceCommands.swift; sourceTree = "<group>"; };
 		49A5A6DE2708B91D002BDF5B /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		49B0FADA26E1EDC0002679A3 /* LogsHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogsHandler.swift; sourceTree = "<group>"; };
+		49E7DB87270E0A7F0010F079 /* CreateCronjob.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCronjob.swift; sourceTree = "<group>"; };
+		49E7DB89270E0BB40010F079 /* ViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewExtensions.swift; sourceTree = "<group>"; };
+		49E7DB8B270E0D500010F079 /* CreateJob.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateJob.swift; sourceTree = "<group>"; };
+		49E7DB8D270E0D980010F079 /* CreateConfigMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateConfigMap.swift; sourceTree = "<group>"; };
+		49E7DB8F270E0DC00010F079 /* CreateSecret.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateSecret.swift; sourceTree = "<group>"; };
 		49FBB8E2267BB8F1004C7824 /* TopLevelK8sMenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopLevelK8sMenuItem.swift; sourceTree = "<group>"; };
 		49FBB8E4267BC121004C7824 /* SecondLevelK8sItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondLevelK8sItems.swift; sourceTree = "<group>"; };
 		49FBB8E6267CAC73004C7824 /* KubernetesAPIResourceList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KubernetesAPIResourceList.swift; sourceTree = "<group>"; };
@@ -161,6 +171,7 @@
 		49782B1125E08DD700D92F4C /* KubeCmd */ = {
 			isa = PBXGroup;
 			children = (
+				49E7DB84270E08DC0010F079 /* CreateResourceViews */,
 				49A5A6DE2708B91D002BDF5B /* Credits.rtf */,
 				4995D4CF26BEFA0700A7831B /* DetailHelpers */,
 				495A6905267FA32C00DA2EDD /* DetailViews */,
@@ -222,6 +233,18 @@
 				49B0FADA26E1EDC0002679A3 /* LogsHandler.swift */,
 			);
 			path = DetailHelpers;
+			sourceTree = "<group>";
+		};
+		49E7DB84270E08DC0010F079 /* CreateResourceViews */ = {
+			isa = PBXGroup;
+			children = (
+				49E7DB89270E0BB40010F079 /* ViewExtensions.swift */,
+				49E7DB87270E0A7F0010F079 /* CreateCronjob.swift */,
+				49E7DB8B270E0D500010F079 /* CreateJob.swift */,
+				49E7DB8D270E0D980010F079 /* CreateConfigMap.swift */,
+				49E7DB8F270E0DC00010F079 /* CreateSecret.swift */,
+			);
+			path = CreateResourceViews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -364,16 +387,20 @@
 			files = (
 				4961B4D226B1E4BB000A55D7 /* Pod.swift in Sources */,
 				49FBB8E5267BC121004C7824 /* SecondLevelK8sItems.swift in Sources */,
+				49E7DB88270E0A7F0010F079 /* CreateCronjob.swift in Sources */,
 				4944731B26C2F2F60070E338 /* ClusterResources.swift in Sources */,
 				4961B4CC26B1D0E1000A55D7 /* Secret.swift in Sources */,
 				495A6907267FA37300DA2EDD /* CronJob.swift in Sources */,
 				49782B1C25E08DD800D92F4C /* Persistence.swift in Sources */,
 				49782B4E25E2F4BF00D92F4C /* KubernetesResources.swift in Sources */,
 				4995D4D426C146A000A7831B /* MetaDataSection.swift in Sources */,
+				49E7DB8C270E0D500010F079 /* CreateJob.swift in Sources */,
 				49FBB8E3267BB8F1004C7824 /* TopLevelK8sMenuItem.swift in Sources */,
+				49E7DB90270E0DC00010F079 /* CreateSecret.swift in Sources */,
 				49782B1525E08DD700D92F4C /* ContentView.swift in Sources */,
 				49B0FADB26E1EDC0002679A3 /* LogsHandler.swift in Sources */,
 				491C6E912703980400FCA5DC /* NamespaceFilterable.swift in Sources */,
+				49E7DB8A270E0BB40010F079 /* ViewExtensions.swift in Sources */,
 				49782B4F25E2F4BF00D92F4C /* TopLevelK8sMenu.swift in Sources */,
 				4961B4D026B1E4A5000A55D7 /* Deployment.swift in Sources */,
 				49782B1325E08DD700D92F4C /* KubeCmdApp.swift in Sources */,
@@ -383,6 +410,7 @@
 				49595D4D2704A649005F9D42 /* DataCommands.swift in Sources */,
 				4944731D26C2F3D10070E338 /* Extensions.swift in Sources */,
 				4961B4CE26B1DC53000A55D7 /* ConfigMap.swift in Sources */,
+				49E7DB8E270E0D980010F079 /* CreateConfigMap.swift in Sources */,
 				49782B1F25E08DD800D92F4C /* KubeCmd.xcdatamodeld in Sources */,
 				4995D4D126BEFA2D00A7831B /* KeyValueDetailSection.swift in Sources */,
 				4961B4D426B1E4C9000A55D7 /* Job.swift in Sources */,
