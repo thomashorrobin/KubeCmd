@@ -26,8 +26,11 @@ struct MetaDataSection: View {
 				if labels.count > 0 {
 					Text("Labels")
 					ForEach((labels.sorted(by: >)), id: \.key) { label in
-						Text("\(label.key): \(label.value)").padding(.all, 6).overlay(
-							RoundedRectangle(cornerRadius: 16).foregroundColor(Color.gray.opacity(0.5))
+						HStack{
+							Text("\(label.key): \(label.value)").padding(.all, 6)
+							Image(systemName: "x.circle").padding(.trailing, 4)
+						}.padding(.all, 6).overlay(
+							RoundedRectangle(cornerRadius: 20).foregroundColor(Color.gray.opacity(0.5))
 						)
 					}
 				}
