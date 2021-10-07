@@ -10,6 +10,7 @@ import SwiftkubeModel
 
 struct MetaDataSection: View {
 	let metadata:meta.v1.ObjectMeta
+	@EnvironmentObject var resources: ClusterResources
 	@State private var showingSheet = false
 	var body: some View {
 		VStack(alignment: .leading, spacing: CGFloat(5)){
@@ -29,10 +30,12 @@ struct MetaDataSection: View {
 					ForEach((labels.sorted(by: >)), id: \.key) { label in
 						HStack{
 							Text("\(label.key): \(label.value)").padding(.all, 6)
-							Image(systemName: "x.circle").padding(.trailing, 4)
-						}.padding(.all, 6).overlay(
-							RoundedRectangle(cornerRadius: 20).foregroundColor(Color.gray.opacity(0.5))
-						)
+							Button(action: {
+								resources.deleteLabel(resource: try! parseUUID(), key: label.key)
+							}) {
+								Image(systemName: "x.circle")
+							}
+						}.border(Color.black, width: 1)
 					}
 				}
 			}
@@ -41,15 +44,25 @@ struct MetaDataSection: View {
 			}
 			.sheet(isPresented: $showingSheet) {
 				SheetView(dismiss: {
-					showingSheet.toggle()
-				})
+					showingSheet = false
+				}) { key, value in
+					resources.addLabel(resource: try! parseUUID(), key: key, value: value)
+					showingSheet = false
+				}
 			}
 		}
+	}
+	private func parseUUID() throws -> UUID {
+		guard let uid = metadata.uid else { throw UUIDErrors.noUid }
+		guard let uuid = UUID(uuidString: uid) else { throw
+			UUIDErrors.parseError}
+		return uuid
 	}
 }
 
 struct SheetView: View {
 	var dismiss:() -> Void
+	var submit:(_ key: String, _ value: String) -> Void
 	@State private var key: String = ""
 	@State private var value: String = ""
 	
@@ -60,19 +73,13 @@ struct SheetView: View {
 			TextField("value", text: $value)
 			HStack{
 				Button("Cancel") {
-			  dismiss()
-		  }
+					dismiss()
+				}
 				Button("Add") {
-			  print("unimplemented")
+					self.submit(key, value)
 					
 				}.disabled(key == "" || value == "")
 			}
 		}
 		.padding(.all, 100)	}
-}
-
-struct MetaDataSection_Previews: PreviewProvider {
-	static var previews: some View {
-		MetaDataSection(metadata: meta.v1.ObjectMeta(annotations: ["kube-something": "this thing"], clusterName: "directlyapply", creationTimestamp: Date().addingTimeInterval(TimeInterval(86400 * 12 + 6000)), deletionGracePeriodSeconds: nil, deletionTimestamp: nil, finalizers: nil, generateName: nil, generation: nil, labels: ["node-requirement": "big-boy", "feed":"appcast"], managedFields: nil, name: "really-cool-kubernetes-resource", namespace: "default", ownerReferences: nil, resourceVersion: "meta/v1", selfLink: nil, uid: "DFF490E8-20E9-4564-8B0F-0BBAA2B333C2"))
-	}
 }
