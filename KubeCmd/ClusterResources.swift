@@ -319,11 +319,111 @@ class ClusterResources: ObservableObject {
 			print("error: resource not handled")
 		}
 	}
+	private func deleteLabelPod(resource:core.v1.Pod, key: String) -> core.v1.Pod {
+		guard var labels = resource.metadata?.labels else { return resource }
+		labels.removeValue(forKey: key)
+		var newPod = resource
+		newPod.metadata?.labels = labels
+		return newPod
+	}
+	private func deleteLabelCronjob(resource:batch.v1beta1.CronJob, key: String) -> batch.v1beta1.CronJob {
+		guard var labels = resource.metadata?.labels else { return resource }
+		labels.removeValue(forKey: key)
+		var newPod = resource
+		newPod.metadata?.labels = labels
+		return newPod
+	}
+	private func deleteLabelJob(resource:batch.v1.Job, key: String) -> batch.v1.Job {
+		guard var labels = resource.metadata?.labels else { return resource }
+		labels.removeValue(forKey: key)
+		var newPod = resource
+		newPod.metadata?.labels = labels
+		return newPod
+	}
+	private func deleteLabelDeployment(resource:apps.v1.Deployment, key: String) -> apps.v1.Deployment {
+		guard var labels = resource.metadata?.labels else { return resource }
+		labels.removeValue(forKey: key)
+		var newPod = resource
+		newPod.metadata?.labels = labels
+		return newPod
+	}
+	private func deleteLabelSecret(resource:core.v1.Secret, key: String) -> core.v1.Secret {
+		guard var labels = resource.metadata?.labels else { return resource }
+		labels.removeValue(forKey: key)
+		var newPod = resource
+		newPod.metadata?.labels = labels
+		return newPod
+	}
+	private func deleteLabelConfigMap(resource:core.v1.ConfigMap, key: String) -> core.v1.ConfigMap {
+		guard var labels = resource.metadata?.labels else { return resource }
+		labels.removeValue(forKey: key)
+		var newPod = resource
+		newPod.metadata?.labels = labels
+		return newPod
+	}
 	func deleteLabel(resource:UUID, key:String) -> Void {
-		print("not implemented. deleting \(key) from \(resource.description)")
+		if let r:core.v1.Pod = pods[resource] {
+			let _ = try! client.pods.update(inNamespace: namespace, deleteLabelPod(resource: r, key: key)).wait()
+		}
+		if let r:core.v1.Secret = secrets[resource] {
+			let _ = try! client.secrets.update(inNamespace: namespace, deleteLabelSecret(resource: r, key: key)).wait()
+		}
+		if let r:core.v1.ConfigMap = configmaps[resource] {
+			let _ = try! client.configMaps.update(inNamespace: namespace, deleteLabelConfigMap(resource: r, key: key)).wait()
+		}
+		if let r:batch.v1.Job = jobs[resource] {
+			let _ = try! client.batchV1.jobs.update(inNamespace: namespace, deleteLabelJob(resource: r, key: key)).wait()
+		}
+		if let r:batch.v1beta1.CronJob = cronjobs[resource] {
+			let _ = try! client.batchV1Beta1.cronJobs.update(inNamespace: namespace, deleteLabelCronjob(resource: r, key: key)).wait()
+		}
+		if let r:apps.v1.Deployment = deployments[resource] {
+			let _ = try! client.appsV1.deployments.update(inNamespace: namespace, deleteLabelDeployment(resource: r, key: key)).wait()
+		}
 	}
 	func addLabel(resource:UUID, key:String, value:String) -> Void {
-		print("not implemented. adding \(key):\(value) to \(resource.description)")
+		if let r:core.v1.Pod = pods[resource] {
+			guard var labels = r.metadata?.labels else { return }
+			labels[key] = value
+			var newResource = r
+			newResource.metadata?.labels = labels
+			let _ = try! client.pods.update(inNamespace: namespace, newResource).wait()
+		}
+		if let r:core.v1.Secret = secrets[resource] {
+			guard var labels = r.metadata?.labels else { return }
+			labels[key] = value
+			var newResource = r
+			newResource.metadata?.labels = labels
+			let _ = try! client.secrets.update(inNamespace: namespace, newResource).wait()
+		}
+		if let r:core.v1.ConfigMap = configmaps[resource] {
+			guard var labels = r.metadata?.labels else { return }
+			labels[key] = value
+			var newResource = r
+			newResource.metadata?.labels = labels
+			let _ = try! client.configMaps.update(inNamespace: namespace, newResource).wait()
+		}
+		if let r:batch.v1.Job = jobs[resource] {
+			guard var labels = r.metadata?.labels else { return }
+			labels[key] = value
+			var newResource = r
+			newResource.metadata?.labels = labels
+			let _ = try! client.batchV1.jobs.update(inNamespace: namespace, newResource).wait()
+		}
+		if let r:batch.v1beta1.CronJob = cronjobs[resource] {
+			guard var labels = r.metadata?.labels else { return }
+			labels[key] = value
+			var newResource = r
+			newResource.metadata?.labels = labels
+			let _ = try! client.batchV1Beta1.cronJobs.update(inNamespace: namespace, newResource).wait()
+		}
+		if let r:apps.v1.Deployment = deployments[resource] {
+			guard var labels = r.metadata?.labels else { return }
+			labels[key] = value
+			var newResource = r
+			newResource.metadata?.labels = labels
+			let _ = try! client.appsV1.deployments.update(inNamespace: namespace, newResource).wait()
+		}
 	}
 	
 	static func dummyCronJob() -> batch.v1beta1.CronJob {
