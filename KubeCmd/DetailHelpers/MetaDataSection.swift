@@ -34,8 +34,8 @@ struct MetaDataSection: View {
 								resources.deleteLabel(resource: try! parseUUID(), key: label.key)
 							}) {
 								Image(systemName: "x.circle")
-							}
-						}.border(Color.black, width: 1)
+							}.buttonStyle(PlainButtonStyle())
+						}
 					}
 				}
 			}
