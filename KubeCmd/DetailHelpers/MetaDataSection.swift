@@ -28,13 +28,16 @@ struct MetaDataSection: View {
 				if labels.count > 0 {
 					Text("Labels")
 					ForEach((labels.sorted(by: >)), id: \.key) { label in
-						HStack{
-							Text("\(label.key): \(label.value)").padding(.all, 6)
-							Button(action: {
-								resources.deleteLabel(resource: try! parseUUID(), key: label.key)
-							}) {
-								Image(systemName: "x.circle")
-							}.buttonStyle(PlainButtonStyle())
+						ZStack{
+							RoundedRectangle(cornerRadius: 16).fill(Color.gray.opacity(0.5))
+							HStack{
+								Text("\(label.key): \(label.value)").padding(.all, 6).fixedSize()
+								Button(action: {
+									resources.deleteLabel(resource: try! parseUUID(), key: label.key)
+								}) {
+									Image(systemName: "x.circle")
+								}.buttonStyle(PlainButtonStyle())
+							}.fixedSize().frame(maxHeight: 60).padding(.all, 20)
 						}
 					}
 				}
