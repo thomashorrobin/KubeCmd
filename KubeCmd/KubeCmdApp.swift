@@ -29,6 +29,10 @@ struct KubeCmdApp: App {
 	
 	func reloadURL() -> Void {
 		guard let url = urlForReload else { return }
+		if let c = self.client {
+			try? c.syncShutdown()
+		}
+		self.client = nil
 		self.client = KubernetesClient(fromURL: url)
 	}
 	
