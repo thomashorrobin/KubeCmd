@@ -6,15 +6,21 @@
 //
 
 import SwiftUI
+import SwiftkubeModel
 
 struct CreateConfigMap: View {
-    var body: some View {
-        Text("New ConfigMap").font(.title2).frame(width: 500, height: 300, alignment: .bottomLeading)
-    }
+	@State private var name: String = ""
+	var body: some View {
+		Form{
+			Text("New ConfigMap").font(.title2)
+			TextField("Name", text: $name)
+		}.padding(40).frame(width: 500, height: 300, alignment: .center)
+	}
 }
 
 struct CreateConfigMap_Previews: PreviewProvider {
-    static var previews: some View {
-        CreateConfigMap()
-    }
+	//	core.v1.ConfigMap
+	static var previews: some View {
+		CreateConfigMap()
+	}
 }
