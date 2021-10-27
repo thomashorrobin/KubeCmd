@@ -16,13 +16,13 @@ struct MetaDataSection: View {
 		VStack(alignment: .leading, spacing: CGFloat(5)){
 			Text("Metadata").font(.title2)
 			if let uuid = metadata.uid {
-				Text("UUID: \(uuid)")
+				Text("UUID: \(uuid)").textSelection(.enabled)
 			}
 			if let creationTimestamp = metadata.creationTimestamp {
-				Text("Created: \(creationTimestamp)")
+				Text("Created: \(creationTimestamp)").textSelection(.enabled)
 			}
 			if let namespace = metadata.namespace {
-				Text("Namespace: \(namespace)")
+				Text("Namespace: \(namespace)").textSelection(.enabled)
 			}
 			if let labels = metadata.labels {
 				if labels.count > 0 {

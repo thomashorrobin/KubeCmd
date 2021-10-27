@@ -22,10 +22,10 @@ struct Job: View {
 				Divider().padding(.vertical, 30)
 				Text("Status").font(.title2)
 				if let startTime = status.startTime {
-					Text("Start Time: \(startTime)")
+					Text("Start Time: \(startTime)").textSelection(.enabled)
 				}
 				if let completionTime = status.completionTime {
-					Text("Completion Time: \(completionTime)")
+					Text("Completion Time: \(completionTime)").textSelection(.enabled)
 				}
 			}
 		})

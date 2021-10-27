@@ -22,16 +22,16 @@ struct Pod: View {
 			if let status = pod.status {
 				Text("Status").font(.title2)
 				if let reason = status.reason {
-					Text("Reason: \(reason)")
+					Text("Reason: \(reason)").textSelection(.enabled)
 				}
 				if let message = status.message {
-					Text("Message: \(message)")
+					Text("Message: \(message)").textSelection(.enabled)
 				}
 				if let startTime = status.startTime {
-					Text("Start Time: \(startTime)")
+					Text("Start Time: \(startTime)").textSelection(.enabled)
 				}
 				if let phase = status.phase {
-					Text("Phase: \(phase)")
+					Text("Phase: \(phase)").textSelection(.enabled)
 				}
 				Divider().padding(.vertical, 30)
 				LogsHandler(podName: pod.name!)

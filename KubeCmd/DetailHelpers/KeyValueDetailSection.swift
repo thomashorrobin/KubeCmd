@@ -19,9 +19,9 @@ struct KeyValueDetailPanel: View {
 		VStack(alignment: .leading, spacing: CGFloat(5), content: {
 			Text("Data").font(.title2)
 			ForEach((data.sorted(by: >)), id: \.key) { x in
-				Text(x.key)
+				Text(x.key).textSelection(.enabled)
 				HStack{
-					Text(x.value).italic().background(Color.white)
+					Text(x.value).italic().background(Color.white).textSelection(.enabled)
 					Button(action: {
 						self.pasteboard.setString(x.value, forType: NSPasteboard.PasteboardType.string)                            }) {
 							Image(systemName: "doc.on.doc")

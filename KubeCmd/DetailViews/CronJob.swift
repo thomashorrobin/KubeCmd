@@ -51,7 +51,7 @@ struct CronJob: View {
 			if let spec = cronJob.spec {
 				Text("Spec").font(.title2)
 				if let parsedCronExpression = CronExpression(cronString: "\(spec.schedule) *") {
-					Text("Schedule: \(parsedCronExpression.longDescription)")
+					Text("Schedule: \(parsedCronExpression.longDescription)").textSelection(.enabled)
 					if let nextSchedualedDate = parsedCronExpression.getNextRunDateFromNow() {
 						Text("Next Scheduled: \(nextSchedualedDate.description)")
 					}
