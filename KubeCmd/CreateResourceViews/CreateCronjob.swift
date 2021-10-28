@@ -8,8 +8,17 @@
 import SwiftUI
 
 struct CreateCronjob: View {
+	@State private var name: String = ""
+	@State private var dockerrepo: String = ""
+	@State private var cronJobTime = Date()
+
     var body: some View {
-		Text("New Cronjob").font(.title2).frame(width: 500, height: 300, alignment: .bottomLeading)
+		Form{
+			Text("New Cronjob").font(.title2)
+			TextField("Name", text: $name)
+			TextField("Repo", text: $dockerrepo)
+			DatePicker("Time to run", selection: $cronJobTime, displayedComponents: .hourAndMinute)
+		}.padding(40).frame(width: 500, height: 300, alignment: .center)
     }
 }
 

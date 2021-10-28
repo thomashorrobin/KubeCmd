@@ -8,8 +8,12 @@
 import SwiftUI
 
 struct CreateSecret: View {
+	@State private var name: String = ""
     var body: some View {
-        Text("New Secret").font(.title2).frame(width: 500, height: 300, alignment: .bottomLeading)
+		Form{
+			Text("New Secret").font(.title2)
+			TextField("Name", text: $name)
+		}.padding(40).frame(width: 500, height: 300, alignment: .center)
     }
 }
 
