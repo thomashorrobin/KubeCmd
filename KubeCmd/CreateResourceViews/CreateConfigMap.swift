@@ -32,6 +32,9 @@ struct CreateConfigMap: View {
 					valueStr = ""
 				}.disabled(keyStr.isEmpty || valueStr.isEmpty)
 			}
+			Button("Create"){
+				print("hi")
+			}
 		}.padding(40).frame(width: 500, height: 300, alignment: .center)
 	}
 }
