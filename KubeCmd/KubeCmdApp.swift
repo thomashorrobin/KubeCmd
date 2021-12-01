@@ -8,16 +8,6 @@
 import SwiftUI
 import SwiftkubeClient
 
-struct BlueButton: ButtonStyle {
-	func makeBody(configuration: Configuration) -> some View {
-		configuration.label
-			.padding()
-			.background(Color.blue)
-			.foregroundColor(.white)
-			.clipShape(Capsule())
-	}
-}
-
 @main
 struct KubeCmdApp: App {
 	@NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
