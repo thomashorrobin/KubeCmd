@@ -7,7 +7,6 @@
 
 import SwiftUI
 import SwiftkubeClient
-import UniformTypeIdentifiers
 
 struct BlueButton: ButtonStyle {
 	func makeBody(configuration: Configuration) -> some View {
@@ -25,16 +24,6 @@ struct KubeCmdApp: App {
 	let persistenceController = PersistenceController.shared
 	
 	@State var client:KubernetesClient? = nil
-	@State var urlForReload:URL? = nil
-	
-	func reloadURL() -> Void {
-		guard let url = urlForReload else { return }
-		if let c = self.client {
-			try? c.syncShutdown()
-		}
-		self.client = nil
-		self.client = KubernetesClient(fromURL: url)
-	}
 	
 	func loadKubernetesClientFromConfig(client: KubernetesClient) -> Void {
 		self.client = client
@@ -46,31 +35,16 @@ struct KubeCmdApp: App {
 				ContentView(resources: ClusterResources(client: client))
 					.environment(\.managedObjectContext, persistenceController.container.viewContext)
 			} else {
-				VStack{
-					Image("splash-icon").resizable().scaledToFit().frame(width: 180, height: 180, alignment: .center).padding(.all, 15)
-					Text("KubeCmd").font(.largeTitle)
-					Button("Open", action: openFile).buttonStyle(LinkButtonStyle()).padding(.vertical, 40).font(.title2)
-				}.frame(width: 400, alignment: .center)
+				StartupScreen { client in
+					self.client = client
+				}
 			}
 		}
 		.commands {
 			SidebarCommands()
-			CreateResourceCommands(activeClient: self.client != nil, reload: reloadURL)
+			CreateResourceCommands(activeClient: self.client != nil)
 			CommandGroup(replacing: .newItem) {}
 			CommandGroup(replacing: .undoRedo) {}
-		}
-	}
-	func openFile() -> Void {
-		let panel = NSOpenPanel()
-		panel.allowsMultipleSelection = false
-		panel.canChooseDirectories = false
-		panel.allowedContentTypes = [UTType(filenameExtension: "yaml")!, UTType(filenameExtension: "yml")!]
-		if panel.runModal() == .OK {
-			print(panel.url?.path ?? "<none>")
-			if let u = panel.url {
-				self.urlForReload = URL(fileURLWithPath: u.path)
-				self.client = KubernetesClient(fromURL: self.urlForReload!)
-			}
 		}
 	}
 }

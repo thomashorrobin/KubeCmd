@@ -9,7 +9,6 @@ import SwiftUI
 
 struct CreateResourceCommands: Commands {
 	var activeClient: Bool
-	var reload: () -> Void
 	var body: some Commands {
 		CommandMenu("Cluster") {
 			Button("Create Cronjob"){
@@ -24,11 +23,6 @@ struct CreateResourceCommands: Commands {
 			Button("Create Secret"){
 				CreateSecret().openInWindow(title: "Secret", sender: self)
 			}.disabled(!activeClient)
-			Divider()
-			Button("Refreash Data"){
-				print("unimplemented")
-				reload()
-			}.keyboardShortcut("R").disabled(!activeClient)
 		}
 	}
 }

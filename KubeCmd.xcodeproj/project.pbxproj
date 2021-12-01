@@ -10,6 +10,7 @@
 		491C6E912703980400FCA5DC /* NamespaceFilterable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491C6E902703980400FCA5DC /* NamespaceFilterable.swift */; };
 		4944731B26C2F2F60070E338 /* ClusterResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4944731A26C2F2F60070E338 /* ClusterResources.swift */; };
 		4944731D26C2F3D10070E338 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4944731C26C2F3D10070E338 /* Extensions.swift */; };
+		494CE6402757AB0B00B5007F /* StartupScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494CE63F2757AB0B00B5007F /* StartupScreen.swift */; };
 		49595D4B27047EE3005F9D42 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49595D4A27047EE3005F9D42 /* AppDelegate.swift */; };
 		495A6904267F98FF00DA2EDD /* K8sResourceDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495A6903267F98FF00DA2EDD /* K8sResourceDetail.swift */; };
 		495A6907267FA37300DA2EDD /* CronJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495A6906267FA37300DA2EDD /* CronJob.swift */; };
@@ -66,6 +67,7 @@
 		491C6E902703980400FCA5DC /* NamespaceFilterable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamespaceFilterable.swift; sourceTree = "<group>"; };
 		4944731A26C2F2F60070E338 /* ClusterResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterResources.swift; sourceTree = "<group>"; };
 		4944731C26C2F3D10070E338 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		494CE63F2757AB0B00B5007F /* StartupScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupScreen.swift; sourceTree = "<group>"; };
 		49595D4A27047EE3005F9D42 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		495A6903267F98FF00DA2EDD /* K8sResourceDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = K8sResourceDetail.swift; sourceTree = "<group>"; };
 		495A6906267FA37300DA2EDD /* CronJob.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CronJob.swift; sourceTree = "<group>"; };
@@ -192,6 +194,7 @@
 				491C6E902703980400FCA5DC /* NamespaceFilterable.swift */,
 				49595D4A27047EE3005F9D42 /* AppDelegate.swift */,
 				49A5A6DC270881A6002BDF5B /* CreateResourceCommands.swift */,
+				494CE63F2757AB0B00B5007F /* StartupScreen.swift */,
 			);
 			path = KubeCmd;
 			sourceTree = "<group>";
@@ -409,6 +412,7 @@
 				49E7DB8E270E0D980010F079 /* CreateConfigMap.swift in Sources */,
 				49782B1F25E08DD800D92F4C /* KubeCmd.xcdatamodeld in Sources */,
 				4995D4D126BEFA2D00A7831B /* KeyValueDetailSection.swift in Sources */,
+				494CE6402757AB0B00B5007F /* StartupScreen.swift in Sources */,
 				4961B4D426B1E4C9000A55D7 /* Job.swift in Sources */,
 				49595D4B27047EE3005F9D42 /* AppDelegate.swift in Sources */,
 			);
