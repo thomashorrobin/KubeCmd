@@ -28,7 +28,7 @@ struct KubeCmdApp: App {
 		}
 		.commands {
 			SidebarCommands()
-			CreateResourceCommands(activeClient: self.client != nil)
+			CreateResourceCommands(client: client)
 			CommandGroup(replacing: .newItem) {}
 			CommandGroup(replacing: .undoRedo) {}
 		}

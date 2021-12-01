@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import SwiftkubeClient
 
 struct CreateResourceCommands: Commands {
-	var activeClient: Bool
+	var client:KubernetesClient?
 	var body: some Commands {
+		let activeClient = client != nil
 		CommandMenu("Cluster") {
 			Button("Create Cronjob"){
 				CreateCronjob().openInWindow(title: "Cronjob", sender: self)
