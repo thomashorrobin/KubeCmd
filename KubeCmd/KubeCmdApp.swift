@@ -15,10 +15,6 @@ struct KubeCmdApp: App {
 	
 	@State var client:KubernetesClient? = nil
 	
-	func loadKubernetesClientFromConfig(client: KubernetesClient) -> Void {
-		self.client = client
-	}
-	
 	var body: some Scene {
 		WindowGroup {
 			if let client = client {
