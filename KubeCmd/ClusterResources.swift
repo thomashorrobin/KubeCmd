@@ -216,7 +216,8 @@ class ClusterResources: ObservableObject {
 	
 	func addJob(job: batch.v1.Job) -> Void {
 		do {
-			let _ = try client.batchV1.jobs.create(inNamespace: .default, job).wait()
+			let job = try client.batchV1.jobs.create(inNamespace: .default, job).wait()
+			setResource(resource: job)
 		} catch {
 			print(error)
 		}
@@ -363,22 +364,28 @@ class ClusterResources: ObservableObject {
 	}
 	func deleteLabel(resource:UUID, key:String) -> Void {
 		if let r:core.v1.Pod = pods[resource] {
-			let _ = try! client.pods.update(inNamespace: namespace, deleteLabelPod(resource: r, key: key)).wait()
+			let updatedPod = try! client.pods.update(inNamespace: namespace, deleteLabelPod(resource: r, key: key)).wait()
+			setResource(resource: updatedPod)
 		}
 		if let r:core.v1.Secret = secrets[resource] {
-			let _ = try! client.secrets.update(inNamespace: namespace, deleteLabelSecret(resource: r, key: key)).wait()
+			let secret = try! client.secrets.update(inNamespace: namespace, deleteLabelSecret(resource: r, key: key)).wait()
+			setResource(resource: secret)
 		}
 		if let r:core.v1.ConfigMap = configmaps[resource] {
-			let _ = try! client.configMaps.update(inNamespace: namespace, deleteLabelConfigMap(resource: r, key: key)).wait()
+			let configMap = try! client.configMaps.update(inNamespace: namespace, deleteLabelConfigMap(resource: r, key: key)).wait()
+			setResource(resource: configMap)
 		}
 		if let r:batch.v1.Job = jobs[resource] {
-			let _ = try! client.batchV1.jobs.update(inNamespace: namespace, deleteLabelJob(resource: r, key: key)).wait()
+			let job = try! client.batchV1.jobs.update(inNamespace: namespace, deleteLabelJob(resource: r, key: key)).wait()
+			setResource(resource: job)
 		}
 		if let r:batch.v1beta1.CronJob = cronjobs[resource] {
-			let _ = try! client.batchV1Beta1.cronJobs.update(inNamespace: namespace, deleteLabelCronjob(resource: r, key: key)).wait()
+			let cronJob = try! client.batchV1Beta1.cronJobs.update(inNamespace: namespace, deleteLabelCronjob(resource: r, key: key)).wait()
+			setResource(resource: cronJob)
 		}
 		if let r:apps.v1.Deployment = deployments[resource] {
-			let _ = try! client.appsV1.deployments.update(inNamespace: namespace, deleteLabelDeployment(resource: r, key: key)).wait()
+			let deployment = try! client.appsV1.deployments.update(inNamespace: namespace, deleteLabelDeployment(resource: r, key: key)).wait()
+			setResource(resource: deployment)
 		}
 	}
 	func addLabel(resource:UUID, key:String, value:String) -> Void {
