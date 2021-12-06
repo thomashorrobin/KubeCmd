@@ -39,7 +39,7 @@ struct LogsView: View {
 		VStack(alignment: .leading){
 			Text("Logs").font(.title2).frame(alignment: .center)
 			ScrollView{
-				VStack(alignment: .leading){
+				VStack(alignment: .leading, spacing: 0){
 					ForEach(logs.sorted(by: <), id: \.key) { log in
 						Text(log.value).frame(
 							minWidth: 0,
