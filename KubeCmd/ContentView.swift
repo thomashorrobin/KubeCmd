@@ -25,8 +25,8 @@ struct ContentView: View {
 	var body: some View {
 		NavigationView
 		{
-			TopLevelK8sMenu().frame(minWidth: 290, idealWidth: 290)
-			SecondLevelK8sItems().frame(minWidth: 290, idealWidth: 290)
+			TopLevelK8sMenu().frame(minWidth: 290, idealWidth: 390)
+			SecondLevelK8sItems().frame(minWidth: 290, idealWidth: 390)
 			Button(action: {
 				buttonText = "loading..."
 				resources.loadData(namespace: .allNamespaces)
@@ -38,7 +38,7 @@ struct ContentView: View {
 				buttonText = "Load data again"
 			}, label: {
 				Text(buttonText)
-			}).frame(minWidth: 130)
+			}).frame(width: 250, height: 500)
 		}.environmentObject(resources).onAppear(perform: {
 			resources.loadData(namespace: .allNamespaces)
 			do {
@@ -67,7 +67,7 @@ struct ContentView: View {
 					Label("Namespace Filter", systemImage: "square.on.square.dashed")
 				}
 			}
-		}).frame(minWidth: 980, idealWidth: 2050, maxWidth: .infinity, minHeight: 660, idealHeight: 1140, maxHeight: .infinity)
+		})
 	}
 	
 	func toggleSidebar() {
