@@ -29,7 +29,7 @@ struct LogsHandler: View {
 				return
 			}
 			ct.cancel()
-		}
+		}.padding(40).frame(width: 800, height: 500, alignment: .center)
 	}
 }
 

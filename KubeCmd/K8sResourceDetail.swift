@@ -67,6 +67,16 @@ struct K8sResourceDetail: View {
 //    }
 //}
 
+struct ViewLogs: View {
+	var pod:core.v1.Pod
+	@EnvironmentObject var resources: ClusterResources
+	var body: some View {
+		Button("Logs", action: {
+			LogsHandler(podName: pod.name!).environmentObject(resources).openInWindow(title: pod.name!, sender: self)
+		})
+	}
+}
+
 struct CustomButtons: View {
 	var resource:KubernetesAPIResource
 	var body: some View {
@@ -81,6 +91,11 @@ struct CustomButtons: View {
 			let deployment = resource as! apps.v1.Deployment
 			HStack(spacing: 15){
 				RestartDeployment(deployment: deployment)
+			}.padding(.all, 40)
+		case "Pod":
+			let pod = resource as! core.v1.Pod
+			HStack(spacing: 15){
+				ViewLogs(pod: pod)
 			}.padding(.all, 40)
 		default:
 			EmptyView()

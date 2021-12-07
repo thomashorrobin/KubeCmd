@@ -33,8 +33,6 @@ struct Pod: View {
 				if let phase = status.phase {
 					Text("Phase: \(phase)").textSelection(.enabled)
 				}
-				Divider().padding(.vertical, 30)
-				LogsHandler(podName: pod.name!)
 			}
 		})
 	}
