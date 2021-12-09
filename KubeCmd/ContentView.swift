@@ -67,7 +67,7 @@ struct ContentView: View {
 					Label("Namespace Filter", systemImage: "square.on.square.dashed")
 				}
 			}
-		})
+		}).frame(minWidth: 1290)
 	}
 	
 	func toggleSidebar() {
