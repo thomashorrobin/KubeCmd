@@ -52,12 +52,3 @@ struct KubernetesAPIResourceRow: View {
 		}.padding(.all, 20)
 	}
 }
-
-//struct KubernetesAPIResourceList_Previews: PreviewProvider {
-//
-//    static var arr1:[KubernetesAPIResource] = Array(ClusterResources().populateTestData().pods.values)
-//    
-//    static var previews: some View {
-//        KubernetesAPIResourceList(resources: arr1, sortingFucntion: nameSort)
-//    }
-//}

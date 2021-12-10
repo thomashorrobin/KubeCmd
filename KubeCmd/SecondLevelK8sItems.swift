@@ -27,8 +27,8 @@ struct SecondLevelK8sItems: View {
 	}
 }
 
-//struct SecondLevelK8sItems_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SecondLevelK8sItems()
-//    }
-//}
+struct SecondLevelK8sItems_Previews: PreviewProvider {
+    static var previews: some View {
+        SecondLevelK8sItems()
+    }
+}

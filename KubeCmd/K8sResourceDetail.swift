@@ -60,12 +60,12 @@ struct K8sResourceDetail: View {
 		}
 	}
 }
-//
-//struct K8sResourceDetail_Previews: PreviewProvider {
-//    static var previews: some View {
-//        K8sResourceDetail(resource: ClusterResources.dummyPod())
-//    }
-//}
+
+struct K8sResourceDetail_Previews: PreviewProvider {
+    static var previews: some View {
+        K8sResourceDetail(resource: ClusterResources.dummyPod())
+    }
+}
 
 struct ViewLogs: View {
 	var pod:core.v1.Pod

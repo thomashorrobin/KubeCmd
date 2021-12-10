@@ -42,9 +42,9 @@ struct CreateSecret: View {
 		}.padding(40).frame(width: 500, height: 300, alignment: .center)
 	}
 }
-//
-//struct CreateSecret_Previews: PreviewProvider {
-//	static var previews: some View {
-//		CreateSecret()
-//	}
-//}
+
+struct CreateSecret_Previews: PreviewProvider {
+	static var previews: some View {
+		CreateSecret()
+	}
+}
