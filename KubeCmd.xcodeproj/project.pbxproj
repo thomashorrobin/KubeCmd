@@ -19,6 +19,7 @@
 		4961B4D026B1E4A5000A55D7 /* Deployment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4961B4CF26B1E4A5000A55D7 /* Deployment.swift */; };
 		4961B4D226B1E4BB000A55D7 /* Pod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4961B4D126B1E4BB000A55D7 /* Pod.swift */; };
 		4961B4D426B1E4C9000A55D7 /* Job.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4961B4D326B1E4C9000A55D7 /* Job.swift */; };
+		4973D20E2763A15A000F65C1 /* KubernetesLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4973D20D2763A15A000F65C1 /* KubernetesLabel.swift */; };
 		49782B1325E08DD700D92F4C /* KubeCmdApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49782B1225E08DD700D92F4C /* KubeCmdApp.swift */; };
 		49782B1525E08DD700D92F4C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49782B1425E08DD700D92F4C /* ContentView.swift */; };
 		49782B1725E08DD800D92F4C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49782B1625E08DD800D92F4C /* Assets.xcassets */; };
@@ -76,6 +77,7 @@
 		4961B4CF26B1E4A5000A55D7 /* Deployment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deployment.swift; sourceTree = "<group>"; };
 		4961B4D126B1E4BB000A55D7 /* Pod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pod.swift; sourceTree = "<group>"; };
 		4961B4D326B1E4C9000A55D7 /* Job.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Job.swift; sourceTree = "<group>"; };
+		4973D20D2763A15A000F65C1 /* KubernetesLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KubernetesLabel.swift; sourceTree = "<group>"; };
 		49782B0F25E08DD700D92F4C /* KubeCmd.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KubeCmd.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49782B1225E08DD700D92F4C /* KubeCmdApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KubeCmdApp.swift; sourceTree = "<group>"; };
 		49782B1425E08DD700D92F4C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -231,6 +233,7 @@
 				4995D4D026BEFA2D00A7831B /* KeyValueDetailSection.swift */,
 				4995D4D326C146A000A7831B /* MetaDataSection.swift */,
 				49B0FADA26E1EDC0002679A3 /* LogsHandler.swift */,
+				4973D20D2763A15A000F65C1 /* KubernetesLabel.swift */,
 			);
 			path = DetailHelpers;
 			sourceTree = "<group>";
@@ -408,6 +411,7 @@
 				495A6904267F98FF00DA2EDD /* K8sResourceDetail.swift in Sources */,
 				49FBB8E7267CAC73004C7824 /* KubernetesAPIResourceList.swift in Sources */,
 				4944731D26C2F3D10070E338 /* Extensions.swift in Sources */,
+				4973D20E2763A15A000F65C1 /* KubernetesLabel.swift in Sources */,
 				4961B4CE26B1DC53000A55D7 /* ConfigMap.swift in Sources */,
 				49E7DB8E270E0D980010F079 /* CreateConfigMap.swift in Sources */,
 				49782B1F25E08DD800D92F4C /* KubeCmd.xcdatamodeld in Sources */,

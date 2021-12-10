@@ -32,17 +32,9 @@ struct MetaDataSection: View {
 					Text("Labels")
 					LazyVGrid(columns: columns) {
 						ForEach((labels.sorted(by: >)), id: \.key) { label in
-							ZStack{
-								RoundedRectangle(cornerRadius: 16).fill(Color.gray.opacity(0.5))
-								HStack{
-									Text("\(label.key): \(label.value)").padding(.all, 6).fixedSize()
-									Button(action: {
-										resources.deleteLabel(resource: try! parseUUID(), key: label.key)
-									}) {
-										Image(systemName: "x.circle")
-									}.buttonStyle(PlainButtonStyle())
-								}.padding(.all, 5)
-							}
+							KubernetesLabel(key: label.key, value: label.value, delete: {
+								resources.deleteLabel(resource: try! parseUUID(), key: label.key)
+							})
 						}
 					}
 				}
