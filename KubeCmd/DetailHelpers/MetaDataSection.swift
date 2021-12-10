@@ -12,9 +12,9 @@ struct MetaDataSection: View {
 	let metadata:meta.v1.ObjectMeta
 	@EnvironmentObject var resources: ClusterResources
 	@State private var showingSheet = false
-	let rows = [
-		GridItem(.adaptive(minimum: 80))
-	]
+	let columns = [
+		GridItem(.flexible(), alignment: .leading)
+		]
 	var body: some View {
 		VStack(alignment: .leading, spacing: CGFloat(5)){
 			Text("Metadata").font(.title2)
@@ -30,7 +30,7 @@ struct MetaDataSection: View {
 			if let labels = metadata.labels {
 				if labels.count > 0 {
 					Text("Labels")
-					LazyHGrid(rows: rows) {
+					LazyVGrid(columns: columns) {
 						ForEach((labels.sorted(by: >)), id: \.key) { label in
 							ZStack{
 								RoundedRectangle(cornerRadius: 16).fill(Color.gray.opacity(0.5))
