@@ -14,12 +14,12 @@ struct CreateResourceCommands: Commands {
 	var body: some Commands {
 		let activeClient = client != nil
 		CommandMenu("Cluster") {
-			Button("Create Cronjob"){
-				CreateCronjob().openInWindow(title: "Cronjob", sender: self)
-			}.disabled(!activeClient)
-			Button("Create Job"){
-				CreateJob().openInWindow(title: "Job", sender: self)
-			}.disabled(!activeClient)
+//			Button("Create Cronjob"){
+//				CreateCronjob().openInWindow(title: "Cronjob", sender: self)
+//			}.disabled(!activeClient)
+//			Button("Create Job"){
+//				CreateJob().openInWindow(title: "Job", sender: self)
+//			}.disabled(!activeClient)
 			Button("Create ConfigMap"){
 				func createConfigMap(configMap: core.v1.ConfigMap) {
 					do {
