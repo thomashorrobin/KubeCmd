@@ -10,9 +10,6 @@ import SwiftkubeModel
 
 struct Pod: View {
 	var pod:core.v1.Pod
-	init(res:KubernetesAPIResource) {
-		self.pod = res as! core.v1.Pod
-	}
 	var body: some View {
 		VStack(alignment: .leading, spacing: CGFloat(5), content: {
 			if let metadata = pod.metadata {

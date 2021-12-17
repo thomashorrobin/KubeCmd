@@ -10,9 +10,6 @@ import SwiftkubeModel
 
 struct Deployment: View {
 	let deployment:apps.v1.Deployment
-	init(res:KubernetesAPIResource) {
-		self.deployment = res as! apps.v1.Deployment
-	}
 	var body: some View {
 		VStack(alignment: .leading, spacing: CGFloat(5), content: {
 			if let metadata = deployment.metadata {

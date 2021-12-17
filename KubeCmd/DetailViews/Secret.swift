@@ -10,9 +10,6 @@ import SwiftkubeModel
 
 struct Secret: View {
 	let secret:core.v1.Secret
-	init(res:KubernetesAPIResource) {
-		self.secret = res as! core.v1.Secret
-	}
 	var body: some View {
 		VStack(alignment: .leading, spacing: CGFloat(5), content:{
 			if let metadata = secret.metadata {

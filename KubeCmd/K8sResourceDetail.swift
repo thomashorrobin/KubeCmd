@@ -33,17 +33,17 @@ struct K8sResourceDetail: View {
 				ScrollView(.vertical){
 					switch resource.kind {
 					case "Pod":
-						Pod(res: resource).padding(.all, 40)
+						Pod(pod: resource as! core.v1.Pod).padding(.all, 40)
 					case "CronJob":
 						CronJob(res: resource).padding(.all, 40)
 					case "Job":
-						Job(res: resource).padding(.all, 40)
+						Job(job: resource as! batch.v1.Job).padding(.all, 40)
 					case "Secret":
-						Secret(res: resource).padding(.all, 40)
+						Secret(secret: resource as! core.v1.Secret).padding(.all, 40)
 					case "Deployment":
-						Deployment(res: resource).padding(.all, 40)
+						Deployment(deployment: resource as! apps.v1.Deployment).padding(.all, 40)
 					case "ConfigMap":
-						ConfigMap(res: resource).padding(.all, 40)
+						ConfigMap(configmap: resource as! core.v1.ConfigMap).padding(.all, 40)
 					default:
 						Text("unknown")
 					}
