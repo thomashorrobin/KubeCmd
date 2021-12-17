@@ -17,6 +17,8 @@ class ClusterResources: ObservableObject {
 	@Published var cronjobs = [UUID:batch.v1beta1.CronJob]()
 	@Published var jobs = [UUID:batch.v1.Job]()
 	@Published var deployments = [UUID:apps.v1.Deployment]()
+	@Published var ingresses = [UUID:networking.v1.Ingress]()
+	@Published var services = [UUID:core.v1.Service]()
 	@Published var namespace = NamespaceSelector.namespace("default")
 	@Published var namespaces = core.v1.NamespaceList(metadata: nil, items: [core.v1.Namespace]())
 	var client:KubernetesClient
@@ -205,6 +207,16 @@ class ClusterResources: ObservableObject {
 				let uuid = try! UUID.fromK8sMetadata(resource: deployment)
 				self.deployments[uuid] = deployment
 			}
+			let ingresses = try client.networkingV1.ingresses.list(in: namespace).wait().items
+			for ingress in ingresses {
+				let uuid = try! UUID.fromK8sMetadata(resource: ingress)
+				self.ingresses[uuid] = ingress
+			}
+			let services = try client.services.list(in: namespace).wait().items
+			for service in services {
+				let uuid = try! UUID.fromK8sMetadata(resource: service)
+				self.services[uuid] = service
+			}
 		} catch {
 			print("Unknown error: \(error)")
 		}
@@ -266,6 +278,10 @@ class ClusterResources: ObservableObject {
 			deployments.removeValue(forKey: uuid)
 		case "ConfigMap":
 			configmaps.removeValue(forKey: uuid)
+		case "Ingress":
+			ingresses.removeValue(forKey: uuid)
+		case "Service":
+			services.removeValue(forKey: uuid)
 		default:
 			print("error: resource not handled")
 		}
@@ -295,6 +311,10 @@ class ClusterResources: ObservableObject {
 			
 		case "Secret":
 			_ = client.secrets.delete(inNamespace: .namespace(namespace), name: name, options: deleteOptions)
+		case "Ingress":
+			_ = client.networkingV1.ingresses.delete(inNamespace: .namespace(namespace), name: name, options: deleteOptions)
+		case "Service":
+			_ = client.services.delete(inNamespace: .namespace(namespace), name: name, options: deleteOptions)
 		default:
 			print("resource.kind not handled by deleteResource()")
 		}
@@ -316,6 +336,10 @@ class ClusterResources: ObservableObject {
 			deployments[uuid] = (resource as! apps.v1.Deployment)
 		case "ConfigMap":
 			configmaps[uuid] = (resource as! core.v1.ConfigMap)
+		case "Ingress":
+			ingresses[uuid] = (resource as! networking.v1.Ingress)
+		case "Service":
+			services[uuid] = (resource as! core.v1.Service)
 		default:
 			print("error: resource not handled")
 		}
@@ -362,6 +386,20 @@ class ClusterResources: ObservableObject {
 		newPod.metadata?.labels = labels
 		return newPod
 	}
+	private func deleteLabelIngress(resource:networking.v1.Ingress, key: String) -> networking.v1.Ingress {
+		guard var labels = resource.metadata?.labels else { return resource }
+		labels.removeValue(forKey: key)
+		var newIngress = resource
+		newIngress.metadata?.labels = labels
+		return newIngress
+	}
+	private func deleteLabelService(resource:core.v1.Service, key: String) -> core.v1.Service {
+		guard var labels = resource.metadata?.labels else { return resource }
+		labels.removeValue(forKey: key)
+		var newService = resource
+		newService.metadata?.labels = labels
+		return newService
+	}
 	func deleteLabel(resource:UUID, key:String) -> Void {
 		if let r:core.v1.Pod = pods[resource] {
 			let updatedPod = try! client.pods.update(inNamespace: namespace, deleteLabelPod(resource: r, key: key)).wait()
@@ -386,6 +424,14 @@ class ClusterResources: ObservableObject {
 		if let r:apps.v1.Deployment = deployments[resource] {
 			let deployment = try! client.appsV1.deployments.update(inNamespace: namespace, deleteLabelDeployment(resource: r, key: key)).wait()
 			setResource(resource: deployment)
+		}
+		if let r:networking.v1.Ingress = ingresses[resource] {
+			let ingress = try! client.networkingV1.ingresses.update(inNamespace: namespace, deleteLabelIngress(resource: r, key: key)).wait()
+			setResource(resource: ingress)
+		}
+		if let r:core.v1.Service = services[resource] {
+			let service = try! client.services.update(inNamespace: namespace, deleteLabelService(resource: r, key: key)).wait()
+			setResource(resource: service)
 		}
 	}
 	func addLabel(resource:UUID, key:String, value:String) -> Void {
@@ -424,12 +470,12 @@ class ClusterResources: ObservableObject {
 			newResource.metadata?.labels = labels
 			let _ = try! client.batchV1Beta1.cronJobs.update(inNamespace: namespace, newResource).wait()
 		}
-		if let r:apps.v1.Deployment = deployments[resource] {
+		if let r:core.v1.Service = services[resource] {
 			guard var labels = r.metadata?.labels else { return }
 			labels[key] = value
 			var newResource = r
 			newResource.metadata?.labels = labels
-			let _ = try! client.appsV1.deployments.update(inNamespace: namespace, newResource).wait()
+			let _ = try! client.services.update(inNamespace: namespace, newResource).wait()
 		}
 	}
 	

@@ -42,6 +42,8 @@
 		49E7DB8C270E0D500010F079 /* CreateJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E7DB8B270E0D500010F079 /* CreateJob.swift */; };
 		49E7DB8E270E0D980010F079 /* CreateConfigMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E7DB8D270E0D980010F079 /* CreateConfigMap.swift */; };
 		49E7DB90270E0DC00010F079 /* CreateSecret.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E7DB8F270E0DC00010F079 /* CreateSecret.swift */; };
+		49F5B4DE276D107E0003EA3A /* Ingress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F5B4DD276D107E0003EA3A /* Ingress.swift */; };
+		49F5B4E0276D10970003EA3A /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F5B4DF276D10970003EA3A /* Service.swift */; };
 		49FBB8E3267BB8F1004C7824 /* TopLevelK8sMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FBB8E2267BB8F1004C7824 /* TopLevelK8sMenuItem.swift */; };
 		49FBB8E5267BC121004C7824 /* SecondLevelK8sItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FBB8E4267BC121004C7824 /* SecondLevelK8sItems.swift */; };
 		49FBB8E7267CAC73004C7824 /* KubernetesAPIResourceList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FBB8E6267CAC73004C7824 /* KubernetesAPIResourceList.swift */; };
@@ -105,6 +107,8 @@
 		49E7DB8B270E0D500010F079 /* CreateJob.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateJob.swift; sourceTree = "<group>"; };
 		49E7DB8D270E0D980010F079 /* CreateConfigMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateConfigMap.swift; sourceTree = "<group>"; };
 		49E7DB8F270E0DC00010F079 /* CreateSecret.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateSecret.swift; sourceTree = "<group>"; };
+		49F5B4DD276D107E0003EA3A /* Ingress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ingress.swift; sourceTree = "<group>"; };
+		49F5B4DF276D10970003EA3A /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		49FBB8E2267BB8F1004C7824 /* TopLevelK8sMenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopLevelK8sMenuItem.swift; sourceTree = "<group>"; };
 		49FBB8E4267BC121004C7824 /* SecondLevelK8sItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondLevelK8sItems.swift; sourceTree = "<group>"; };
 		49FBB8E6267CAC73004C7824 /* KubernetesAPIResourceList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KubernetesAPIResourceList.swift; sourceTree = "<group>"; };
@@ -146,6 +150,8 @@
 				4961B4CF26B1E4A5000A55D7 /* Deployment.swift */,
 				4961B4D126B1E4BB000A55D7 /* Pod.swift */,
 				4961B4D326B1E4C9000A55D7 /* Job.swift */,
+				49F5B4DD276D107E0003EA3A /* Ingress.swift */,
+				49F5B4DF276D10970003EA3A /* Service.swift */,
 			);
 			path = DetailViews;
 			sourceTree = "<group>";
@@ -391,10 +397,12 @@
 				4961B4D226B1E4BB000A55D7 /* Pod.swift in Sources */,
 				49FBB8E5267BC121004C7824 /* SecondLevelK8sItems.swift in Sources */,
 				49E7DB88270E0A7F0010F079 /* CreateCronjob.swift in Sources */,
+				49F5B4DE276D107E0003EA3A /* Ingress.swift in Sources */,
 				4944731B26C2F2F60070E338 /* ClusterResources.swift in Sources */,
 				4961B4CC26B1D0E1000A55D7 /* Secret.swift in Sources */,
 				495A6907267FA37300DA2EDD /* CronJob.swift in Sources */,
 				49782B1C25E08DD800D92F4C /* Persistence.swift in Sources */,
+				49F5B4E0276D10970003EA3A /* Service.swift in Sources */,
 				49782B4E25E2F4BF00D92F4C /* KubernetesResources.swift in Sources */,
 				4995D4D426C146A000A7831B /* MetaDataSection.swift in Sources */,
 				49E7DB8C270E0D500010F079 /* CreateJob.swift in Sources */,

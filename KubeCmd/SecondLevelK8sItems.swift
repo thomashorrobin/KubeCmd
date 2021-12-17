@@ -23,6 +23,10 @@ struct SecondLevelK8sItems: View {
 			KubernetesAPIResourceList(resources: Array(resources.cronjobs.values), sortingFucntion: nameSort, namespace: resources.namespace)
 		case KubernetesResources.jobs:
 			KubernetesAPIResourceList(resources: Array(resources.jobs.values), sortingFucntion: dateSort, namespace: resources.namespace)
+		case .ingresses:
+			KubernetesAPIResourceList(resources: Array(resources.ingresses.values), sortingFucntion: nameSort, namespace: resources.namespace)
+		case .services:
+			KubernetesAPIResourceList(resources: Array(resources.services.values), sortingFucntion: nameSort, namespace: resources.namespace)
 		}
 	}
 }
