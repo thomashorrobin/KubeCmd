@@ -26,6 +26,8 @@ struct TopLevelK8sMenu: View {
 			TopLevelK8sMenuItem(a: {resources.setSelectedResource(resource:.jobs)}, name: "Jobs", imageName: "job", itemCount: resources.jobs.values.filter(self.filterByNamespace).count)
 			TopLevelK8sMenuItem(a: {resources.setSelectedResource(resource:.configmaps)}, name: "Config Maps", imageName: "cm", itemCount: resources.configmaps.values.filter(self.filterByNamespace).count)
 			TopLevelK8sMenuItem(a: {resources.setSelectedResource(resource:.secrets)}, name: "Secrets", imageName: "secret", itemCount: resources.secrets.values.filter(self.filterByNamespace).count)
+			TopLevelK8sMenuItem(a: {resources.setSelectedResource(resource:.ingresses)}, name: "Ingresses", imageName: "ingress", itemCount: resources.ingresses.values.filter(self.filterByNamespace).count)
+			TopLevelK8sMenuItem(a: {resources.setSelectedResource(resource:.services)}, name: "Services", imageName: "service", itemCount: resources.services.values.filter(self.filterByNamespace).count)
 		}.listStyle(SidebarListStyle())
 	}
 }

@@ -36,6 +36,8 @@ struct TopLevelK8sMenuItem_Previews: PreviewProvider {
 			TopLevelK8sMenuItem(a: dummyFunc, name: "CronJobs", imageName: "cronjob", itemCount: 41)
 			TopLevelK8sMenuItem(a: dummyFunc, name: "Pods", imageName: "pod", itemCount: 154)
 			TopLevelK8sMenuItem(a: dummyFunc, name: "Deployments", imageName: "deploy", itemCount: 5)
+			TopLevelK8sMenuItem(a: dummyFunc, name: "Ingresses", imageName: "ingress", itemCount: 1)
+			TopLevelK8sMenuItem(a: dummyFunc, name: "Services", imageName: "service", itemCount: 7)
 		}
 		.previewLayout(.fixed(width: 300, height: 70))
 	}

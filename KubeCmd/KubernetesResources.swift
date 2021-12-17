@@ -14,4 +14,6 @@ enum KubernetesResources: String {
 	case jobs = "Jobs"
 	case configmaps = "ConfigMaps"
 	case secrets = "Secrets"
+	case ingresses = "Ingresses"
+	case services = "Services"
 }
