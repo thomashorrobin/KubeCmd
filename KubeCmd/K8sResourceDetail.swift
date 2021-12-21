@@ -45,7 +45,7 @@ struct K8sResourceDetail: View {
 					case "ConfigMap":
 						ConfigMap(configmap: resource as! core.v1.ConfigMap).padding(.all, 40)
 					case "Ingress":
-						Ingress(ingress: resource as! networking.v1.Ingress).padding(.all, 40)
+						Ingress(i: resource as! networking.v1.Ingress).padding(.all, 40)
 					case "Service":
 						Service(service: resource as! core.v1.Service).padding(.all, 40)
 					default:
