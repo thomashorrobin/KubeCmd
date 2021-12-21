@@ -15,6 +15,34 @@ struct Service: View {
 			if let metadata = service.metadata {
 				MetaDataSection(metadata: metadata)
 			}
+			if let spec = service.spec {
+				Divider().padding(.vertical, 30)
+				Text("Spec").font(.title2)
+				if let type1 = spec.type {
+					Text("Type: \(type1)")
+				}
+				if let allocateLoadBalancerNodePorts = spec.allocateLoadBalancerNodePorts {
+					Text("Allocate LoadBalancer node ports: \(allocateLoadBalancerNodePorts.description)")
+				}
+				if let clusterIP = spec.clusterIP {
+					Text("ClusterIP: \(clusterIP)")
+				}
+				if let externalName = spec.externalName {
+					Text("External Name: \(externalName)")
+				}
+				if let externalTrafficPolicy = spec.externalTrafficPolicy {
+					Text("External Traffic Policy: \(externalTrafficPolicy)")
+				}
+				if let healthCheckNodePort = spec.healthCheckNodePort {
+					Text("HealthCheck node port: \(healthCheckNodePort)")
+				}
+				if let ipFamilyPolicy = spec.ipFamilyPolicy {
+					Text("IP Family Policy: \(ipFamilyPolicy)")
+				}
+				if let loadBalancerIP = spec.loadBalancerIP {
+					Text("Load Balancer IP: \(loadBalancerIP)")
+				}
+			}
 		})
     }
 }
