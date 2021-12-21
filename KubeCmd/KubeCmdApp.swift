@@ -31,6 +31,13 @@ struct KubeCmdApp: App {
 			CreateResourceCommands(client: client)
 			CommandGroup(replacing: .newItem) {}
 			CommandGroup(replacing: .undoRedo) {}
+			CommandGroup(replacing: .help) {
+				Text("Cloud connections")
+				Link("AWS", destination: URL(string: "https://docs.aws.amazon.com/eks/latest/userguide/create-kubeconfig.html")!)
+				Link("Azure", destination: URL(string: "https://docs.microsoft.com/en-us/azure/aks/control-kubeconfig-access")!)
+				Link("Google Cloud", destination: URL(string: "https://cloud.google.com/sdk/gcloud/reference/container/clusters/get-credentials")!)
+				Link("Digital Ocean", destination: URL(string: "https://docs.digitalocean.com/reference/doctl/reference/kubernetes/cluster/kubeconfig/")!)
+			}
 		}
 	}
 }
