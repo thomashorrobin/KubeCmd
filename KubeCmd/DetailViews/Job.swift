@@ -25,6 +25,15 @@ struct Job: View {
 					Text("Completion Time: \(completionTime)").textSelection(.enabled)
 				}
 			}
+			if let spec = job.spec {
+				Divider().padding(.vertical, 30)
+				Text("Spec").font(.title2)
+				Text("Active Deadline Seconds: \(spec.activeDeadlineSeconds ?? 0)").textSelection(.enabled)
+				Text("Backoff Limit: \(spec.backoffLimit ?? 0)").textSelection(.enabled)
+				Text("Completions: \(spec.completions ?? 0)").textSelection(.enabled)
+				Text("Parallelism: \(spec.parallelism ?? 0)").textSelection(.enabled)
+				Text("TTL Seconds After Finished: \(spec.ttlSecondsAfterFinished ?? 0)").textSelection(.enabled)
+			}
 		})
 	}
 }
