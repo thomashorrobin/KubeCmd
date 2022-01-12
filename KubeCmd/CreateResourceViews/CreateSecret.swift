@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftkubeModel
 
 struct keyValuePair : Identifiable {
 	var id: String
@@ -17,6 +18,7 @@ struct CreateSecret: View {
 	@State private var keyValuePairs: [keyValuePair] = []
 	@State private var keyStr: String = ""
 	@State private var valueStr: String = ""
+	var onSecretCreate:(core.v1.Secret) -> Void
 	var body: some View {
 		ScrollView{
 			Form{
@@ -38,7 +40,18 @@ struct CreateSecret: View {
 					}.disabled(keyStr.isEmpty || valueStr.isEmpty)
 				}
 				Button("Create"){
-					print("hi")
+					var keyValuePairsMapped:[String:String] = [String:String]()
+					for kvp in keyValuePairs {
+						keyValuePairsMapped[kvp.id] = kvp.value
+					}
+					let secret = sk.secret {
+						$0.metadata = sk.metadata(name: self.name) {
+							$0.namespace = "default"
+						}
+						$0.type = "Opaque"
+						$0.stringData = keyValuePairsMapped
+					}
+					onSecretCreate(secret)
 				}
 			}
 		}.padding(40).frame(width: 500, height: 300, alignment: .center)
@@ -47,6 +60,6 @@ struct CreateSecret: View {
 
 struct CreateSecret_Previews: PreviewProvider {
 	static var previews: some View {
-		CreateSecret()
+		CreateSecret(onSecretCreate: {_ in })
 	}
 }

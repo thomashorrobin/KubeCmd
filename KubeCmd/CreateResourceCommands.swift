@@ -31,7 +31,14 @@ struct CreateResourceCommands: Commands {
 				CreateConfigMap(onConfigMapCreate: createConfigMap).openInWindow(title: "ConfigMap", sender: self)
 			}.disabled(!activeClient)
 			Button("Create Secret"){
-				CreateSecret().openInWindow(title: "Secret", sender: self)
+				func createSecret(secret: core.v1.Secret) {
+					do {
+						let _ = try client!.secrets.create(inNamespace: .default, secret).wait()
+					} catch {
+						print(error)
+					}
+				}
+				CreateSecret(onSecretCreate: createSecret).openInWindow(title: "Secret", sender: self)
 			}.disabled(!activeClient)
 		}
 	}
