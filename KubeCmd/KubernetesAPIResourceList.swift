@@ -43,7 +43,7 @@ struct KubernetesAPIResourceRow: View {
 	var resource: KubernetesAPIResource
 	var body: some View {
 		HStack{
-			NavigationLink(resource.name ?? "unknown", destination: K8sResourceDetail(resource: resource )).buttonStyle(PlainButtonStyle())
+			NavigationLink(resource.name ?? "unknown", destination: K8sResourceDetail(resource: resource )).buttonStyle(PlainButtonStyle()).navigationTitle("\(resource.kind)s")
 			Spacer()
 			VStack(alignment: .trailing, content: {
 				Text(resource.kind).bold()
