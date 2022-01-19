@@ -22,6 +22,8 @@ struct ContentView: View {
 	
 	@State var buttonText = "Load data again"
 	
+	var setClientNil: () -> Void
+	
 	var body: some View {
 		NavigationView
 		{
@@ -49,6 +51,7 @@ struct ContentView: View {
 			}
 		}).onDisappear(perform: {
 			resources.disconnectWatches()
+			setClientNil()
 		}).toolbar(content: {
 			ToolbarItem(placement: .navigation) {
 				Button(action: toggleSidebar, label: {

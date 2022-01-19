@@ -14,11 +14,14 @@ struct KubeCmdApp: App {
 	let persistenceController = PersistenceController.shared
 	
 	@State var client:KubernetesClient? = nil
+	func setClientNil() -> Void {
+		client = nil
+	}
 	
 	var body: some Scene {
 		WindowGroup {
 			if let client = client {
-				ContentView(resources: ClusterResources(client: client))
+				ContentView(resources: ClusterResources(client: client), setClientNil: setClientNil)
 					.environment(\.managedObjectContext, persistenceController.container.viewContext)
 			} else {
 				StartupScreen { client in
@@ -29,7 +32,6 @@ struct KubeCmdApp: App {
 		.commands {
 			SidebarCommands()
 			CreateResourceCommands(client: client)
-			CommandGroup(replacing: .newItem) {}
 			CommandGroup(replacing: .undoRedo) {}
 			CommandGroup(replacing: .help) {
 				Text("Cloud connections")
