@@ -29,27 +29,25 @@ struct MetaDataSection: View {
 					if labels.count > 0 {
 						Text("Labels")
 						ForEach((labels.sorted(by: >)), id: \.key) { label in
-							KubernetesLabel(key: label.key, value: label.value, delete: {
-								let _ = resources.removeLabel(metadata: metadata, key: label.key)
-							})
+							KubernetesLabel(key: label.key, value: label.value)
 						}
 					}
 				}
 			}
 		}
-		Button("Add label") {
-			showingSheet.toggle()
-		}
-		.sheet(isPresented: $showingSheet) {
-			SheetView(dismiss: {
-				showingSheet = false
-			}) { key, value in
-				if let metadata = resource.metadata {
-					let _ = resources.addLabel(metadata: metadata, key: key, value: value)
-				}
-				showingSheet = false
-			}
-		}
+//		Button("Add label") {
+//			showingSheet.toggle()
+//		}
+//		.sheet(isPresented: $showingSheet) {
+//			SheetView(dismiss: {
+//				showingSheet = false
+//			}) { key, value in
+//				if let metadata = resource.metadata {
+//					let _ = resources.addLabel(metadata: metadata, key: key, value: value)
+//				}
+//				showingSheet = false
+//			}
+//		}
 	}
 }
 
