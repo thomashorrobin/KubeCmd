@@ -12,9 +12,6 @@ struct MetaDataSection: View {
 	let resource:MetadataHavingResource
 	@EnvironmentObject var resources: ClusterResources
 	@State private var showingSheet = false
-	let columns = [
-		GridItem(.flexible(), alignment: .leading)
-	]
 	var body: some View {
 		VStack(alignment: .leading, spacing: CGFloat(5)){
 			Text("Metadata").font(.title2)
