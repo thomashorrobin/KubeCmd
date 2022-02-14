@@ -12,8 +12,8 @@ struct Deployment: View {
 	let deployment:apps.v1.Deployment
 	var body: some View {
 		VStack(alignment: .leading, spacing: CGFloat(5), content: {
-			if let metadata = deployment.metadata {
-				MetaDataSection(metadata: metadata)
+			if deployment.metadata != nil {
+				MetaDataSection(resource: deployment)
 			}
 			if let status = deployment.status {
 				Divider().padding(.vertical, 30)

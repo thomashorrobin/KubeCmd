@@ -31,7 +31,7 @@ struct ContentView: View {
 			SecondLevelK8sItems().frame(minWidth: 290, idealWidth: 390)
 			Button(action: {
 				buttonText = "loading..."
-				resources.loadData(namespace: .allNamespaces)
+				try! resources.refreshData()
 				do {
 					try resources.fetchNamespaces()
 				} catch {
@@ -42,7 +42,7 @@ struct ContentView: View {
 				Text(buttonText)
 			}).frame(width: 250, height: 500)
 		}.environmentObject(resources).onAppear(perform: {
-			resources.loadData(namespace: .allNamespaces)
+			try! resources.refreshData()
 			do {
 				try resources.fetchNamespaces()
 				try resources.connectWatches()

@@ -44,8 +44,8 @@ struct CronJob: View {
 	}
 	var body: some View {
 		VStack(alignment: .leading, spacing: CGFloat(5), content: {
-			if let metadata = cronJob.metadata {
-				MetaDataSection(metadata: metadata)
+			if cronJob.metadata != nil {
+				MetaDataSection(resource: cronJob)
 				Divider().padding(.vertical, 30)
 			}
 			if let spec = cronJob.spec {

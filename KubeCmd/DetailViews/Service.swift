@@ -12,8 +12,8 @@ struct Service: View {
 	var service:core.v1.Service
     var body: some View {
 		VStack(alignment: .leading, spacing: CGFloat(5), content: {
-			if let metadata = service.metadata {
-				MetaDataSection(metadata: metadata)
+			if service.metadata != nil {
+				MetaDataSection(resource: service)
 			}
 			if let spec = service.spec {
 				Divider().padding(.vertical, 30)

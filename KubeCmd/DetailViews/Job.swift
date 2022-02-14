@@ -12,8 +12,8 @@ struct Job: View {
 	var job:batch.v1.Job
 	var body: some View {
 		VStack(alignment: .leading, spacing: CGFloat(5), content: {
-			if let metadata = job.metadata {
-				MetaDataSection(metadata: metadata)
+			if job.metadata != nil {
+				MetaDataSection(resource: job)
 			}
 			if let status = job.status {
 				Divider().padding(.vertical, 30)

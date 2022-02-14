@@ -12,30 +12,35 @@ import SwiftkubeModel
 class ClusterResources: ObservableObject {
 	@Published var selectedResource = KubernetesResources.pods
 	@Published var pods = [UUID:core.v1.Pod]()
-	@Published var configmaps = [UUID:core.v1.ConfigMap]()
-	@Published var secrets = [UUID:core.v1.Secret]()
-	@Published var cronjobs = [UUID:batch.v1beta1.CronJob]()
+	@Published var configmaps:core.v1.ConfigMapList
+	@Published var secrets:core.v1.SecretList
+	@Published var cronjobs:batch.v1beta1.CronJobList
 	@Published var jobs = [UUID:batch.v1.Job]()
-	@Published var deployments = [UUID:apps.v1.Deployment]()
-	@Published var ingresses = [UUID:networking.v1.Ingress]()
-	@Published var services = [UUID:core.v1.Service]()
+	@Published var deployments:apps.v1.DeploymentList
+	@Published var ingresses:networking.v1.IngressList
+	@Published var services:core.v1.ServiceList
 	@Published var namespace = NamespaceSelector.namespace("default")
 	@Published var namespaces = core.v1.NamespaceList(metadata: nil, items: [core.v1.Namespace]())
 	var client:KubernetesClient
 	var k8sTasks = [SwiftkubeClientTask]()
 	
-	init(client:KubernetesClient) {
+	init(client:KubernetesClient) throws {
 		self.client = client
+		self.configmaps = try client.configMaps.list(in: .default).wait()
+		self.secrets = try client.secrets.list(in: .default).wait()
+		self.cronjobs = try client.batchV1Beta1.cronJobs.list(in: .default).wait()
+		self.deployments = try client.appsV1.deployments.list(in: .default).wait()
+		self.ingresses = try client.networkingV1.ingresses.list(in: .default).wait()
+		self.services = try client.services.list(in: .default).wait()
 	}
 	
-	func refreshData() -> Void {
-		self.pods.removeAll()
-		self.configmaps.removeAll()
-		self.secrets.removeAll()
-		self.cronjobs.removeAll()
-		self.jobs.removeAll()
-		self.deployments.removeAll()
-		self.loadData(namespace: .allNamespaces)
+	func refreshData() throws -> Void {
+		self.configmaps = try self.client.configMaps.list(in: namespace).wait()
+		self.secrets = try self.client.secrets.list(in: namespace).wait()
+		self.cronjobs = try self.client.batchV1Beta1.cronJobs.list(in: namespace).wait()
+		self.deployments = try self.client.appsV1.deployments.list(in: namespace).wait()
+		self.ingresses = try self.client.networkingV1.ingresses.list(in: namespace).wait()
+		self.services = try self.client.services.list(in: namespace).wait()
 	}
 	
 	func fetchNamespaces() throws -> Void {
@@ -45,6 +50,25 @@ class ClusterResources: ObservableObject {
 	func followLogs(name: String, cb: @escaping LogWatcherCallback.LineHandler) throws -> SwiftkubeClientTask {
 		return try client.pods.follow(name: name, lineHandler: cb)
 	}
+	
+	func removePod(uid:UUID) -> Void {
+		self.pods.removeValue(forKey: uid)
+	}
+	
+	func removeJob(uid:UUID) -> Void {
+		self.jobs.removeValue(forKey: uid)
+	}
+	
+	func setPod(pod:core.v1.Pod) throws -> Void {
+		let uid = try UUID.fromK8sMetadata(resource: pod)
+		pods[uid] = pod
+	}
+	
+	func setJob(job:batch.v1.Job) throws -> Void {
+		let uid = try UUID.fromK8sMetadata(resource: job)
+		jobs[uid] = job
+	}
+	
 	
 	func disconnectWatches() -> Void {
 		for t in k8sTasks {
@@ -58,168 +82,45 @@ class ClusterResources: ObservableObject {
 			policy: .maxAttemtps(20),
 			backoff: .exponential(maximumDelay: 60, multiplier: 2.0)
 		)
-		k8sTasks.append(try! client.batchV1Beta1.cronJobs.watch(in: .default, retryStrategy: strategy) { (event, resource) in
-			let uuid = try! UUID.fromK8sMetadata(resource: resource)
+		k8sTasks.append(try! client.pods.watch(in: .default, retryStrategy: strategy) { (event, pod) in
+			let uuid = try! UUID.fromK8sMetadata(resource: pod)
 			switch event.rawValue {
 			case "ADDED":
 				DispatchQueue.main.async {
-					self.setResource(resource: resource)
+					try! self.setPod(pod: pod)
 				}
 			case "MODIFIED":
 				DispatchQueue.main.async {
-					self.setResource(resource: resource)
+					try! self.setPod(pod: pod)
 				}
 			case "DELETED":
 				DispatchQueue.main.async {
-					self.deleteResource(uuid: uuid, kind: resource.kind)
+					self.removePod(uid: uuid)
 				}
 			default:
 				break
 			}
 		})
-		k8sTasks.append(try! client.secrets.watch(in: .default, retryStrategy: strategy) { (event, resource) in
-			let uuid = try! UUID.fromK8sMetadata(resource: resource)
+		k8sTasks.append(try! client.batchV1.jobs.watch(in: .default, retryStrategy: strategy) { (event, job) in
+			let uuid = try! UUID.fromK8sMetadata(resource: job)
 			switch event.rawValue {
 			case "ADDED":
 				DispatchQueue.main.async {
-					self.setResource(resource: resource)
+					try! self.setJob(job: job)
 				}
 			case "MODIFIED":
 				DispatchQueue.main.async {
-					self.setResource(resource: resource)
+					try! self.setJob(job: job)
 				}
 			case "DELETED":
 				DispatchQueue.main.async {
-					self.deleteResource(uuid: uuid, kind: resource.kind)
-				}
-			default:
-				break
-			}
-		})
-		k8sTasks.append(try! client.configMaps.watch(in: .default, retryStrategy: strategy) { (event, resource) in
-			let uuid = try! UUID.fromK8sMetadata(resource: resource)
-			switch event.rawValue {
-			case "ADDED":
-				DispatchQueue.main.async {
-					self.setResource(resource: resource)
-				}
-			case "MODIFIED":
-				DispatchQueue.main.async {
-					self.setResource(resource: resource)
-				}
-			case "DELETED":
-				DispatchQueue.main.async {
-					self.deleteResource(uuid: uuid, kind: resource.kind)
-				}
-			default:
-				break
-			}
-		})
-		k8sTasks.append(try! client.appsV1.deployments.watch(in: .default, retryStrategy: strategy) { (event, resource) in
-			let uuid = try! UUID.fromK8sMetadata(resource: resource)
-			switch event.rawValue {
-			case "ADDED":
-				DispatchQueue.main.async {
-					self.setResource(resource: resource)
-				}
-			case "MODIFIED":
-				DispatchQueue.main.async {
-					self.setResource(resource: resource)
-				}
-			case "DELETED":
-				DispatchQueue.main.async {
-					self.deleteResource(uuid: uuid, kind: resource.kind)
-				}
-			default:
-				break
-			}
-		})
-		k8sTasks.append(try! client.pods.watch(in: .default, retryStrategy: strategy) { (event, resource) in
-			let uuid = try! UUID.fromK8sMetadata(resource: resource)
-			switch event.rawValue {
-			case "ADDED":
-				DispatchQueue.main.async {
-					self.setResource(resource: resource)
-				}
-			case "MODIFIED":
-				DispatchQueue.main.async {
-					self.setResource(resource: resource)
-				}
-			case "DELETED":
-				DispatchQueue.main.async {
-					self.deleteResource(uuid: uuid, kind: resource.kind)
-				}
-			default:
-				break
-			}
-		})
-		k8sTasks.append(try! client.batchV1.jobs.watch(in: .default, retryStrategy: strategy) { (event, resource) in
-			let uuid = try! UUID.fromK8sMetadata(resource: resource)
-			switch event.rawValue {
-			case "ADDED":
-				DispatchQueue.main.async {
-					self.setResource(resource: resource)
-				}
-			case "MODIFIED":
-				DispatchQueue.main.async {
-					self.setResource(resource: resource)
-				}
-			case "DELETED":
-				DispatchQueue.main.async {
-					self.deleteResource(uuid: uuid, kind: resource.kind)
+					self.removeJob(uid: uuid)
 				}
 			default:
 				break
 			}
 		})
 		
-	}
-	
-	func loadData(namespace: NamespaceSelector) -> Void {
-		do {
-			let pods = try client.pods.list(in: namespace).wait().items
-			for pod in pods {
-				let uuid = try! UUID.fromK8sMetadata(resource: pod)
-				self.pods[uuid] = pod
-			}
-			let configmaps = try client.configMaps.list(in: namespace).wait().items
-			for configmap in configmaps {
-				let uuid = try! UUID.fromK8sMetadata(resource: configmap)
-				self.configmaps[uuid] = configmap
-			}
-			let secrets = try client.secrets.list(in: namespace).wait().items
-			for secret in secrets {
-				let uuid = try! UUID.fromK8sMetadata(resource: secret)
-				self.secrets[uuid] = secret
-			}
-			let cronjobs = try client.batchV1Beta1.cronJobs.list(in: namespace).wait().items
-			for cronjob in cronjobs {
-				let uuid = try! UUID.fromK8sMetadata(resource: cronjob)
-				self.cronjobs[uuid] = cronjob
-			}
-			let jobs = try client.batchV1.jobs.list(in: namespace).wait().items
-			for job in jobs {
-				let uuid = try! UUID.fromK8sMetadata(resource: job)
-				self.jobs[uuid] = job
-			}
-			let deployments = try client.appsV1.deployments.list(in: namespace).wait().items
-			for deployment in deployments {
-				let uuid = try! UUID.fromK8sMetadata(resource: deployment)
-				self.deployments[uuid] = deployment
-			}
-			let ingresses = try client.networkingV1.ingresses.list(in: namespace).wait().items
-			for ingress in ingresses {
-				let uuid = try! UUID.fromK8sMetadata(resource: ingress)
-				self.ingresses[uuid] = ingress
-			}
-			let services = try client.services.list(in: namespace).wait().items
-			for service in services {
-				let uuid = try! UUID.fromK8sMetadata(resource: service)
-				self.services[uuid] = service
-			}
-		} catch {
-			print("Unknown error: \(error)")
-		}
 	}
 	
 	func setSelectedResource(resource: KubernetesResources) -> Void {
@@ -229,7 +130,7 @@ class ClusterResources: ObservableObject {
 	func addJob(job: batch.v1.Job) -> Void {
 		do {
 			let job = try client.batchV1.jobs.create(inNamespace: .default, job).wait()
-			setResource(resource: job)
+			addJob(job: job)
 		} catch {
 			print(error)
 		}
@@ -239,16 +140,16 @@ class ClusterResources: ObservableObject {
 		let formatter = ISO8601DateFormatter()
 		var newDeployment = deployment
 		newDeployment.spec?.template.metadata?.annotations?["kubectl.kubernetes.io/restartedAt"] = formatter.string(from: Date())
-		newDeployment = try client.appsV1.deployments.update(newDeployment).wait()
-		setResource(resource: newDeployment)
+		let _ = try client.appsV1.deployments.update(newDeployment).wait()
+		self.deployments = try client.appsV1.deployments.list(in: .default).wait()
 	}
 	
 	func unsuspendCronJob(cronjob: batch.v1beta1.CronJob) -> Void {
 		var newThing = cronjob
 		newThing.spec?.suspend = false
 		do {
-			let x = try client.batchV1Beta1.cronJobs.update(newThing).wait()
-			setResource(resource: x)
+			let _ = try client.batchV1Beta1.cronJobs.update(newThing).wait()
+			self.cronjobs = try client.batchV1Beta1.cronJobs.list(in: self.namespace).wait()
 		} catch {
 			print(error)
 		}
@@ -257,34 +158,25 @@ class ClusterResources: ObservableObject {
 		var newThing = cronjob
 		newThing.spec?.suspend = true
 		do {
-			let x = try client.batchV1Beta1.cronJobs.update(newThing).wait()
-			setResource(resource: x)
+			let _ = try client.batchV1Beta1.cronJobs.update(newThing).wait()
+			self.cronjobs = try client.batchV1Beta1.cronJobs.list(in: self.namespace).wait()
 		} catch {
 			print(error)
 		}
 	}
-	
-	func deleteResource(uuid:UUID, kind:String) -> Void {
-		switch kind {
-		case "Pod":
-			pods.removeValue(forKey: uuid)
-		case "CronJob":
-			cronjobs.removeValue(forKey: uuid)
-		case "Job":
-			jobs.removeValue(forKey: uuid)
-		case "Secret":
-			secrets.removeValue(forKey: uuid)
-		case "Deployment":
-			deployments.removeValue(forKey: uuid)
-		case "ConfigMap":
-			configmaps.removeValue(forKey: uuid)
-		case "Ingress":
-			ingresses.removeValue(forKey: uuid)
-		case "Service":
-			services.removeValue(forKey: uuid)
-		default:
-			print("error: resource not handled")
-		}
+	func addLabel(metadata:meta.v1.ObjectMeta, key:String, value:String) -> meta.v1.ObjectMeta? {
+		guard var labels = metadata.labels else { return metadata }
+		labels[key] = value
+		var newMetadata = metadata
+		newMetadata.labels = labels
+		return newMetadata
+	}
+	func removeLabel(metadata:meta.v1.ObjectMeta, key:String) -> meta.v1.ObjectMeta? {
+		guard var labels = metadata.labels else { return metadata }
+		labels.removeValue(forKey: key)
+		var newMetadata = metadata
+		newMetadata.labels = labels
+		return newMetadata
 	}
 	func deleteResource(resource:KubernetesAPIResource) -> Void {
 		let deleteOptions = meta.v1.DeleteOptions(
@@ -321,176 +213,11 @@ class ClusterResources: ObservableObject {
 		print("sucessfully deleted \(resource.name ?? "nil") (\(resource.kind))")
 	}
 	
-	func setResource(resource: KubernetesAPIResource) -> Void {
-		let uuid = try! UUID.fromK8sMetadata(resource: resource)
-		switch resource.kind {
-		case "Pod":
-			pods[uuid] = (resource as! core.v1.Pod)
-		case "CronJob":
-			cronjobs[uuid] = (resource as! batch.v1beta1.CronJob)
-		case "Job":
-			jobs[uuid] = (resource as! batch.v1.Job)
-		case "Secret":
-			secrets[uuid] = (resource as! core.v1.Secret)
-		case "Deployment":
-			deployments[uuid] = (resource as! apps.v1.Deployment)
-		case "ConfigMap":
-			configmaps[uuid] = (resource as! core.v1.ConfigMap)
-		case "Ingress":
-			ingresses[uuid] = (resource as! networking.v1.Ingress)
-		case "Service":
-			services[uuid] = (resource as! core.v1.Service)
-		default:
-			print("error: resource not handled")
-		}
-	}
-	private func deleteLabelPod(resource:core.v1.Pod, key: String) -> core.v1.Pod {
-		guard var labels = resource.metadata?.labels else { return resource }
-		labels.removeValue(forKey: key)
-		var newPod = resource
-		newPod.metadata?.labels = labels
-		return newPod
-	}
-	private func deleteLabelCronjob(resource:batch.v1beta1.CronJob, key: String) -> batch.v1beta1.CronJob {
-		guard var labels = resource.metadata?.labels else { return resource }
-		labels.removeValue(forKey: key)
-		var newPod = resource
-		newPod.metadata?.labels = labels
-		return newPod
-	}
-	private func deleteLabelJob(resource:batch.v1.Job, key: String) -> batch.v1.Job {
-		guard var labels = resource.metadata?.labels else { return resource }
-		labels.removeValue(forKey: key)
-		var newPod = resource
-		newPod.metadata?.labels = labels
-		return newPod
-	}
-	private func deleteLabelDeployment(resource:apps.v1.Deployment, key: String) -> apps.v1.Deployment {
-		guard var labels = resource.metadata?.labels else { return resource }
-		labels.removeValue(forKey: key)
-		var newPod = resource
-		newPod.metadata?.labels = labels
-		return newPod
-	}
-	private func deleteLabelSecret(resource:core.v1.Secret, key: String) -> core.v1.Secret {
-		guard var labels = resource.metadata?.labels else { return resource }
-		labels.removeValue(forKey: key)
-		var newPod = resource
-		newPod.metadata?.labels = labels
-		return newPod
-	}
-	private func deleteLabelConfigMap(resource:core.v1.ConfigMap, key: String) -> core.v1.ConfigMap {
-		guard var labels = resource.metadata?.labels else { return resource }
-		labels.removeValue(forKey: key)
-		var newPod = resource
-		newPod.metadata?.labels = labels
-		return newPod
-	}
-	private func deleteLabelIngress(resource:networking.v1.Ingress, key: String) -> networking.v1.Ingress {
-		guard var labels = resource.metadata?.labels else { return resource }
-		labels.removeValue(forKey: key)
-		var newIngress = resource
-		newIngress.metadata?.labels = labels
-		return newIngress
-	}
-	private func deleteLabelService(resource:core.v1.Service, key: String) -> core.v1.Service {
-		guard var labels = resource.metadata?.labels else { return resource }
-		labels.removeValue(forKey: key)
-		var newService = resource
-		newService.metadata?.labels = labels
-		return newService
-	}
-	func deleteLabel(resource:UUID, key:String) -> Void {
-		if let r:core.v1.Pod = pods[resource] {
-			let updatedPod = try! client.pods.update(inNamespace: namespace, deleteLabelPod(resource: r, key: key)).wait()
-			setResource(resource: updatedPod)
-		}
-		if let r:core.v1.Secret = secrets[resource] {
-			let secret = try! client.secrets.update(inNamespace: namespace, deleteLabelSecret(resource: r, key: key)).wait()
-			setResource(resource: secret)
-		}
-		if let r:core.v1.ConfigMap = configmaps[resource] {
-			let configMap = try! client.configMaps.update(inNamespace: namespace, deleteLabelConfigMap(resource: r, key: key)).wait()
-			setResource(resource: configMap)
-		}
-		if let r:batch.v1.Job = jobs[resource] {
-			let job = try! client.batchV1.jobs.update(inNamespace: namespace, deleteLabelJob(resource: r, key: key)).wait()
-			setResource(resource: job)
-		}
-		if let r:batch.v1beta1.CronJob = cronjobs[resource] {
-			let cronJob = try! client.batchV1Beta1.cronJobs.update(inNamespace: namespace, deleteLabelCronjob(resource: r, key: key)).wait()
-			setResource(resource: cronJob)
-		}
-		if let r:apps.v1.Deployment = deployments[resource] {
-			let deployment = try! client.appsV1.deployments.update(inNamespace: namespace, deleteLabelDeployment(resource: r, key: key)).wait()
-			setResource(resource: deployment)
-		}
-		if let r:networking.v1.Ingress = ingresses[resource] {
-			let ingress = try! client.networkingV1.ingresses.update(inNamespace: namespace, deleteLabelIngress(resource: r, key: key)).wait()
-			setResource(resource: ingress)
-		}
-		if let r:core.v1.Service = services[resource] {
-			let service = try! client.services.update(inNamespace: namespace, deleteLabelService(resource: r, key: key)).wait()
-			setResource(resource: service)
-		}
-	}
-	func addLabel(resource:UUID, key:String, value:String) -> Void {
-		if let r:core.v1.Pod = pods[resource] {
-			guard var labels = r.metadata?.labels else { return }
-			labels[key] = value
-			var newResource = r
-			newResource.metadata?.labels = labels
-			let _ = try! client.pods.update(inNamespace: namespace, newResource).wait()
-		}
-		if let r:core.v1.Secret = secrets[resource] {
-			guard var labels = r.metadata?.labels else { return }
-			labels[key] = value
-			var newResource = r
-			newResource.metadata?.labels = labels
-			let _ = try! client.secrets.update(inNamespace: namespace, newResource).wait()
-		}
-		if let r:core.v1.ConfigMap = configmaps[resource] {
-			guard var labels = r.metadata?.labels else { return }
-			labels[key] = value
-			var newResource = r
-			newResource.metadata?.labels = labels
-			let _ = try! client.configMaps.update(inNamespace: namespace, newResource).wait()
-		}
-		if let r:batch.v1.Job = jobs[resource] {
-			guard var labels = r.metadata?.labels else { return }
-			labels[key] = value
-			var newResource = r
-			newResource.metadata?.labels = labels
-			let _ = try! client.batchV1.jobs.update(inNamespace: namespace, newResource).wait()
-		}
-		if let r:batch.v1beta1.CronJob = cronjobs[resource] {
-			guard var labels = r.metadata?.labels else { return }
-			labels[key] = value
-			var newResource = r
-			newResource.metadata?.labels = labels
-			let _ = try! client.batchV1Beta1.cronJobs.update(inNamespace: namespace, newResource).wait()
-		}
-		if let r:core.v1.Service = services[resource] {
-			guard var labels = r.metadata?.labels else { return }
-			labels[key] = value
-			var newResource = r
-			newResource.metadata?.labels = labels
-			let _ = try! client.services.update(inNamespace: namespace, newResource).wait()
-		}
-	}
-	
 	static func dummyCronJob() -> batch.v1beta1.CronJob {
 		return batch.v1beta1.CronJob(metadata: meta.v1.ObjectMeta(clusterName: "directly-apply-main-cluster", creationTimestamp: Date(), deletionGracePeriodSeconds: 100, labels: ["feed" : "ziprecruiter"], managedFields: [meta.v1.ManagedFieldsEntry](), name: "great cronjob", namespace: "default", ownerReferences: [meta.v1.OwnerReference](), resourceVersion: "appv1", uid: "F3493650-A9DF-410F-B1A4-E8F5386E5B53"), spec: batch.v1beta1.CronJobSpec(failedJobsHistoryLimit: 5, jobTemplate: batch.v1beta1.JobTemplateSpec(), schedule: "15 10 * * *", startingDeadlineSeconds: 100, successfulJobsHistoryLimit: 2, suspend: false), status: batch.v1beta1.CronJobStatus(active: [core.v1.ObjectReference](), lastScheduleTime: Date()))
 	}
 	
 	static func dummyPod() -> core.v1.Pod {
 		return core.v1.Pod(metadata: meta.v1.ObjectMeta(clusterName: "directly-apply-main-cluster", creationTimestamp: Date(), deletionGracePeriodSeconds: 100, labels: ["feed" : "ziprecruiter"], managedFields: [meta.v1.ManagedFieldsEntry](), name: "great pod", namespace: "default", ownerReferences: [meta.v1.OwnerReference](), resourceVersion: "appv1", uid: "F3493650-A9DF-410F-B1A4-E8F5386E5B46"), spec: core.v1.PodSpec(activeDeadlineSeconds: 400, containers: [core.v1.Container](), enableServiceLinks: true, ephemeralContainers: [core.v1.EphemeralContainer](), hostAliases: [core.v1.HostAlias](), hostname: "bigboy.directlyapply.com", initContainers: [core.v1.Container](), nodeName: "big-boy", readinessGates: [core.v1.PodReadinessGate](), restartPolicy: "Always", topologySpreadConstraints: [core.v1.TopologySpreadConstraint](), volumes: [core.v1.Volume]()), status: core.v1.PodStatus(startTime: Date()))
-	}
-	
-	func populateTestData() -> ClusterResources {
-		let pod1 = ClusterResources.dummyPod()
-		let uuid = try! UUID.fromK8sMetadata(resource: pod1)
-		pods[uuid] = pod1
-		return self
 	}
 }

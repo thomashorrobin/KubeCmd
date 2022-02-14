@@ -12,8 +12,8 @@ struct Secret: View {
 	let secret:core.v1.Secret
 	var body: some View {
 		VStack(alignment: .leading, spacing: CGFloat(5), content:{
-			if let metadata = secret.metadata {
-				MetaDataSection(metadata: metadata)
+			if secret.metadata != nil {
+				MetaDataSection(resource: secret)
 				Divider().padding(.vertical, 30)
 			}
 			if let data = secret.data {

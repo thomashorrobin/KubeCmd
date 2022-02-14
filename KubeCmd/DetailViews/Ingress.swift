@@ -48,8 +48,8 @@ struct Ingress: View {
 	}
     var body: some View {
 		VStack(alignment: .leading, spacing: CGFloat(5), content: {
-			if let metadata = ingress.metadata {
-				MetaDataSection(metadata: metadata)
+			if ingress.metadata != nil {
+				MetaDataSection(resource: ingress)
 			}
 			if let ingress = ingress.status?.loadBalancer?.ingress {
 				Divider().padding(.vertical, 30)

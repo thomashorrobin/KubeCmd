@@ -12,8 +12,8 @@ struct Pod: View {
 	var pod:core.v1.Pod
 	var body: some View {
 		VStack(alignment: .leading, spacing: CGFloat(5), content: {
-			if let metadata = pod.metadata {
-				MetaDataSection(metadata: metadata)
+			if pod.metadata != nil {
+				MetaDataSection(resource: pod)
 				Divider().padding(.vertical, 30)
 			}
 			if let status = pod.status {
