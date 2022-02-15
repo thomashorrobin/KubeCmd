@@ -21,13 +21,14 @@ struct KubernetesAPIResourceList: View, NamespaceFilterable {
 	var resources: [KubernetesAPIResource]
 	var sortingFucntion: (KubernetesAPIResource, KubernetesAPIResource) -> Bool
 	var namespace: NamespaceSelector
+	var resourceType: String
 	@State private var searchText = ""
 	var body: some View {
 		List{
 			ForEach(searchResults.filter(filterByNamespace).sorted(by: sortingFucntion), id: \.metadata!.uid) { r in
 				KubernetesAPIResourceRow(resource: r)
 			}
-		}.searchable(text: $searchText)
+		}.searchable(text: $searchText, prompt: "Search \(resourceType)")
 	}
 	
 	var searchResults: [KubernetesAPIResource] {
