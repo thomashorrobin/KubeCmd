@@ -35,12 +35,31 @@ class ClusterResources: ObservableObject {
 	}
 	
 	func refreshData() throws -> Void {
-		self.configmaps = try self.client.configMaps.list(in: namespace).wait()
-		self.secrets = try self.client.secrets.list(in: namespace).wait()
-		self.cronjobs = try self.client.batchV1Beta1.cronJobs.list(in: namespace).wait()
-		self.deployments = try self.client.appsV1.deployments.list(in: namespace).wait()
-		self.ingresses = try self.client.networkingV1.ingresses.list(in: namespace).wait()
-		self.services = try self.client.services.list(in: namespace).wait()
+		try refreshConfigMaps(ns: namespace)
+		try refreshSecrets(ns: namespace)
+		try refreshCronJobs(ns: namespace)
+		try refreshDeployments(ns: namespace)
+		try refreshIngresses(ns: namespace)
+		try refreshServices(ns: namespace)
+	}
+	
+	func refreshConfigMaps(ns: NamespaceSelector) throws -> Void {
+		self.configmaps = try self.client.configMaps.list(in: ns).wait()
+	}
+	func refreshSecrets(ns: NamespaceSelector) throws -> Void {
+		self.secrets = try self.client.secrets.list(in: ns).wait()
+	}
+	func refreshCronJobs(ns: NamespaceSelector) throws -> Void {
+		self.cronjobs = try self.client.batchV1Beta1.cronJobs.list(in: ns).wait()
+	}
+	func refreshDeployments(ns: NamespaceSelector) throws -> Void {
+		self.deployments = try self.client.appsV1.deployments.list(in: ns).wait()
+	}
+	func refreshIngresses(ns: NamespaceSelector) throws -> Void {
+		self.ingresses = try self.client.networkingV1.ingresses.list(in: ns).wait()
+	}
+	func refreshServices(ns: NamespaceSelector) throws -> Void {
+		self.services = try self.client.services.list(in: ns).wait()
 	}
 	
 	func fetchNamespaces() throws -> Void {
@@ -178,7 +197,7 @@ class ClusterResources: ObservableObject {
 		newMetadata.labels = labels
 		return newMetadata
 	}
-	func deleteResource(resource:KubernetesAPIResource) -> Void {
+	func deleteResource(resource:KubernetesAPIResource) throws -> Void {
 		let deleteOptions = meta.v1.DeleteOptions(
 			gracePeriodSeconds: 10,
 			propagationPolicy: "Foreground"
@@ -189,24 +208,29 @@ class ClusterResources: ObservableObject {
 		switch resource.kind {
 		case "CronJob":
 			_ = client.batchV1Beta1.cronJobs.delete(inNamespace: .namespace(namespace), name: name, options: deleteOptions)
+			try refreshCronJobs(ns: self.namespace)
 		case "Job":
 			_ = client.batchV1.jobs.delete(inNamespace: .namespace(namespace), name: name, options: deleteOptions)
 			
 		case "Deployment":
 			_ = client.appsV1.deployments.delete(inNamespace: .namespace(namespace), name: name, options: deleteOptions)
+			try refreshDeployments(ns: self.namespace)
 			
 		case "Pod":
 			_ = client.pods.delete(inNamespace: .namespace(namespace), name: name, options: deleteOptions)
 			
 		case "ConfigMap":
 			_ = client.configMaps.delete(inNamespace: .namespace(namespace), name: name, options: deleteOptions)
-			
+			try refreshConfigMaps(ns: self.namespace)
 		case "Secret":
 			_ = client.secrets.delete(inNamespace: .namespace(namespace), name: name, options: deleteOptions)
+			try refreshSecrets(ns: self.namespace)
 		case "Ingress":
 			_ = client.networkingV1.ingresses.delete(inNamespace: .namespace(namespace), name: name, options: deleteOptions)
+			try refreshIngresses(ns: self.namespace)
 		case "Service":
 			_ = client.services.delete(inNamespace: .namespace(namespace), name: name, options: deleteOptions)
+			try refreshSecrets(ns: self.namespace)
 		default:
 			print("resource.kind not handled by deleteResource()")
 		}

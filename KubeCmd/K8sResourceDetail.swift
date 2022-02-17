@@ -14,7 +14,11 @@ struct K8sResourceDetail: View {
 	@State var resourceDeleting = false
 	@State var deleted = false
 	func deleteResource() -> Void {
-		resources.deleteResource(resource: resource)
+		do {
+			try resources.deleteResource(resource: resource)
+		} catch {
+			print(error)
+		}
 	}
 	var body: some View {
 		if deleted {
