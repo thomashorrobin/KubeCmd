@@ -130,7 +130,7 @@ class ClusterResources: ObservableObject {
 	func addJob(job: batch.v1.Job) -> Void {
 		do {
 			let job = try client.batchV1.jobs.create(inNamespace: .default, job).wait()
-			addJob(job: job)
+			try setJob(job: job)
 		} catch {
 			print(error)
 		}
