@@ -11,12 +11,15 @@ import UniformTypeIdentifiers
 
 struct StartupScreen: View {
 	var setConfig:(KubernetesClient) -> Void
+	@State private var showingFailedLoadAlert = false
 	var body: some View {
 		VStack{
 			Image("splash-icon").resizable().scaledToFit().frame(width: 180, height: 180, alignment: .center).padding(.all, 15)
 			Text("KubeCmd").font(.largeTitle)
 			Button("Open", action: openFile).buttonStyle(LinkButtonStyle()).padding(.vertical, 40).font(.title2)
-		}.frame(width: 400, alignment: .center)
+		}.frame(width: 400, alignment: .center).alert(isPresented: $showingFailedLoadAlert, content: {
+			Alert(title: Text("yaml file failed to load"))
+		})
 	}
 	func openFile() -> Void {
 		let panel = NSOpenPanel()
@@ -28,6 +31,8 @@ struct StartupScreen: View {
 			if let u = panel.url {
 				if let client = KubernetesClient(fromURL: URL(fileURLWithPath: u.path)) {
 					setConfig(client)
+				} else {
+					showingFailedLoadAlert = true
 				}
 			}
 		}
