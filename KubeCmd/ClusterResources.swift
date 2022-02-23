@@ -8,30 +8,31 @@
 import Foundation
 import SwiftkubeClient
 import SwiftkubeModel
+import SwiftUI
 
 class ClusterResources: ObservableObject {
 	@Published var selectedResource = KubernetesResources.pods
 	@Published var pods = [UUID:core.v1.Pod]()
-	@Published var configmaps:core.v1.ConfigMapList
-	@Published var secrets:core.v1.SecretList
-	@Published var cronjobs:batch.v1beta1.CronJobList
+	@Published var configmaps:core.v1.ConfigMapList = core.v1.ConfigMapList(metadata: nil, items: [])
+	@Published var secrets:core.v1.SecretList = core.v1.SecretList(metadata: nil, items: [])
+	@Published var cronjobs:batch.v1beta1.CronJobList = batch.v1beta1.CronJobList(metadata: nil, items: [])
 	@Published var jobs = [UUID:batch.v1.Job]()
-	@Published var deployments:apps.v1.DeploymentList
-	@Published var ingresses:networking.v1.IngressList
-	@Published var services:core.v1.ServiceList
+	@Published var deployments:apps.v1.DeploymentList = apps.v1.DeploymentList(metadata: nil, items: [])
+	@Published var ingresses:networking.v1.IngressList = networking.v1.IngressList(metadata: nil, items: [])
+	@Published var services:core.v1.ServiceList = core.v1.ServiceList(metadata: nil, items: [])
 	@Published var namespace = NamespaceSelector.namespace("default")
 	@Published var namespaces = core.v1.NamespaceList(metadata: nil, items: [core.v1.Namespace]())
+	@Published var errors = [Error]()
 	var client:KubernetesClient
 	var k8sTasks = [SwiftkubeClientTask]()
 	
-	init(client:KubernetesClient) throws {
+	init(client:KubernetesClient) {
 		self.client = client
-		self.configmaps = try client.configMaps.list(in: .default).wait()
-		self.secrets = try client.secrets.list(in: .default).wait()
-		self.cronjobs = try client.batchV1Beta1.cronJobs.list(in: .default).wait()
-		self.deployments = try client.appsV1.deployments.list(in: .default).wait()
-		self.ingresses = try client.networkingV1.ingresses.list(in: .default).wait()
-		self.services = try client.services.list(in: .default).wait()
+		do {
+			try refreshData()
+		} catch {
+			errors.append(error)
+		}
 	}
 	
 	func refreshData() throws -> Void {
@@ -151,7 +152,7 @@ class ClusterResources: ObservableObject {
 			let job = try client.batchV1.jobs.create(inNamespace: .default, job).wait()
 			try setJob(job: job)
 		} catch {
-			print(error)
+			errors.append(error)
 		}
 	}
 	
@@ -170,7 +171,7 @@ class ClusterResources: ObservableObject {
 			let _ = try client.batchV1Beta1.cronJobs.update(newThing).wait()
 			self.cronjobs = try client.batchV1Beta1.cronJobs.list(in: self.namespace).wait()
 		} catch {
-			print(error)
+			errors.append(error)
 		}
 	}
 	func suspendCronJob(cronjob: batch.v1beta1.CronJob) -> Void {
@@ -180,7 +181,7 @@ class ClusterResources: ObservableObject {
 			let _ = try client.batchV1Beta1.cronJobs.update(newThing).wait()
 			self.cronjobs = try client.batchV1Beta1.cronJobs.list(in: self.namespace).wait()
 		} catch {
-			print(error)
+			errors.append(error)
 		}
 	}
 	func addLabel(metadata:meta.v1.ObjectMeta, key:String, value:String) -> meta.v1.ObjectMeta? {

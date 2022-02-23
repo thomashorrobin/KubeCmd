@@ -21,7 +21,7 @@ struct KubeCmdApp: App {
 	var body: some Scene {
 		WindowGroup {
 			if let client = client {
-				ContentView(resources: try! ClusterResources(client: client), setClientNil: setClientNil)
+				ContentView(resources: ClusterResources(client: client), setClientNil: setClientNil)
 					.environment(\.managedObjectContext, persistenceController.container.viewContext)
 			} else {
 				StartupScreen { client in
