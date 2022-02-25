@@ -24,6 +24,18 @@ struct ContentView: View {
 	
 	var setClientNil: () -> Void
 	
+	@State var errors = [Error]()
+	@State private var showingErrorsAlert = false
+	private func getErrorsAsString() -> Text? {
+		if errors.isEmpty {
+			return nil
+		}
+		let descriptions = errors.map { e in
+			return e.localizedDescription
+		}
+		return Text(descriptions.joined(separator: "\n"))
+	}
+	
 	var body: some View {
 		NavigationView
 		{
@@ -35,7 +47,8 @@ struct ContentView: View {
 					try resources.refreshData()
 					try resources.fetchNamespaces()
 				} catch {
-					print(error)
+					errors.append(error)
+					showingErrorsAlert = true
 				}
 				buttonText = "Load data again"
 			}, label: {
@@ -47,7 +60,8 @@ struct ContentView: View {
 				try resources.fetchNamespaces()
 				try resources.connectWatches()
 			} catch {
-				print(error)
+				errors.append(error)
+				showingErrorsAlert = true
 			}
 		}).onDisappear(perform: {
 			resources.disconnectWatches()
@@ -70,7 +84,11 @@ struct ContentView: View {
 					Label("Namespace Filter", systemImage: "square.on.square.dashed")
 				}
 			}
-		}).frame(minWidth: 1290)
+		}).frame(minWidth: 1290).alert(isPresented: $showingErrorsAlert, content: {
+			Alert(title: Text("errors:"), message: getErrorsAsString(), dismissButton: .default(Text("dismiss")) {
+				errors = []
+			})
+		})
 	}
 	
 	func toggleSidebar() {
