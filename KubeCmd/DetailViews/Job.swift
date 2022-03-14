@@ -68,9 +68,17 @@ struct JobStatusBarStat: View {
 		}
 	}
 	var body: some View {
-		HStack{
-			Text(name).bold().foregroundColor(c)
-			Text(i.description)
+		if i == 0 {
+			EmptyView()
+		} else {
+			HStack{
+				Text(name).bold().foregroundColor(c)
+				if i > 1 {
+					Text(i.description).padding(.all, 5).background(content: {
+						RoundedRectangle(cornerRadius: 5).fill(c.opacity(0.5))
+					})
+				}
+			}
 		}
 	}
 }
