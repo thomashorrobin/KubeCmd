@@ -37,6 +37,8 @@
 		49A5A6DD270881A6002BDF5B /* CreateResourceCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A5A6DC270881A6002BDF5B /* CreateResourceCommands.swift */; };
 		49A5A6DF2708B91D002BDF5B /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 49A5A6DE2708B91D002BDF5B /* Credits.rtf */; };
 		49B0FADB26E1EDC0002679A3 /* LogsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B0FADA26E1EDC0002679A3 /* LogsHandler.swift */; };
+		49E33BCB27EA0A4300C7619C /* helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E33BCA27EA0A4300C7619C /* helpers.swift */; };
+		49E33BCC27EA0A4300C7619C /* helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E33BCA27EA0A4300C7619C /* helpers.swift */; };
 		49E7DB88270E0A7F0010F079 /* CreateCronjob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E7DB87270E0A7F0010F079 /* CreateCronjob.swift */; };
 		49E7DB8A270E0BB40010F079 /* ViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E7DB89270E0BB40010F079 /* ViewExtensions.swift */; };
 		49E7DB8C270E0D500010F079 /* CreateJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E7DB8B270E0D500010F079 /* CreateJob.swift */; };
@@ -102,6 +104,7 @@
 		49A5A6DC270881A6002BDF5B /* CreateResourceCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateResourceCommands.swift; sourceTree = "<group>"; };
 		49A5A6DE2708B91D002BDF5B /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		49B0FADA26E1EDC0002679A3 /* LogsHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogsHandler.swift; sourceTree = "<group>"; };
+		49E33BCA27EA0A4300C7619C /* helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = helpers.swift; sourceTree = "<group>"; };
 		49E7DB87270E0A7F0010F079 /* CreateCronjob.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCronjob.swift; sourceTree = "<group>"; };
 		49E7DB89270E0BB40010F079 /* ViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewExtensions.swift; sourceTree = "<group>"; };
 		49E7DB8B270E0D500010F079 /* CreateJob.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateJob.swift; sourceTree = "<group>"; };
@@ -203,6 +206,7 @@
 				49595D4A27047EE3005F9D42 /* AppDelegate.swift */,
 				49A5A6DC270881A6002BDF5B /* CreateResourceCommands.swift */,
 				494CE63F2757AB0B00B5007F /* StartupScreen.swift */,
+				49E33BCA27EA0A4300C7619C /* helpers.swift */,
 			);
 			path = KubeCmd;
 			sourceTree = "<group>";
@@ -419,6 +423,7 @@
 				495A6904267F98FF00DA2EDD /* K8sResourceDetail.swift in Sources */,
 				49FBB8E7267CAC73004C7824 /* KubernetesAPIResourceList.swift in Sources */,
 				4944731D26C2F3D10070E338 /* Extensions.swift in Sources */,
+				49E33BCB27EA0A4300C7619C /* helpers.swift in Sources */,
 				4973D20E2763A15A000F65C1 /* KubernetesLabel.swift in Sources */,
 				4961B4CE26B1DC53000A55D7 /* ConfigMap.swift in Sources */,
 				49E7DB8E270E0D980010F079 /* CreateConfigMap.swift in Sources */,
@@ -435,6 +440,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				49782B2B25E08DD800D92F4C /* KubeCmdTests.swift in Sources */,
+				49E33BCC27EA0A4300C7619C /* helpers.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

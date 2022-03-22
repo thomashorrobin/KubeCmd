@@ -76,21 +76,6 @@ struct TriggerCronJobButton : View {
 	}
 }
 
-func createJobFromCronJob(cronJob:batch.v1beta1.CronJob) -> batch.v1.Job {
-	let tmp = cronJob.spec?.jobTemplate.spec
-	let dateFormatter = DateFormatter()
-	dateFormatter.dateFormat = "yyyyMMdd-HHmmss-SSS"
-	let dateStr = dateFormatter.string(from: Date())
-	let x = "\(cronJob.name ?? "terrible-error")-manual-\(dateStr)"
-	var existingMetadata = cronJob.metadata
-	existingMetadata?.name = x
-	var job = batch.v1.Job()
-	existingMetadata?.resourceVersion = nil
-	job.spec = tmp
-	job.metadata = existingMetadata
-	return job
-}
-
 struct CronJob_Previews: PreviewProvider {
 	static var previews: some View {
 		CronJob(res: ClusterResources.dummyCronJob() as KubernetesAPIResource)
