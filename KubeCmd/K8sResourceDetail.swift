@@ -85,6 +85,16 @@ struct ViewLogs: View {
 	}
 }
 
+struct ReRunJob: View {
+	var job:batch.v1.Job
+	@EnvironmentObject var resources: ClusterResources
+	var body: some View {
+		Button("Rerun", action: {
+			resources.rerunJob(job: job)
+		})
+	}
+}
+
 struct CustomButtons: View {
 	var resource:KubernetesAPIResource
 	var body: some View {
@@ -104,6 +114,11 @@ struct CustomButtons: View {
 			let pod = resource as! core.v1.Pod
 			HStack(spacing: 15){
 				ViewLogs(pod: pod)
+			}.padding(.all, 40)
+		case "Job":
+			let job = resource as! batch.v1.Job
+			HStack(spacing: 15){
+				ReRunJob(job: job)
 			}.padding(.all, 40)
 		default:
 			EmptyView()
