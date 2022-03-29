@@ -99,6 +99,7 @@ struct UpdateCronView: View {
 		VStack(alignment: .leading) {
 			Text("New cron").font(.title)
 			TextField("*/10 * * *", text: $cron)
+			CronBuilder()
 			if cronError {
 				Text("error: cron couldn't be parsed").font(.footnote).foregroundColor(.red)
 			}
