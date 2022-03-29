@@ -16,7 +16,7 @@ struct StartupScreen: View {
 		VStack{
 			Image("splash-icon").resizable().scaledToFit().frame(width: 180, height: 180, alignment: .center).padding(.all, 15)
 			Text("KubeCmd").font(.largeTitle)
-			Button("connect with config file", action: openFile).buttonStyle(LinkButtonStyle()).padding(.vertical, 40).font(.title2)
+			Button("connect", action: openFile).buttonStyle(LinkButtonStyle()).padding(.vertical, 40).font(.title2)
 		}.frame(width: 400, alignment: .center).alert(isPresented: $showingFailedLoadAlert, content: {
 			Alert(title: Text("yaml file failed to load"))
 		})

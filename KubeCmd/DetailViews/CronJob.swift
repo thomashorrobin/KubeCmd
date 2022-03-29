@@ -66,11 +66,11 @@ struct CronJob: View {
 			}
 		}).sheet(isPresented: $showingUpdateCronSheet, onDismiss: {
 			showingUpdateCronSheet = false
-		}, content: {
+		}) {
 			UpdateCronView(dismiss: {
 				showingUpdateCronSheet = false
 		 })
-		})
+		}
 	}
 }
 
