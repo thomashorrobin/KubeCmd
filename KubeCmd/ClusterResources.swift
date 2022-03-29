@@ -184,6 +184,15 @@ class ClusterResources: ObservableObject {
 			errors.append(error)
 		}
 	}
+	func setCron(uid:UUID, cron:String) -> Void {
+		let cronjob = self.cronjobs.first { cj in
+			return try! UUID.fromK8sMetadata(resource: cj) == uid
+		}
+		guard var cronjob = cronjob else { return  }
+		cronjob.spec?.schedule = cron
+		let _ = client.batchV1Beta1.cronJobs.update(inNamespace: .default, cronjob)
+		try! self.refreshCronJobs(ns: .default)
+	}
 	func addLabel(metadata:meta.v1.ObjectMeta, key:String, value:String) -> meta.v1.ObjectMeta? {
 		guard var labels = metadata.labels else { return metadata }
 		labels[key] = value
