@@ -25,6 +25,7 @@ struct StartupScreen: View {
 		let panel = NSOpenPanel()
 		panel.allowsMultipleSelection = false
 		panel.canChooseDirectories = false
+		panel.showsHiddenFiles = true
 		panel.allowedContentTypes = [UTType(filenameExtension: "yaml")!, UTType(filenameExtension: "yml")!]
 		if panel.runModal() == .OK {
 			print(panel.url?.path ?? "<none>")
