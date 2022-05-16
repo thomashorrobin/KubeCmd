@@ -40,6 +40,14 @@ struct CreateResourceCommands: Commands {
 				}
 				CreateSecret(onSecretCreate: createSecret).openInWindow(title: "Secret", sender: self)
 			}.disabled(!activeClient)
+			Divider()
+			Button("Delete all Jobs"){
+				do {
+					let _ = try client!.batchV1.jobs.deleteAll(inNamespace: .default).wait()
+				} catch {
+					print(error)
+				}
+			}.disabled(!activeClient)
 		}
 	}
 }
