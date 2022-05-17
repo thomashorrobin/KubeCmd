@@ -26,7 +26,7 @@ struct K8sResourceDetail: View {
 		} else {
 			VStack(alignment: .leading, content: {
 				HStack {
-					Text(resource.name ?? "no name").font(.title)
+					Text(resource.name ?? "no name").font(.title).textSelection(.enabled)
 					Spacer()
 					VStack (alignment: .trailing, content: {
 						Text(resource.kind).font(.largeTitle).bold()
