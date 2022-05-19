@@ -10,6 +10,20 @@ import SwiftkubeClient
 import SwiftkubeModel
 import SwiftUI
 
+public extension batch.v1beta1.CronJobList {
+	mutating func replaceOrAdd(cj:batch.v1beta1.CronJob) throws {
+		let uid = try UUID.fromK8sMetadata(resource: cj as KubernetesAPIResource)
+		for (i, item) in items.enumerated() {
+			let xx_uid = try UUID.fromK8sMetadata(resource: item as KubernetesAPIResource)
+			if xx_uid == uid {
+				items[i] = cj
+				return
+			}
+		}
+		items.append(cj)
+	}
+}
+
 class ClusterResources: ObservableObject {
 	@Published var selectedResource = KubernetesResources.pods
 	@Published var pods = [UUID:core.v1.Pod]()
@@ -168,8 +182,8 @@ class ClusterResources: ObservableObject {
 		var newThing = cronjob
 		newThing.spec?.suspend = false
 		do {
-			let _ = try client.batchV1Beta1.cronJobs.update(newThing).wait()
-			self.cronjobs = try client.batchV1Beta1.cronJobs.list(in: self.namespace).wait()
+			let newCronjob = try client.batchV1Beta1.cronJobs.update(newThing).wait()
+			try self.cronjobs.replaceOrAdd(cj: newCronjob)
 		} catch {
 			errors.append(error)
 		}
@@ -178,8 +192,8 @@ class ClusterResources: ObservableObject {
 		var newThing = cronjob
 		newThing.spec?.suspend = true
 		do {
-			let _ = try client.batchV1Beta1.cronJobs.update(newThing).wait()
-			self.cronjobs = try client.batchV1Beta1.cronJobs.list(in: self.namespace).wait()
+			let newCronjob = try client.batchV1Beta1.cronJobs.update(newThing).wait()
+			try self.cronjobs.replaceOrAdd(cj: newCronjob)
 		} catch {
 			errors.append(error)
 		}
