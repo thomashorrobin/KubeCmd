@@ -113,7 +113,7 @@ class ClusterResources: ObservableObject {
 	func connectWatches() throws -> Void {
 		
 		let strategy = RetryStrategy(
-			policy: .maxAttemtps(20),
+			policy: .maxAttempts(20),
 			backoff: .exponential(maximumDelay: 60, multiplier: 2.0)
 		)
 		k8sTasks.append(try! client.pods.watch(in: .default, retryStrategy: strategy) { (event, pod) in

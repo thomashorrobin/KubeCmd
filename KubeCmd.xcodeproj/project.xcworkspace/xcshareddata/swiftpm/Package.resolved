@@ -15,7 +15,7 @@
       "location" : "git@github.com:swiftkube/client.git",
       "state" : {
         "branch" : "main",
-        "revision" : "c6382ecf65e575973010f0064f5a6a34ebcdf1eb"
+        "revision" : "7d7df5992e38deac2da16724dbcf83bb0cd78850"
       }
     },
     {
@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/swiftkube/model.git",
       "state" : {
-        "revision" : "9377c53f7b9378168b6d7f07179cf72165239511",
-        "version" : "0.4.0"
+        "revision" : "6566151d023be1c741fe720ad13e7f9817502401",
+        "version" : "0.5.2"
       }
     },
     {
@@ -41,8 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-metrics.git",
       "state" : {
-        "revision" : "eadb828f878fed144387e3845866225bb7082c56",
-        "version" : "2.3.0"
+        "revision" : "1c1408bf8fc21be93713e897d2badf500ea38419",
+        "version" : "2.3.1"
       }
     },
     {
