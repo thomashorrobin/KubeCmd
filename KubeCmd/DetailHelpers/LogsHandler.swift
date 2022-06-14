@@ -75,7 +75,7 @@ struct LogsView: View {
 					downloadLogs()
 				} label: {
 					Image(systemName: "icloud.and.arrow.down")
-					Text("Download")
+					Text("Save to Downloads")
 				}
 				
 			}
