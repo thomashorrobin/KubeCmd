@@ -9,52 +9,75 @@ import SwiftUI
 import SwiftkubeClient
 
 struct LogsHandler: View {
-	@EnvironmentObject var resources: ClusterResources
-	@State var logs = [Int:String]()
+	var resources: ClusterResources
+	@State var logs: String
+	init(podName name: String, resources resourcesPointer: ClusterResources) throws {
+		resources = resourcesPointer
+		podName = name
+		logs = try resources.getLogs(name: name)
+	}
 	var podName: String
-	@State var clientTask: SwiftkubeClientTask?
-	@State var logNumberCount:Int = 0
+	func refreashLogs() -> Void {
+		do {
+			logs = try resources.getLogs(name: podName)
+		} catch  {
+			print("error")
+		}
+	}
+	func downloadLogs() -> Void {
+		let paths = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask)
+		let firstPath = paths[0]
+		let filename = firstPath.appendingPathComponent("\(podName).log")
+		print(filename.absoluteString)
+		do {
+			try logs.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
+		} catch {
+			print(error)
+			// failed to write file – bad permissions, bad filename, missing permissions, or more likely it can't be converted to the encoding
+		}
+	}
 	var body: some View {
-		LogsView(logs: logs).onAppear {
-			do {
-				clientTask = try resources.followLogs(name: podName) { line in
-					logs[logNumberCount] = line
-					logNumberCount += 1
-				}
-			} catch {
-				print(error)
-			}
-		}.onDisappear {
-			guard let ct = clientTask else {
-				return
-			}
-			ct.cancel()
-		}.padding(40).frame(width: 800, height: 500, alignment: .center)
+		LogsView(logs: logs, refreashLogs: refreashLogs, downloadLogs: downloadLogs).padding(40).frame(width: 800, height: 500, alignment: .center)
 	}
 }
 
 struct LogsView: View {
-	var logs:[Int:String]
+	var logs:String
+	var refreashLogs:() -> Void
+	var downloadLogs:() -> Void
 	var body: some View {
 		VStack(alignment: .leading){
-			Text("Logs").font(.title2).frame(alignment: .center)
+			HStack{
+				Text("Logs").font(.title2).frame(alignment: .center)
+				Spacer()
+				Button(action: refreashLogs) {
+					Image(systemName: "arrow.clockwise")
+				}
+			}
 			ScrollView{
 				VStack(alignment: .leading, spacing: 0){
-					ForEach(logs.sorted(by: <), id: \.key) { log in
-						Text(log.value).frame(
-							minWidth: 0,
-							maxWidth: .infinity,
-							minHeight: 0,
-							maxHeight: .infinity,
-							alignment: .leading
-						).foregroundColor(Color.green)
-					}.frame(
-						minWidth: 0,
-						maxWidth: .infinity,
-						minHeight: 0,
-						maxHeight: .infinity
-					).background(Color.black)
+					Text(logs).frame(
+						   minWidth: 0,
+						   maxWidth: .infinity,
+						   minHeight: 0,
+						   maxHeight: .infinity,
+						   alignment: .leading
+					   ).foregroundColor(Color.green)
+				}.frame(
+					minWidth: 0,
+					   maxWidth: .infinity,
+					   minHeight: 0,
+					   maxHeight: .infinity
+				   ).background(Color.black)
+			}
+			HStack(alignment: .top) {
+				Button {
+					downloadLogs()
+				} label: {
+					Image(systemName: "icloud.and.arrow.down")
+					Text("Download")
 				}
+				
 			}
 		}
 	}
@@ -162,14 +185,10 @@ struct Logs_Previews: PreviewProvider {
 		"2021/09/07 15:44:27 5151/300000 https://directlyapply.com/jobs/national-vision/613788daa8cf4c3be7b9a079 CPA: 0.000000 Responce: 200 OK",
 		"2021/09/07 15:44:27 5152/300000 https://directlyapply.com/jobs/army-national-guard/613788daa8cf4c3be7b9a07b CPA: 0.000000 "
 	)
-	static func dummyLogsAMap() -> [Int:String] {
-		var logMap = [Int:String]()
-		for (i, log) in dummyData.enumerated() {
-			logMap[i] = log
-		}
-		return logMap
+	static func dummyFuntion() {
+		print("error")
 	}
 	static var previews: some View {
-		LogsView(logs: dummyLogsAMap())
+		LogsView(logs: dummyData.joined(separator: "\n"), refreashLogs: dummyFuntion, downloadLogs: dummyFuntion)
 	}
 }

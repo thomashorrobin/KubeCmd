@@ -85,6 +85,10 @@ class ClusterResources: ObservableObject {
 		return try client.pods.follow(name: name, lineHandler: cb)
 	}
 	
+	func getLogs(name: String) throws -> String {
+		return try client.pods.logs(name: name).wait()
+	}
+	
 	func removePod(uid:UUID) -> Void {
 		self.pods.removeValue(forKey: uid)
 	}

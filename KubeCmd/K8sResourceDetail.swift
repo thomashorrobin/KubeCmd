@@ -80,7 +80,11 @@ struct ViewLogs: View {
 	@EnvironmentObject var resources: ClusterResources
 	var body: some View {
 		Button("Logs", action: {
-			LogsHandler(podName: pod.name!).environmentObject(resources).openInWindow(title: pod.name!, sender: self)
+			do {
+				try LogsHandler(podName: pod.name!, resources: resources).environmentObject(resources).openInWindow(title: pod.name!, sender: self)
+			} catch {
+				print("bad")
+			}
 		})
 	}
 }
