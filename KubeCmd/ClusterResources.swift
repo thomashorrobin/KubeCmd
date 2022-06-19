@@ -120,16 +120,24 @@ class ClusterResources: ObservableObject {
 			policy: .maxAttempts(20),
 			backoff: .exponential(maximumDelay: 60, multiplier: 2.0)
 		)
-		k8sTasks.append(try! client.pods.watch(in: .default, retryStrategy: strategy) { (event, pod) in
+		let podWatcher = try client.pods.watch(in: .default, retryStrategy: strategy) { (event, pod) in
 			let uuid = try! UUID.fromK8sMetadata(resource: pod)
 			switch event.rawValue {
 			case "ADDED":
 				DispatchQueue.main.async {
-					try! self.setPod(pod: pod)
+					do {
+						try self.setPod(pod: pod)
+					} catch {
+						print(error)
+					}
 				}
 			case "MODIFIED":
 				DispatchQueue.main.async {
-					try! self.setPod(pod: pod)
+					do {
+						try self.setPod(pod: pod)
+					} catch {
+						print(error)
+					}
 				}
 			case "DELETED":
 				DispatchQueue.main.async {
@@ -138,17 +146,25 @@ class ClusterResources: ObservableObject {
 			default:
 				break
 			}
-		})
-		k8sTasks.append(try! client.batchV1.jobs.watch(in: .default, retryStrategy: strategy) { (event, job) in
+		}
+		let jobWatcher = try client.batchV1.jobs.watch(in: .default, retryStrategy: strategy) { (event, job) in
 			let uuid = try! UUID.fromK8sMetadata(resource: job)
 			switch event.rawValue {
 			case "ADDED":
 				DispatchQueue.main.async {
-					try! self.setJob(job: job)
+					do {
+						try self.setJob(job: job)
+					} catch {
+						print(error)
+					}
 				}
 			case "MODIFIED":
 				DispatchQueue.main.async {
-					try! self.setJob(job: job)
+					do {
+						try self.setJob(job: job)
+					} catch {
+						print(error)
+					}
 				}
 			case "DELETED":
 				DispatchQueue.main.async {
@@ -157,8 +173,9 @@ class ClusterResources: ObservableObject {
 			default:
 				break
 			}
-		})
-		
+		}
+		k8sTasks.append(podWatcher)
+		k8sTasks.append(jobWatcher)
 	}
 	
 	func setSelectedResource(resource: KubernetesResources) -> Void {
