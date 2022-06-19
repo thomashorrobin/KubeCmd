@@ -55,12 +55,24 @@ struct ContentView: View {
 				Text(buttonText)
 			}).frame(width: 250, height: 500)
 		}.environmentObject(resources).onAppear(perform: {
+			var startUpErrors = [Error]()
 			do {
 				try resources.refreshData()
+			} catch {
+				startUpErrors.append(error)
+			}
+			do {
 				try resources.fetchNamespaces()
+			} catch {
+				startUpErrors.append(error)
+			}
+			do {
 				try resources.connectWatches()
 			} catch {
-				errors.append(error)
+				startUpErrors.append(error)
+			}
+			if !startUpErrors.isEmpty {
+				errors = startUpErrors
 				showingErrorsAlert = true
 			}
 		}).onDisappear(perform: {
