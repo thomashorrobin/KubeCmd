@@ -57,20 +57,13 @@ struct LogsView: View {
 				}
 			}
 			ScrollView{
-				VStack(alignment: .leading, spacing: 0){
 					Text(logs).frame(
 						   minWidth: 0,
 						   maxWidth: .infinity,
 						   minHeight: 350,
 						   maxHeight: .infinity,
 						   alignment: .leading
-					   ).foregroundColor(Color.green)
-				}.frame(
-					minWidth: 0,
-					   maxWidth: .infinity,
-					   minHeight: 0,
-					   maxHeight: .infinity
-				   ).background(Color.black)
+				   ).foregroundColor(Color.green).background(Color.black)
 			}
 			HStack(alignment: .top) {
 				Button {
