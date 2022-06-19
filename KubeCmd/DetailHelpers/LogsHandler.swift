@@ -14,7 +14,7 @@ struct LogsHandler: View {
 	init(podName name: String, resources resourcesPointer: ClusterResources) throws {
 		resources = resourcesPointer
 		podName = name
-		logs = try resources.getLogs(name: name)
+		logs = "no logs yet received by KubeCmd"
 	}
 	var podName: String
 	func refreashLogs() -> Void {
@@ -37,7 +37,9 @@ struct LogsHandler: View {
 		}
 	}
 	var body: some View {
-		LogsView(logs: logs, refreashLogs: refreashLogs, downloadLogs: downloadLogs).padding(40).frame(width: 800, height: 500, alignment: .center)
+		LogsView(logs: logs, refreashLogs: refreashLogs, downloadLogs: downloadLogs).padding(40).frame(width: 800, height: 500, alignment: .center).task {
+			refreashLogs()
+		}
 	}
 }
 
@@ -59,7 +61,7 @@ struct LogsView: View {
 					Text(logs).frame(
 						   minWidth: 0,
 						   maxWidth: .infinity,
-						   minHeight: 0,
+						   minHeight: 350,
 						   maxHeight: .infinity,
 						   alignment: .leading
 					   ).foregroundColor(Color.green)
