@@ -57,12 +57,12 @@ struct LogsView: View {
 				}
 			}
 			ScrollView{
-					Text(logs).frame(
-						   minWidth: 0,
-						   maxWidth: .infinity,
-						   minHeight: 350,
-						   maxHeight: .infinity,
-						   alignment: .leading
+				Text(logs).frame(
+					   minWidth: 0,
+					   maxWidth: .infinity,
+					   minHeight: 350,
+					   maxHeight: .infinity,
+					   alignment: .leading
 				   ).foregroundColor(Color.green).background(Color.black)
 			}
 			HStack(alignment: .top) {
@@ -183,7 +183,10 @@ struct Logs_Previews: PreviewProvider {
 	static func dummyFuntion() {
 		print("error")
 	}
+	static var dummyDataShortLogs = [String](
+		arrayLiteral: "silly log", "silly log 2", "Tom", "Tom", "Tom")
 	static var previews: some View {
 		LogsView(logs: dummyData.joined(separator: "\n"), refreashLogs: dummyFuntion, downloadLogs: dummyFuntion)
+		LogsView(logs: dummyDataShortLogs.joined(separator: "\n"), refreashLogs: dummyFuntion, downloadLogs: dummyFuntion)
 	}
 }
