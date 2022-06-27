@@ -8,7 +8,7 @@
 import Foundation
 import SwiftkubeModel
 
-func createJobFromCronJob(cronJob:batch.v1beta1.CronJob) -> batch.v1.Job {
+func createJobFromCronJob(cronJob:batch.v1.CronJob) -> batch.v1.Job {
 	let tmp = cronJob.spec?.jobTemplate.spec
 	let dateFormatter = DateFormatter()
 	dateFormatter.dateFormat = "yyyyMMdd-HHmmss-SSS"

@@ -11,9 +11,9 @@ import SwiftkubeModel
 
 struct SuspendButton: View {
 	@EnvironmentObject var resources: ClusterResources
-	let cronJob:batch.v1beta1.CronJob
+	let cronJob:batch.v1.CronJob
 	let suspended:Bool
-	init(cronJob:batch.v1beta1.CronJob) {
+	init(cronJob:batch.v1.CronJob) {
 		self.suspended = cronJob.spec?.suspend ?? false
 		self.cronJob = cronJob
 	}
@@ -37,9 +37,9 @@ struct SuspendButton: View {
 }
 
 struct CronJob: View {
-	let cronJob:batch.v1beta1.CronJob
+	let cronJob:batch.v1.CronJob
 	init(res:KubernetesAPIResource) {
-		self.cronJob = res as! batch.v1beta1.CronJob
+		self.cronJob = res as! batch.v1.CronJob
 	}
 	var body: some View {
 		VStack(alignment: .leading, spacing: CGFloat(5), content: {
@@ -57,7 +57,7 @@ struct CronJob: View {
 }
 
 struct TriggerCronJobButton : View {
-	let cronJob:batch.v1beta1.CronJob
+	let cronJob:batch.v1.CronJob
 	@EnvironmentObject var resources: ClusterResources
 	var body: some View {
 		Button(action: triggerCronJob, label: {

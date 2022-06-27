@@ -10,8 +10,8 @@ import SwiftkubeClient
 import SwiftkubeModel
 import SwiftUI
 
-public extension batch.v1beta1.CronJobList {
-	mutating func replaceOrAdd(cj:batch.v1beta1.CronJob) throws {
+public extension batch.v1.CronJobList {
+	mutating func replaceOrAdd(cj:batch.v1.CronJob) throws {
 		let uid = try UUID.fromK8sMetadata(resource: cj as KubernetesAPIResource)
 		for (i, item) in items.enumerated() {
 			let xx_uid = try UUID.fromK8sMetadata(resource: item as KubernetesAPIResource)
@@ -29,7 +29,7 @@ class ClusterResources: ObservableObject {
 	@Published var pods = [UUID:core.v1.Pod]()
 	@Published var configmaps:core.v1.ConfigMapList = core.v1.ConfigMapList(metadata: nil, items: [])
 	@Published var secrets:core.v1.SecretList = core.v1.SecretList(metadata: nil, items: [])
-	@Published var cronjobs:batch.v1beta1.CronJobList = batch.v1beta1.CronJobList(metadata: nil, items: [])
+	@Published var cronjobs:batch.v1.CronJobList = batch.v1.CronJobList(metadata: nil, items: [])
 	@Published var jobs = [UUID:batch.v1.Job]()
 	@Published var deployments:apps.v1.DeploymentList = apps.v1.DeploymentList(metadata: nil, items: [])
 	@Published var ingresses:networking.v1.IngressList = networking.v1.IngressList(metadata: nil, items: [])
@@ -65,7 +65,7 @@ class ClusterResources: ObservableObject {
 		self.secrets = try self.client.secrets.list(in: ns).wait()
 	}
 	func refreshCronJobs(ns: NamespaceSelector) throws -> Void {
-		self.cronjobs = try self.client.batchV1Beta1.cronJobs.list(in: ns).wait()
+		self.cronjobs = try self.client.batchV1.cronJobs.list(in: ns).wait()
 	}
 	func refreshDeployments(ns: NamespaceSelector) throws -> Void {
 		self.deployments = try self.client.appsV1.deployments.list(in: ns).wait()
@@ -199,21 +199,21 @@ class ClusterResources: ObservableObject {
 		self.deployments = try client.appsV1.deployments.list(in: .default).wait()
 	}
 	
-	func unsuspendCronJob(cronjob: batch.v1beta1.CronJob) -> Void {
+	func unsuspendCronJob(cronjob: batch.v1.CronJob) -> Void {
 		var newThing = cronjob
 		newThing.spec?.suspend = false
 		do {
-			let newCronjob = try client.batchV1Beta1.cronJobs.update(newThing).wait()
+			let newCronjob = try client.batchV1.cronJobs.update(newThing).wait()
 			try self.cronjobs.replaceOrAdd(cj: newCronjob)
 		} catch {
 			errors.append(error)
 		}
 	}
-	func suspendCronJob(cronjob: batch.v1beta1.CronJob) -> Void {
+	func suspendCronJob(cronjob: batch.v1.CronJob) -> Void {
 		var newThing = cronjob
 		newThing.spec?.suspend = true
 		do {
-			let newCronjob = try client.batchV1Beta1.cronJobs.update(newThing).wait()
+			let newCronjob = try client.batchV1.cronJobs.update(newThing).wait()
 			try self.cronjobs.replaceOrAdd(cj: newCronjob)
 		} catch {
 			errors.append(error)
@@ -288,8 +288,8 @@ class ClusterResources: ObservableObject {
 		} catch {}
 	}
 	
-	static func dummyCronJob() -> batch.v1beta1.CronJob {
-		return batch.v1beta1.CronJob(metadata: meta.v1.ObjectMeta(clusterName: "directly-apply-main-cluster", creationTimestamp: Date(), deletionGracePeriodSeconds: 100, labels: ["feed" : "ziprecruiter"], managedFields: [meta.v1.ManagedFieldsEntry](), name: "great cronjob", namespace: "default", ownerReferences: [meta.v1.OwnerReference](), resourceVersion: "appv1", uid: "F3493650-A9DF-410F-B1A4-E8F5386E5B53"), spec: batch.v1beta1.CronJobSpec(failedJobsHistoryLimit: 5, jobTemplate: batch.v1beta1.JobTemplateSpec(), schedule: "15 10 * * *", startingDeadlineSeconds: 100, successfulJobsHistoryLimit: 2, suspend: false), status: batch.v1beta1.CronJobStatus(active: [core.v1.ObjectReference](), lastScheduleTime: Date()))
+	static func dummyCronJob() -> batch.v1.CronJob {
+		return batch.v1.CronJob(metadata: meta.v1.ObjectMeta(clusterName: "directly-apply-main-cluster", creationTimestamp: Date(), deletionGracePeriodSeconds: 100, labels: ["feed" : "ziprecruiter"], managedFields: [meta.v1.ManagedFieldsEntry](), name: "great cronjob", namespace: "default", ownerReferences: [meta.v1.OwnerReference](), resourceVersion: "appv1", uid: "F3493650-A9DF-410F-B1A4-E8F5386E5B53"), spec: batch.v1.CronJobSpec(failedJobsHistoryLimit: 5, jobTemplate: batch.v1.JobTemplateSpec(), schedule: "15 10 * * *", startingDeadlineSeconds: 100, successfulJobsHistoryLimit: 2, suspend: false), status: batch.v1.CronJobStatus(active: [core.v1.ObjectReference](), lastScheduleTime: Date()))
 	}
 	
 	static func dummyPod() -> core.v1.Pod {
