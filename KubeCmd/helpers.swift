@@ -8,12 +8,27 @@
 import Foundation
 import SwiftkubeModel
 
+func manualJobSlug() -> String {
+	// We omit vowels from the set of available characters to reduce the chances
+	// of "bad words" being formed.
+	let alphanums = ["b","c","d","f","g","h","j","k","l","m","n","p","q","r","s","t","v","w","x","z","2","4","5","6","7","8","9"]
+	var seedAlphanum = alphanums.randomElement()!
+	var slug = seedAlphanum
+	var neededAlphanums = 2
+	while neededAlphanums > 0 {
+		let nextAlphanum = alphanums.randomElement()!
+		if nextAlphanum != seedAlphanum {
+			seedAlphanum = nextAlphanum
+			slug = slug + nextAlphanum
+			neededAlphanums -= 1
+		}
+	}
+	return slug
+}
+
 func createJobFromCronJob(cronJob:batch.v1.CronJob) -> batch.v1.Job {
 	let tmp = cronJob.spec?.jobTemplate.spec
-	let dateFormatter = DateFormatter()
-	dateFormatter.dateFormat = "yyyyMMdd-HHmmss-SSS"
-	let dateStr = dateFormatter.string(from: Date())
-	let x = "\(cronJob.name ?? "terrible-error")-manual-\(dateStr)"
+	let x = "\(cronJob.name ?? "terrible-error")-manual-\(manualJobSlug())"
 	var existingMetadata = cronJob.metadata
 	existingMetadata?.name = x
 	var job = batch.v1.Job()
@@ -36,10 +51,7 @@ func createJobFromJob(job:batch.v1.Job) throws -> batch.v1.Job {
 		tmp.selector = nil
 		tmp.template.metadata = templateMetadate
 	}
-	let dateFormatter = DateFormatter()
-	dateFormatter.dateFormat = "HHmmss-SSS"
-	let dateStr = dateFormatter.string(from: Date())
-	let x = "\(job.name ?? "terrible-error")-rerun-\(dateStr)"
+	let x = "\(job.name ?? "terrible-error")-rerun-\(manualJobSlug())"
 	existingMetadata.name = x
 	existingMetadata.labels = [String:String]()
 	existingMetadata.managedFields = nil
