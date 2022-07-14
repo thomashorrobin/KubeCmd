@@ -26,18 +26,6 @@ func manualJobSlug() -> String {
 	return slug
 }
 
-func createJobFromCronJob(cronJob:batch.v1.CronJob) -> batch.v1.Job {
-	let tmp = cronJob.spec?.jobTemplate.spec
-	let x = "\(cronJob.name ?? "terrible-error")-manual-\(manualJobSlug())"
-	var existingMetadata = cronJob.metadata
-	existingMetadata?.name = x
-	var job = batch.v1.Job()
-	existingMetadata?.resourceVersion = nil
-	job.spec = tmp
-	job.metadata = existingMetadata
-	return job
-}
-
 enum createJobFromJobErrors : Error {
 	case jobSpecDoesntExist
 	case jobMetadataDoesntExist

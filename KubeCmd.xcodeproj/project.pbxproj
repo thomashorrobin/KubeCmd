@@ -28,7 +28,6 @@
 		49782B1F25E08DD800D92F4C /* KubeCmd.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 49782B1D25E08DD800D92F4C /* KubeCmd.xcdatamodeld */; };
 		49782B2B25E08DD800D92F4C /* KubeCmdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49782B2A25E08DD800D92F4C /* KubeCmdTests.swift */; };
 		49782B3625E08DD800D92F4C /* KubeCmdUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49782B3525E08DD800D92F4C /* KubeCmdUITests.swift */; };
-		49782B4825E094C100D92F4C /* SwiftkubeClient in Frameworks */ = {isa = PBXBuildFile; productRef = 49782B4725E094C100D92F4C /* SwiftkubeClient */; };
 		49782B4E25E2F4BF00D92F4C /* KubernetesResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49782B4C25E2F4BF00D92F4C /* KubernetesResources.swift */; };
 		49782B4F25E2F4BF00D92F4C /* TopLevelK8sMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49782B4D25E2F4BF00D92F4C /* TopLevelK8sMenu.swift */; };
 		4995D4D126BEFA2D00A7831B /* KeyValueDetailSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4995D4D026BEFA2D00A7831B /* KeyValueDetailSection.swift */; };
@@ -43,6 +42,7 @@
 		49E7DB8C270E0D500010F079 /* CreateJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E7DB8B270E0D500010F079 /* CreateJob.swift */; };
 		49E7DB8E270E0D980010F079 /* CreateConfigMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E7DB8D270E0D980010F079 /* CreateConfigMap.swift */; };
 		49E7DB90270E0DC00010F079 /* CreateSecret.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E7DB8F270E0DC00010F079 /* CreateSecret.swift */; };
+		49F31F1E286A12FC0010D685 /* SwiftkubeClient in Frameworks */ = {isa = PBXBuildFile; productRef = 49F31F1D286A12FC0010D685 /* SwiftkubeClient */; };
 		49F5B4DE276D107E0003EA3A /* Ingress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F5B4DD276D107E0003EA3A /* Ingress.swift */; };
 		49F5B4E0276D10970003EA3A /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F5B4DF276D10970003EA3A /* Service.swift */; };
 		49FBB8E3267BB8F1004C7824 /* TopLevelK8sMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FBB8E2267BB8F1004C7824 /* TopLevelK8sMenuItem.swift */; };
@@ -121,7 +121,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				49782B4825E094C100D92F4C /* SwiftkubeClient in Frameworks */,
+				49F31F1E286A12FC0010D685 /* SwiftkubeClient in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -164,6 +164,7 @@
 				49782B2925E08DD800D92F4C /* KubeCmdTests */,
 				49782B3425E08DD800D92F4C /* KubeCmdUITests */,
 				49782B1025E08DD700D92F4C /* Products */,
+				49F31F1C286A12FC0010D685 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -258,6 +259,13 @@
 			path = CreateResourceViews;
 			sourceTree = "<group>";
 		};
+		49F31F1C286A12FC0010D685 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -275,7 +283,7 @@
 			);
 			name = KubeCmd;
 			packageProductDependencies = (
-				49782B4725E094C100D92F4C /* SwiftkubeClient */,
+				49F31F1D286A12FC0010D685 /* SwiftkubeClient */,
 			);
 			productName = KubeCmd;
 			productReference = 49782B0F25E08DD700D92F4C /* KubeCmd.app */;
@@ -349,7 +357,7 @@
 			);
 			mainGroup = 49782B0625E08DD700D92F4C;
 			packageReferences = (
-				49782B4625E094C100D92F4C /* XCRemoteSwiftPackageReference "client" */,
+				499C02D52864D82100F74695 /* XCRemoteSwiftPackageReference "SwiftkubeClient" */,
 			);
 			productRefGroup = 49782B1025E08DD700D92F4C /* Products */;
 			projectDirPath = "";
@@ -759,9 +767,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		49782B4625E094C100D92F4C /* XCRemoteSwiftPackageReference "client" */ = {
+		499C02D52864D82100F74695 /* XCRemoteSwiftPackageReference "SwiftkubeClient" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "git@github.com:swiftkube/client.git";
+			repositoryURL = "https://github.com/thomashorrobin/SwiftkubeClient.git";
 			requirement = {
 				branch = main;
 				kind = branch;
@@ -770,9 +778,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		49782B4725E094C100D92F4C /* SwiftkubeClient */ = {
+		49F31F1D286A12FC0010D685 /* SwiftkubeClient */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 49782B4625E094C100D92F4C /* XCRemoteSwiftPackageReference "client" */;
+			package = 499C02D52864D82100F74695 /* XCRemoteSwiftPackageReference "SwiftkubeClient" */;
 			productName = SwiftkubeClient;
 		};
 /* End XCSwiftPackageProductDependency section */

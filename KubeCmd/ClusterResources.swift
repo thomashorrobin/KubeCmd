@@ -200,22 +200,22 @@ class ClusterResources: ObservableObject {
 	}
 	
 	func unsuspendCronJob(cronjob: batch.v1.CronJob) -> Void {
-		var newThing = cronjob
-		newThing.spec?.suspend = false
+		print("starting unsuspend")
 		do {
-			let newCronjob = try client.batchV1.cronJobs.update(newThing).wait()
-			try self.cronjobs.replaceOrAdd(cj: newCronjob)
+			let updatedCronjob = try client.batchV1.cronJobs.unsuspend(in: .default, name: cronjob.name ?? "").wait()
+			try self.cronjobs.replaceOrAdd(cj: updatedCronjob)
 		} catch {
+			print(error)
 			errors.append(error)
 		}
 	}
 	func suspendCronJob(cronjob: batch.v1.CronJob) -> Void {
-		var newThing = cronjob
-		newThing.spec?.suspend = true
+		print("starting suspend")
 		do {
-			let newCronjob = try client.batchV1.cronJobs.update(newThing).wait()
-			try self.cronjobs.replaceOrAdd(cj: newCronjob)
+			let updatedCronjob = try client.batchV1.cronJobs.suspend(in: .default, name: cronjob.name ?? "").wait()
+			try self.cronjobs.replaceOrAdd(cj: updatedCronjob)
 		} catch {
+			print(error)
 			errors.append(error)
 		}
 	}
@@ -243,7 +243,7 @@ class ClusterResources: ObservableObject {
 		guard let namespace = metadata.namespace else { return }
 		switch resource.kind {
 		case "CronJob":
-			_ = client.batchV1Beta1.cronJobs.delete(inNamespace: .namespace(namespace), name: name, options: deleteOptions)
+			_ = client.batchV1.cronJobs.delete(inNamespace: .namespace(namespace), name: name, options: deleteOptions)
 			try refreshCronJobs(ns: self.namespace)
 		case "Job":
 			_ = client.batchV1.jobs.delete(inNamespace: .namespace(namespace), name: name, options: deleteOptions)

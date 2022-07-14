@@ -65,8 +65,12 @@ struct TriggerCronJobButton : View {
 		})
 	}
 	func triggerCronJob() -> Void {
-		let job = createJobFromCronJob(cronJob: self.cronJob)
-		resources.addJob(job: job)
+		do {
+			let job = try self.cronJob.generateJob()
+			resources.addJob(job: job)
+		} catch {
+			print(error)
+		}
 	}
 }
 
