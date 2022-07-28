@@ -18,9 +18,9 @@ struct StartupScreen: View {
 			Text("KubeCmd").font(.largeTitle)
 			Divider()
 			Text("note").font(.headline)
-			Text("To use KubeCmd you need to have a Kubernetes config file. This is the same file kubectl uses to connect to the cluster and can normally be found at ~/.kube/config\nIf you are using a cloud provider to host your cluster you can often download the config file from their management console").padding(/*@START_MENU_TOKEN@*/.horizontal/*@END_MENU_TOKEN@*/).fixedSize(horizontal: false, vertical: true)
+			Text("To use KubeCmd you need to have a Kubernetes config file. This is the same file kubectl uses to connect to the cluster and can normally be found at ~/.kube/config\nIf you are using a cloud provider to host your cluster you can often download the config file from their management console").padding(/*@START_MENU_TOKEN@*/.horizontal, 10.0/*@END_MENU_TOKEN@*/).fixedSize(horizontal: false, vertical: true)
 			Divider()
-			Button("connect", action: openFile).buttonStyle(LinkButtonStyle()).padding(.vertical, 40).font(.title2)
+			Button("open config", action: openFile).buttonStyle(LinkButtonStyle()).padding(.vertical, 40).font(.title2)
 		}.frame(width: 400, alignment: .center).alert(isPresented: $showingFailedLoadAlert, content: {
 			Alert(title: Text("yaml file failed to load"))
 		})
