@@ -771,7 +771,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/thomashorrobin/SwiftkubeClient.git";
 			requirement = {
-				branch = main;
+				branch = patch-lables;
 				kind = branch;
 			};
 		};

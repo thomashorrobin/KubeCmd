@@ -107,6 +107,14 @@ class ClusterResources: ObservableObject {
 		jobs[uid] = job
 	}
 	
+	func dropLabelCronjob(cronJob: String, name: String) -> Void {
+		do {
+			let newCron = try client.batchV1.cronJobs.deleteLabel(in: self.namespace, name: cronJob, label: name).wait()
+			try self.cronjobs.replaceOrAdd(cj: newCron)
+		} catch {
+			print(error)
+		}
+	}
 	
 	func disconnectWatches() -> Void {
 		for t in k8sTasks {
