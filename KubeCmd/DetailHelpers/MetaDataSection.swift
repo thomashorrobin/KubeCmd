@@ -38,19 +38,19 @@ struct MetaDataSection: View {
 				}
 			}
 		}
-//		Button("Add label") {
-//			showingSheet.toggle()
-//		}
-//		.sheet(isPresented: $showingSheet) {
-//			SheetView(dismiss: {
-//				showingSheet = false
-//			}) { key, value in
-//				if let metadata = resource.metadata {
-//					let _ = resources.addLabel(metadata: metadata, key: key, value: value)
-//				}
-//				showingSheet = false
-//			}
-//		}
+		Button("Add label") {
+			showingSheet.toggle()
+		}
+		.sheet(isPresented: $showingSheet) {
+			SheetView(dismiss: {
+				showingSheet = false
+			}) { key, value in
+				if let metadata = resource.metadata {
+					resources.addLabelCronjob(cronJob: metadata.name!, name: key, value: value)
+				}
+				showingSheet = false
+			}
+		}
 	}
 }
 

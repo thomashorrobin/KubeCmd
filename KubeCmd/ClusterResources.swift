@@ -116,6 +116,15 @@ class ClusterResources: ObservableObject {
 		}
 	}
 	
+	func addLabelCronjob(cronJob: String, name: String, value: String) -> Void {
+		do {
+			let newCron = try client.batchV1.cronJobs.addLabel(in: self.namespace, name: cronJob, label: name, value: value).wait()
+			try self.cronjobs.replaceOrAdd(cj: newCron)
+		} catch {
+			print(error)
+		}
+	}
+	
 	func disconnectWatches() -> Void {
 		for t in k8sTasks {
 			t.cancel()
@@ -226,20 +235,6 @@ class ClusterResources: ObservableObject {
 			print(error)
 			errors.append(error)
 		}
-	}
-	func addLabel(metadata:meta.v1.ObjectMeta, key:String, value:String) -> meta.v1.ObjectMeta? {
-		guard var labels = metadata.labels else { return metadata }
-		labels[key] = value
-		var newMetadata = metadata
-		newMetadata.labels = labels
-		return newMetadata
-	}
-	func removeLabel(metadata:meta.v1.ObjectMeta, key:String) -> meta.v1.ObjectMeta? {
-		guard var labels = metadata.labels else { return metadata }
-		labels.removeValue(forKey: key)
-		var newMetadata = metadata
-		newMetadata.labels = labels
-		return newMetadata
 	}
 	func deleteResource(resource:KubernetesAPIResource) throws -> Void {
 		let deleteOptions = meta.v1.DeleteOptions(
