@@ -30,7 +30,6 @@ struct MetaDataSection: View {
 						Text("Labels")
 						ForEach((labels.sorted(by: >)), id: \.key) { label in
 							KubernetesLabel(key: label.key, value: label.value, delete: {
-//								let x = resources.removeLabel(metadata: metadata, key: label.key)
 								resources.dropLabelCronjob(cronJob: metadata.name!, name: label.key)
 							})
 						}
