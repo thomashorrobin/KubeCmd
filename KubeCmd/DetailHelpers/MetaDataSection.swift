@@ -30,7 +30,7 @@ struct MetaDataSection: View {
 						Text("Labels")
 						ForEach((labels.sorted(by: >)), id: \.key) { label in
 							KubernetesLabel(key: label.key, value: label.value, delete: {
-								resources.dropLabelCronjob(cronJob: metadata.name!, name: label.key)
+								resources.dropLabel(kind: resource.kind, cronJob: metadata.name!, name: label.key)
 							})
 						}
 					}
@@ -45,7 +45,7 @@ struct MetaDataSection: View {
 				showingSheet = false
 			}) { key, value in
 				if let metadata = resource.metadata {
-					resources.addLabelCronjob(cronJob: metadata.name!, name: key, value: value)
+					resources.addLabel(kind: resource.kind, cronJob: metadata.name!, name: key, value: value)
 				}
 				showingSheet = false
 			}

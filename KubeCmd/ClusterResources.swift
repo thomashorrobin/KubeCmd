@@ -24,6 +24,76 @@ public extension batch.v1.CronJobList {
 	}
 }
 
+public extension core.v1.SecretList {
+	mutating func replaceOrAdd(s:core.v1.Secret) throws {
+		let uid = try UUID.fromK8sMetadata(resource: s as KubernetesAPIResource)
+		for (i, item) in items.enumerated() {
+			let xx_uid = try UUID.fromK8sMetadata(resource: item as KubernetesAPIResource)
+			if xx_uid == uid {
+				items[i] = s
+				return
+			}
+		}
+		items.append(s)
+	}
+}
+
+public extension core.v1.ConfigMapList {
+	mutating func replaceOrAdd(cm:core.v1.ConfigMap) throws {
+		let uid = try UUID.fromK8sMetadata(resource: cm as KubernetesAPIResource)
+		for (i, item) in items.enumerated() {
+			let xx_uid = try UUID.fromK8sMetadata(resource: item as KubernetesAPIResource)
+			if xx_uid == uid {
+				items[i] = cm
+				return
+			}
+		}
+		items.append(cm)
+	}
+}
+
+public extension apps.v1.DeploymentList {
+	mutating func replaceOrAdd(d:apps.v1.Deployment) throws {
+		let uid = try UUID.fromK8sMetadata(resource: d as KubernetesAPIResource)
+		for (i, item) in items.enumerated() {
+			let xx_uid = try UUID.fromK8sMetadata(resource: item as KubernetesAPIResource)
+			if xx_uid == uid {
+				items[i] = d
+				return
+			}
+		}
+		items.append(d)
+	}
+}
+
+public extension networking.v1.IngressList {
+	mutating func replaceOrAdd(ing:networking.v1.Ingress) throws {
+		let uid = try UUID.fromK8sMetadata(resource: ing as KubernetesAPIResource)
+		for (i, item) in items.enumerated() {
+			let xx_uid = try UUID.fromK8sMetadata(resource: item as KubernetesAPIResource)
+			if xx_uid == uid {
+				items[i] = ing
+				return
+			}
+		}
+		items.append(ing)
+	}
+}
+
+public extension core.v1.ServiceList {
+	mutating func replaceOrAdd(s:core.v1.Service) throws {
+		let uid = try UUID.fromK8sMetadata(resource: s as KubernetesAPIResource)
+		for (i, item) in items.enumerated() {
+			let xx_uid = try UUID.fromK8sMetadata(resource: item as KubernetesAPIResource)
+			if xx_uid == uid {
+				items[i] = s
+				return
+			}
+		}
+		items.append(s)
+	}
+}
+
 class ClusterResources: ObservableObject {
 	@Published var selectedResource = KubernetesResources.pods
 	@Published var pods = [UUID:core.v1.Pod]()
@@ -107,22 +177,132 @@ class ClusterResources: ObservableObject {
 		jobs[uid] = job
 	}
 	
-	func dropLabelCronjob(cronJob: String, name: String) -> Void {
-		do {
-			let newCron = try client.batchV1.cronJobs.deleteLabel(in: self.namespace, name: cronJob, labelName: name).wait()
-			try self.cronjobs.replaceOrAdd(cj: newCron)
-		} catch {
-			print(error)
-		}
+	func dropLabel(kind: String, cronJob: String, name: String) -> Void {
+		guard let kind = KubernetesResources.init(rawValue: kind) else { return }
+			switch kind {
+			case .pods:
+				do {
+					let newResource = try client.pods.deleteLabel(in: self.namespace, name: cronJob, labelName: name).wait()
+					let uid = try UUID.fromK8sMetadata(resource: newResource)
+					self.pods[uid] = newResource
+				} catch {
+					print(error)
+				}
+			case .cronjobs:
+				do {
+					let newResource = try client.batchV1.cronJobs.deleteLabel(in: self.namespace, name: cronJob, labelName: name).wait()
+					try self.cronjobs.replaceOrAdd(cj: newResource)
+				} catch {
+					print(error)
+				}
+			case .deployments:
+				do {
+					let newResource = try client.appsV1.deployments.deleteLabel(in: self.namespace, name: cronJob, labelName: name).wait()
+					try self.deployments.replaceOrAdd(d: newResource)
+				} catch {
+					print(error)
+				}
+			case .jobs:
+				do {
+					let newResource = try client.batchV1.jobs.deleteLabel(in: self.namespace, name: cronJob, labelName: name).wait()
+					let uid = try UUID.fromK8sMetadata(resource: newResource)
+					self.jobs[uid] = newResource
+				} catch {
+					print(error)
+				}
+			case .configmaps:
+				do {
+					let newResource = try client.configMaps.deleteLabel(in: self.namespace, name: cronJob, labelName: name).wait()
+					try self.configmaps.replaceOrAdd(cm: newResource)
+				} catch {
+					print(error)
+				}
+			case .secrets:
+				do {
+					let newResource = try client.secrets.deleteLabel(in: self.namespace, name: cronJob, labelName: name).wait()
+					try self.secrets.replaceOrAdd(s: newResource)
+				} catch {
+					print(error)
+				}
+			case .ingresses:
+				do {
+					let newResource = try client.networkingV1.ingresses.deleteLabel(in: self.namespace, name: cronJob, labelName: name).wait()
+					try self.ingresses.replaceOrAdd(ing: newResource)
+				} catch {
+					print(error)
+				}
+			case .services:
+				do {
+					let newResource = try client.services.deleteLabel(in: self.namespace, name: cronJob, labelName: name).wait()
+					try self.services.replaceOrAdd(s: newResource)
+				} catch {
+					print(error)
+				}
+			}
 	}
 	
-	func addLabelCronjob(cronJob: String, name: String, value: String) -> Void {
-		do {
-			let newCron = try client.batchV1.cronJobs.addLabel(in: self.namespace, name: cronJob, labelName: name, value: value).wait()
-			try self.cronjobs.replaceOrAdd(cj: newCron)
-		} catch {
-			print(error)
-		}
+	func addLabel(kind: String, cronJob: String, name: String, value: String) -> Void {
+		guard let kind = KubernetesResources.init(rawValue: kind) else { return }
+			switch kind {
+			case .pods:
+				do {
+					let newResource = try client.pods.addLabel(in: self.namespace, name: cronJob, labelName: name, value: value).wait()
+					let uid = try UUID.fromK8sMetadata(resource: newResource)
+					self.pods[uid] = newResource
+				} catch {
+					print(error)
+				}
+			case .cronjobs:
+				do {
+					let newResource = try client.batchV1.cronJobs.addLabel(in: self.namespace, name: cronJob, labelName: name, value: value).wait()
+					try self.cronjobs.replaceOrAdd(cj: newResource)
+				} catch {
+					print(error)
+				}
+			case .deployments:
+				do {
+					let newResource = try client.appsV1.deployments.addLabel(in: self.namespace, name: cronJob, labelName: name, value: value).wait()
+					try self.deployments.replaceOrAdd(d: newResource)
+				} catch {
+					print(error)
+				}
+			case .jobs:
+				do {
+					let newResource = try client.batchV1.jobs.addLabel(in: self.namespace, name: cronJob, labelName: name, value: value).wait()
+					let uid = try UUID.fromK8sMetadata(resource: newResource)
+					self.jobs[uid] = newResource
+				} catch {
+					print(error)
+				}
+			case .configmaps:
+				do {
+					let newResource = try client.configMaps.addLabel(in: self.namespace, name: cronJob, labelName: name, value: value).wait()
+					try self.configmaps.replaceOrAdd(cm: newResource)
+				} catch {
+					print(error)
+				}
+			case .secrets:
+				do {
+					let newResource = try client.secrets.addLabel(in: self.namespace, name: cronJob, labelName: name, value: value).wait()
+					try self.secrets.replaceOrAdd(s: newResource)
+				} catch {
+					print(error)
+				}
+			case .ingresses:
+				do {
+					let newResource = try client.networkingV1.ingresses.addLabel(in: self.namespace, name: cronJob, labelName: name, value: value).wait()
+					try self.ingresses.replaceOrAdd(ing: newResource)
+				} catch {
+					print(error)
+				}
+			case .services:
+				do {
+					let newResource = try client.services.addLabel(in: self.namespace, name: cronJob, labelName: name, value: value).wait()
+					try self.services.replaceOrAdd(s: newResource)
+				} catch {
+					print(error)
+				}
+			}
 	}
 	
 	func disconnectWatches() -> Void {
