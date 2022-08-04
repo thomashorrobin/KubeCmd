@@ -109,7 +109,7 @@ class ClusterResources: ObservableObject {
 	
 	func dropLabelCronjob(cronJob: String, name: String) -> Void {
 		do {
-			let newCron = try client.batchV1.cronJobs.deleteLabel(in: self.namespace, name: cronJob, label: name).wait()
+			let newCron = try client.batchV1.cronJobs.deleteLabel(in: self.namespace, name: cronJob, labelName: name).wait()
 			try self.cronjobs.replaceOrAdd(cj: newCron)
 		} catch {
 			print(error)
@@ -118,7 +118,7 @@ class ClusterResources: ObservableObject {
 	
 	func addLabelCronjob(cronJob: String, name: String, value: String) -> Void {
 		do {
-			let newCron = try client.batchV1.cronJobs.addLabel(in: self.namespace, name: cronJob, label: name, value: value).wait()
+			let newCron = try client.batchV1.cronJobs.addLabel(in: self.namespace, name: cronJob, labelName: name, value: value).wait()
 			try self.cronjobs.replaceOrAdd(cj: newCron)
 		} catch {
 			print(error)
