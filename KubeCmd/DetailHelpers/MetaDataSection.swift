@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftkubeModel
 
 struct MetaDataSection: View {
-	let resource:MetadataHavingResource
+	let resource:KubernetesAPIResource
 	@EnvironmentObject var resources: ClusterResources
 	@State private var showingSheet = false
 	var body: some View {
