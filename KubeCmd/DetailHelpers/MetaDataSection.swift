@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftkubeModel
 
 struct MetaDataSection: View {
-	let resource:MetadataHavingResource
+	let resource:KubernetesAPIResource
 	@EnvironmentObject var resources: ClusterResources
 	@State private var showingSheet = false
 	var body: some View {
@@ -29,25 +29,27 @@ struct MetaDataSection: View {
 					if labels.count > 0 {
 						Text("Labels")
 						ForEach((labels.sorted(by: >)), id: \.key) { label in
-							KubernetesLabel(key: label.key, value: label.value)
+							KubernetesLabel(key: label.key, value: label.value, delete: {
+								resources.dropLabel(kind: resource.kind, cronJob: metadata.name!, name: label.key)
+							})
 						}
 					}
 				}
 			}
 		}
-//		Button("Add label") {
-//			showingSheet.toggle()
-//		}
-//		.sheet(isPresented: $showingSheet) {
-//			SheetView(dismiss: {
-//				showingSheet = false
-//			}) { key, value in
-//				if let metadata = resource.metadata {
-//					let _ = resources.addLabel(metadata: metadata, key: key, value: value)
-//				}
-//				showingSheet = false
-//			}
-//		}
+		Button("Add label") {
+			showingSheet.toggle()
+		}
+		.sheet(isPresented: $showingSheet) {
+			SheetView(dismiss: {
+				showingSheet = false
+			}) { key, value in
+				if let metadata = resource.metadata {
+					resources.addLabel(kind: resource.kind, cronJob: metadata.name!, name: key, value: value)
+				}
+				showingSheet = false
+			}
+		}
 	}
 }
 
