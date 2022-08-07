@@ -18,7 +18,7 @@ struct StartupScreen: View {
 			Text("KubeCmd").font(.largeTitle)
 			Divider()
 			Text("note").font(.headline)
-			Text("To use KubeCmd you need to have a Kubernetes config file. This is the same type of file kubectl uses to connect to the cluster that can normally be found at ~/.kube/config\nKubeCmd can only use yaml files and your config must end in .yaml or .yml\nThe ~/.kube/config can not be opened without modification as it does not end in .yaml").padding(/*@START_MENU_TOKEN@*/.horizontal, 10.0/*@END_MENU_TOKEN@*/).fixedSize(horizontal: false, vertical: true)
+			Text("To use KubeCmd you need to have a Kubernetes config file. This is the same type of file kubectl uses to connect to the cluster that can normally be found at ~/.kube/config\nKubeCmd can only use yaml files and your config must end in .yaml or .yml\nThe ~/.kube/config can not be opened without modification as it does not end in .yaml").padding(.horizontal, 28.0).fixedSize(horizontal: false, vertical: true)
 			Divider()
 			Button("open config", action: openFile).buttonStyle(LinkButtonStyle()).padding(.vertical, 40).font(.title2)
 		}.frame(width: 400, alignment: .center).alert(isPresented: $showingFailedLoadAlert, content: {
