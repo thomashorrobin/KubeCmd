@@ -37,15 +37,15 @@ struct MetaDataSection: View {
 				}
 			}
 		}
-		Button("Add label") {
+		Button("Edit labels") {
 			showingSheet.toggle()
 		}
 		.sheet(isPresented: $showingSheet) {
 			SheetView(dismiss: {
 				showingSheet = false
-			}) { key, value in
+			}, labels: resource.metadata?.labels ?? [String: String]()) { value in
 				if let metadata = resource.metadata {
-					resources.addLabel(kind: resource.kind, cronJob: metadata.name!, name: key, value: value)
+					resources.setLabels(kind: resource.kind, cronJob: metadata.name!, value: value)
 				}
 				showingSheet = false
 			}
@@ -56,13 +56,23 @@ struct MetaDataSection: View {
 
 struct SheetView: View {
 	var dismiss:() -> Void
-	var submit:(_ key: String, _ value: String) -> Void
+	@State var labels: [String:String]
+	var submit:(_ values: [String:String]) -> Void
 	@State private var key: String = ""
 	@State private var value: String = ""
-	
 	var body: some View {
 		VStack(alignment: .leading) {
-			Text("Add Lable").font(.title2)
+			Text("Labels").font(.title)
+			ForEach(labels.sorted(by: >), id: \.key, content: { x in
+				HStack{
+					Text("\(x.key): \(x.value)")
+					Button(action: {
+						labels.removeValue(forKey: x.key)
+					}) {
+					 Image(systemName: "x.circle")
+				 }.buttonStyle(PlainButtonStyle())
+				}
+			})
 			TextField("key", text: $key)
 			TextField("value", text: $value)
 			HStack{
@@ -70,10 +80,13 @@ struct SheetView: View {
 					dismiss()
 				}
 				Button("Add") {
-					self.submit(key, value)
-					
+					labels[key] = value
 				}.disabled(key == "" || value == "")
 			}
+			Divider()
+			Button("Submit") {
+				   self.submit(labels)
+			}.buttonStyle(.borderedProminent)
 		}
 		.padding(.all, 100)	}
 }

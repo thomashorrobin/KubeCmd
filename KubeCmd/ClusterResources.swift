@@ -241,12 +241,13 @@ class ClusterResources: ObservableObject {
 			}
 	}
 	
-	func addLabel(kind: String, cronJob: String, name: String, value: String) -> Void {
+	func setLabels(kind: String, cronJob: String, value: [String:String]) -> Void {
+		let name = ""
 		guard let kind = KubernetesResources.init(rawValue: kind) else { return }
 			switch kind {
 			case .pods:
 				do {
-					let newResource = try client.pods.addLabel(in: self.namespace, name: cronJob, labelName: name, value: value).wait()
+					let newResource = try client.pods.setLabels(in: self.namespace, name: cronJob, labelName: name, value: value).wait()
 					let uid = try UUID.fromK8sMetadata(resource: newResource)
 					self.pods[uid] = newResource
 				} catch {
@@ -254,21 +255,21 @@ class ClusterResources: ObservableObject {
 				}
 			case .cronjobs:
 				do {
-					let newResource = try client.batchV1.cronJobs.addLabel(in: self.namespace, name: cronJob, labelName: name, value: value).wait()
+					let newResource = try client.batchV1.cronJobs.setLabels(in: self.namespace, name: cronJob, labelName: name, value: value).wait()
 					try self.cronjobs.replaceOrAdd(cj: newResource)
 				} catch {
 					print(error)
 				}
 			case .deployments:
 				do {
-					let newResource = try client.appsV1.deployments.addLabel(in: self.namespace, name: cronJob, labelName: name, value: value).wait()
+					let newResource = try client.appsV1.deployments.setLabels(in: self.namespace, name: cronJob, labelName: name, value: value).wait()
 					try self.deployments.replaceOrAdd(d: newResource)
 				} catch {
 					print(error)
 				}
 			case .jobs:
 				do {
-					let newResource = try client.batchV1.jobs.addLabel(in: self.namespace, name: cronJob, labelName: name, value: value).wait()
+					let newResource = try client.batchV1.jobs.setLabels(in: self.namespace, name: cronJob, labelName: name, value: value).wait()
 					let uid = try UUID.fromK8sMetadata(resource: newResource)
 					self.jobs[uid] = newResource
 				} catch {
@@ -276,28 +277,28 @@ class ClusterResources: ObservableObject {
 				}
 			case .configmaps:
 				do {
-					let newResource = try client.configMaps.addLabel(in: self.namespace, name: cronJob, labelName: name, value: value).wait()
+					let newResource = try client.configMaps.setLabels(in: self.namespace, name: cronJob, labelName: name, value: value).wait()
 					try self.configmaps.replaceOrAdd(cm: newResource)
 				} catch {
 					print(error)
 				}
 			case .secrets:
 				do {
-					let newResource = try client.secrets.addLabel(in: self.namespace, name: cronJob, labelName: name, value: value).wait()
+					let newResource = try client.secrets.setLabels(in: self.namespace, name: cronJob, labelName: name, value: value).wait()
 					try self.secrets.replaceOrAdd(s: newResource)
 				} catch {
 					print(error)
 				}
 			case .ingresses:
 				do {
-					let newResource = try client.networkingV1.ingresses.addLabel(in: self.namespace, name: cronJob, labelName: name, value: value).wait()
+					let newResource = try client.networkingV1.ingresses.setLabels(in: self.namespace, name: cronJob, labelName: name, value: value).wait()
 					try self.ingresses.replaceOrAdd(ing: newResource)
 				} catch {
 					print(error)
 				}
 			case .services:
 				do {
-					let newResource = try client.services.addLabel(in: self.namespace, name: cronJob, labelName: name, value: value).wait()
+					let newResource = try client.services.setLabels(in: self.namespace, name: cronJob, labelName: name, value: value).wait()
 					try self.services.replaceOrAdd(s: newResource)
 				} catch {
 					print(error)

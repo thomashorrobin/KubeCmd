@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/swift-server/async-http-client.git",
       "state" : {
-        "revision" : "0527bbb466b8f48b36fe48933c425c42dac09358",
-        "version" : "1.11.3"
+        "revision" : "df87a860fdc41a595d5ca67f74cde9adbccc099a",
+        "version" : "1.11.4"
       }
     },
     {
@@ -96,7 +96,7 @@
       "location" : "https://github.com/thomashorrobin/SwiftkubeClient.git",
       "state" : {
         "branch" : "patch-lables",
-        "revision" : "3fc5a96e04ebed05e80c887339c5f29f713885e1"
+        "revision" : "5dfc24dc8c0e2e0db79dab98b96986b431574f30"
       }
     },
     {
