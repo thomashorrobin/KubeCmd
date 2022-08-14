@@ -81,6 +81,8 @@ struct SheetView: View {
 				}
 				Button("Add") {
 					labels[key] = value
+					key = ""
+					value = ""
 				}.disabled(key == "" || value == "")
 			}
 			Divider()
