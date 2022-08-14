@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-log.git",
       "state" : {
-        "revision" : "5d66f7ba25daf4f94100e7022febf3c75e37a6c7",
-        "version" : "1.4.2"
+        "revision" : "8fc79cae9d03a5e623c52cc2dbd2df165a7832b0",
+        "version" : "1.4.3"
       }
     },
     {
@@ -96,7 +96,7 @@
       "location" : "https://github.com/thomashorrobin/SwiftkubeClient.git",
       "state" : {
         "branch" : "patch-lables",
-        "revision" : "5dfc24dc8c0e2e0db79dab98b96986b431574f30"
+        "revision" : "4c3358049c4f540e813cb944cbedef6cca1312fb"
       }
     },
     {

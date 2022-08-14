@@ -19,7 +19,7 @@ struct LogsHandler: View {
 	var podName: String
 	func refreashLogs() -> Void {
 		do {
-			logs = try resources.getLogs(name: podName)
+			logs = try resources.getLogs(name: podName, all: false)
 		} catch  {
 			print("error")
 		}
@@ -30,7 +30,8 @@ struct LogsHandler: View {
 		let filename = firstPath.appendingPathComponent("\(podName).log")
 		print(filename.absoluteString)
 		do {
-			try logs.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
+			let downloadedLogs = try resources.getLogs(name: podName, all: true)
+			try downloadedLogs.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
 		} catch {
 			print(error)
 			// failed to write file – bad permissions, bad filename, missing permissions, or more likely it can't be converted to the encoding
