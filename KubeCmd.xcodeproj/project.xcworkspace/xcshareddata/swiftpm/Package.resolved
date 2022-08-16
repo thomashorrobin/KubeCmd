@@ -95,7 +95,7 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/thomashorrobin/SwiftkubeClient.git",
       "state" : {
-        "branch" : "patch-lables",
+        "branch" : "main",
         "revision" : "4c3358049c4f540e813cb944cbedef6cca1312fb"
       }
     },
