@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/swift-server/async-http-client.git",
       "state" : {
-        "revision" : "df87a860fdc41a595d5ca67f74cde9adbccc099a",
-        "version" : "1.11.4"
+        "revision" : "fc510a39cff61b849bf5cdff17eb2bd6d0777b49",
+        "version" : "1.11.5"
       }
     },
     {
@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-log.git",
       "state" : {
-        "revision" : "8fc79cae9d03a5e623c52cc2dbd2df165a7832b0",
-        "version" : "1.4.3"
+        "revision" : "6fe203dc33195667ce1759bf0182975e4653ba1c",
+        "version" : "1.4.4"
       }
     },
     {
@@ -96,7 +96,7 @@
       "location" : "https://github.com/thomashorrobin/SwiftkubeClient.git",
       "state" : {
         "branch" : "main",
-        "revision" : "4c3358049c4f540e813cb944cbedef6cca1312fb"
+        "revision" : "25ce61c5c7f9a743f7e36700401a4cda3ec690f7"
       }
     },
     {

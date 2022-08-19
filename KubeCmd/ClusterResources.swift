@@ -390,11 +390,8 @@ class ClusterResources: ObservableObject {
 	}
 	
 	func restartDeployment(deployment: apps.v1.Deployment) throws -> Void {
-		let formatter = ISO8601DateFormatter()
-		var newDeployment = deployment
-		newDeployment.spec?.template.metadata?.annotations?["kubectl.kubernetes.io/restartedAt"] = formatter.string(from: Date())
-		let _ = try client.appsV1.deployments.update(newDeployment).wait()
-		self.deployments = try client.appsV1.deployments.list(in: .default).wait()
+		let deployment = try client.appsV1.deployments.restartDeployment(in: namespace, name: deployment.name!).wait()
+		try self.deployments.replaceOrAdd(d: deployment)
 	}
 	
 	func unsuspendCronJob(cronjob: batch.v1.CronJob) -> Void {
