@@ -69,26 +69,27 @@ struct SheetView: View {
 					Button(action: {
 						labels.removeValue(forKey: x.key)
 					}) {
-					 Image(systemName: "x.circle")
-				 }.buttonStyle(PlainButtonStyle())
+						Image(systemName: "x.circle")
+					}.buttonStyle(PlainButtonStyle())
 				}
 			})
 			TextField("key", text: $key)
 			TextField("value", text: $value)
-			HStack{
-				Button("Cancel") {
-					dismiss()
+			HStack(spacing: 30) {
+				HStack{
+					Button("Cancel") {
+						dismiss()
+					}
+					Button("Add") {
+						labels[key] = value
+						key = ""
+						value = ""
+					}.disabled(key == "" || value == "")
 				}
-				Button("Add") {
-					labels[key] = value
-					key = ""
-					value = ""
-				}.disabled(key == "" || value == "")
+				Button("Save") {
+					self.submit(labels)
+				}.buttonStyle(.borderedProminent)
 			}
-			Divider()
-			Button("Submit") {
-				   self.submit(labels)
-			}.buttonStyle(.borderedProminent)
 		}
 		.padding(.all, 100)	}
 }
