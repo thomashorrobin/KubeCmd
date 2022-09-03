@@ -20,39 +20,41 @@ struct CreateSecret: View {
 	@State private var valueStr: String = ""
 	var onSecretCreate:(core.v1.Secret) -> Void
 	var body: some View {
-		ScrollView{
-			Form{
-				Text("New Secret").font(.title2)
-				TextField("Name", text: $name)
-				Section("KeyValue Pairs") {
-					ForEach(keyValuePairs, content: { x in
-						VStack{
-							Text(x.id)
-							Text(x.value)
-						}.padding(10)
-					})
-					TextField("Key", text: $keyStr)
-					TextField("Value", text: $valueStr)
-					Button("Add"){
-						keyValuePairs.append(keyValuePair(id: keyStr, value: valueStr))
-						keyStr = ""
-						valueStr = ""
-					}.disabled(keyStr.isEmpty || valueStr.isEmpty)
-				}
-				Button("Create"){
-					var keyValuePairsMapped:[String:String] = [String:String]()
-					for kvp in keyValuePairs {
-						keyValuePairsMapped[kvp.id] = kvp.value
+		VStack{
+			ScrollView{
+				Form{
+					Text("New Secret").font(.title2)
+					TextField("Name", text: $name)
+					Section("KeyValue Pairs") {
+						ForEach(keyValuePairs, content: { x in
+							VStack{
+								Text(x.id)
+								Text(x.value)
+							}.padding(10)
+						})
+						TextField("Key", text: $keyStr)
+						TextField("Value", text: $valueStr)
+						Button("Add"){
+							keyValuePairs.append(keyValuePair(id: keyStr, value: valueStr))
+							keyStr = ""
+							valueStr = ""
+						}.disabled(keyStr.isEmpty || valueStr.isEmpty)
 					}
-					let secret = sk.secret {
-						$0.metadata = sk.metadata(name: self.name) {
-							$0.namespace = "default"
-						}
-						$0.type = "Opaque"
-						$0.stringData = keyValuePairsMapped
-					}
-					onSecretCreate(secret)
 				}
+			}
+			Button("Create"){
+				var keyValuePairsMapped:[String:String] = [String:String]()
+				for kvp in keyValuePairs {
+					keyValuePairsMapped[kvp.id] = kvp.value
+				}
+				let secret = sk.secret {
+					$0.metadata = sk.metadata(name: self.name) {
+						$0.namespace = "default"
+					}
+					$0.type = "Opaque"
+					$0.stringData = keyValuePairsMapped
+				}
+				onSecretCreate(secret)
 			}
 		}.padding(40).frame(width: 500, height: 300, alignment: .center)
 	}
