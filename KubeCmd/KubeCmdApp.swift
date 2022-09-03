@@ -11,27 +11,13 @@ import SwiftkubeClient
 @main
 struct KubeCmdApp: App {
 	@NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-	let persistenceController = PersistenceController.shared
-	
-	@State var client:KubernetesClient? = nil
-	func setClientNil() -> Void {
-		client = nil
-	}
 	
 	var body: some Scene {
 		WindowGroup {
-			if let client = client {
-				ContentView(resources: ClusterResources(client: client), setClientNil: setClientNil)
-					.environment(\.managedObjectContext, persistenceController.container.viewContext)
-			} else {
-				StartupScreen { client in
-					self.client = client
-				}
-			}
+			MainAppContainer()
 		}
 		.commands {
 			SidebarCommands()
-			CreateResourceCommands(client: client)
 			CommandGroup(replacing: .undoRedo) {}
 			CommandGroup(replacing: .help) {
 				Text("Cloud connections")
@@ -41,5 +27,25 @@ struct KubeCmdApp: App {
 				Link("Digital Ocean", destination: URL(string: "https://docs.digitalocean.com/reference/doctl/reference/kubernetes/cluster/kubeconfig/")!)
 			}
 		}
+	}
+}
+
+struct MainAppContainer: View {
+	let persistenceController = PersistenceController.shared
+	
+	@State var client:KubernetesClient? = nil
+	func setClientNil() -> Void {
+		client = nil
+	}
+	
+	var body: some View {
+		if let client = client {
+			ContentView(resources: ClusterResources(client: client), setClientNil: setClientNil)
+				   .environment(\.managedObjectContext, persistenceController.container.viewContext)
+		   } else {
+			   StartupScreen { client in
+				   self.client = client
+			   }
+		   }
 	}
 }
