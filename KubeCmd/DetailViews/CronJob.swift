@@ -44,7 +44,7 @@ struct CronJob: View {
 	var body: some View {
 		VStack(alignment: .leading, spacing: CGFloat(5), content: {
 			if cronJob.spec?.suspend ?? false {
-				JobStatusBarStat(nameXXX: "Suspended", ccc: Color.red, ii: 1)
+				ColouredByLine(byLineText: "Suspended", byLineColor: Color.red)
 			}
 			if cronJob.metadata != nil {
 				MetaDataSection(resource: cronJob)
