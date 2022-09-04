@@ -12,7 +12,9 @@ struct Job: View {
 	var job:batch.v1.Job
 	var body: some View {
 		VStack(alignment: .leading, spacing: CGFloat(5), content: {
-			JobStatusBar(status: job.status)
+			if let status = job.status {
+				makeJobStatusBar(status: status)
+			}
 			if job.metadata != nil {
 				MetaDataSection(resource: job)
 			}
@@ -39,48 +41,14 @@ struct Job: View {
 	}
 }
 
-struct JobStatusBar: View {
-	var status:batch.v1.JobStatus?
-	var body: some View {
-		if let status = status {
-			HStack{
-				JobStatusBarStat(nameXXX: "succeeded", ccc: Color.green, ii: status.succeeded)
-				JobStatusBarStat(nameXXX: "running", ccc: Color.yellow, ii: status.active)
-				JobStatusBarStat(nameXXX: "failed", ccc: Color.red, ii: status.failed)
-			}
-		} else {
-			EmptyView()
-		}
+func makeJobStatusBar(status:batch.v1.JobStatus) -> ColouredByLine? {
+	if status.active != nil && status.active! > 0 {
+		return ColouredByLine(byLineText: "running", byLineColor: Color.yellow)
 	}
-}
-
-struct JobStatusBarStat: View {
-	private let name:String
-	private let c:Color
-	private let i:Int32
-	init(nameXXX:String, ccc:Color, ii:Int32?) {
-		name = nameXXX
-		c = ccc
-		if let xixixi = ii {
-			i = xixixi
-		} else {
-			i = 0
-		}
+	if status.succeeded != nil && status.succeeded! > 0 {
+		return ColouredByLine(byLineText: "succeeded", byLineColor: Color.green)
 	}
-	var body: some View {
-		if i == 0 {
-			EmptyView()
-		} else {
-			HStack{
-				Text(name).bold().foregroundColor(c)
-				if i > 1 {
-					Text(i.description).padding(.all, 5).background(content: {
-						RoundedRectangle(cornerRadius: 5).fill(c.opacity(0.5))
-					})
-				}
-			}
-		}
-	}
+	return ColouredByLine(byLineText: "failed", byLineColor: Color.red)
 }
 
 //struct Job_Previews: PreviewProvider {
