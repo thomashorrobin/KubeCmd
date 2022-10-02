@@ -34,10 +34,10 @@ struct StartupScreen: View {
 		panel.canChooseDirectories = false
 		panel.showsHiddenFiles = true
 		panel.allowedContentTypes = [UTType(filenameExtension: "yaml")!, UTType(filenameExtension: "yml")!]
+		loading = true
 		if panel.runModal() == .OK {
 			print(panel.url?.path ?? "<none>")
 			if let u = panel.url {
-				loading = true
 				if let client = KubernetesClient(fromURL: URL(fileURLWithPath: u.path)) {
 					setConfig(client)
 				} else {
