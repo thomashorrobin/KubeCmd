@@ -29,10 +29,14 @@ struct SuspendButton: View {
 		}
 	}
 	func unsuspendCronJob() -> Void {
-		resources.unsuspendCronJob(cronjob: self.cronJob)
+		Task {
+			await resources.unsuspendCronJob(cronjob: self.cronJob)
+		}
 	}
 	func suspendCronJob() -> Void {
-		resources.suspendCronJob(cronjob: self.cronJob)
+		Task {
+			await resources.suspendCronJob(cronjob: self.cronJob)
+		}
 	}
 }
 
@@ -70,7 +74,9 @@ struct TriggerCronJobButton : View {
 	func triggerCronJob() -> Void {
 		do {
 			let job = try self.cronJob.generateJob()
-			resources.addJob(job: job)
+			Task {
+				await resources.addJob(job: job)
+			}
 		} catch {
 			print(error)
 		}

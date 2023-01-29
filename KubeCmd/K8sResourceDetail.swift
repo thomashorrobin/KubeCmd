@@ -14,10 +14,12 @@ struct K8sResourceDetail: View {
 	@State var resourceDeleting = false
 	@State var deleted = false
 	func deleteResource() -> Void {
-		do {
-			try resources.deleteResource(resource: resource)
-		} catch {
-			print(error)
+		Task {
+			do {
+			 try await resources.deleteResource(resource: resource)
+		 } catch {
+			 print(error)
+		 }
 		}
 	}
 	var body: some View {
@@ -94,7 +96,9 @@ struct ReRunJob: View {
 	@EnvironmentObject var resources: ClusterResources
 	var body: some View {
 		Button("Rerun", action: {
-			resources.rerunJob(job: job)
+			Task{
+				await resources.rerunJob(job: job)
+			}
 		})
 	}
 }

@@ -43,34 +43,28 @@ struct ContentView: View {
 			SecondLevelK8sItems().frame(minWidth: 290, idealWidth: 390)
 			Button(action: {
 				buttonText = "loading..."
-				do {
-					try resources.refreshData()
-					try resources.fetchNamespaces()
-				} catch {
-					errors.append(error)
-					showingErrorsAlert = true
+				Task {
+					try await resources.refreshData()
+					try await resources.fetchNamespaces()
 				}
 				buttonText = "Load data again"
 			}, label: {
 				Text(buttonText)
 			}).frame(width: 250, height: 500)
 		}.environmentObject(resources).onAppear(perform: {
-			var startUpErrors = [Error]()
-			do {
-				try resources.refreshData()
-			} catch {
-				startUpErrors.append(error)
+			let startUpErrors = [Error]()
+			Task {
+				try await resources.refreshData()
 			}
-			do {
-				try resources.fetchNamespaces()
-			} catch {
-				startUpErrors.append(error)
+			Task {
+				try await resources.fetchNamespaces()
 			}
-			do {
-				try resources.connectWatches()
-			} catch {
-				startUpErrors.append(error)
-			}
+			resources.connectWatches()
+//			do {
+//				try resources.connectWatches()
+//			} catch {
+//				startUpErrors.append(error)
+//			}
 			if !startUpErrors.isEmpty {
 				errors = startUpErrors
 				showingErrorsAlert = true

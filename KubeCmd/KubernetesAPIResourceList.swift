@@ -25,19 +25,15 @@ struct KubernetesAPIResourceList: View, NamespaceFilterable {
 	var resourceType: String
 	@State private var searchText = ""
 	func createSecret(secret: core.v1.Secret) {
-		do {
-			let createdSecret = try clusterResources.client.secrets.create(inNamespace: .default, secret).wait()
-			try clusterResources.secrets.replaceOrAdd(s: createdSecret)
-		} catch {
-			print(error)
-		}
+			Task {
+				let createdSecret = try await clusterResources.client.secrets.create(inNamespace: .default, secret)
+				 try clusterResources.secrets.replaceOrAdd(s: createdSecret)
+			}
 	}
 	func createConfigMap(configMap: core.v1.ConfigMap) {
-		do {
-			let createdConfigMap = try clusterResources.client.configMaps.create(inNamespace: .default, configMap).wait()
+		Task {
+			let createdConfigMap = try await clusterResources.client.configMaps.create(inNamespace: .default, configMap)
 			try clusterResources.configmaps.replaceOrAdd(cm: createdConfigMap)
-		} catch {
-			print(error)
 		}
 	}
 	
@@ -49,7 +45,8 @@ struct KubernetesAPIResourceList: View, NamespaceFilterable {
 			}
 			if resourceType == "secrets" {
 				Button("New Secret", action: {
-					CreateSecret(onSecretCreate: createSecret).openInWindow(title: "Secret", sender: self)}
+					CreateSecret(onSecretCreate: createSecret).openInWindow(title: "Secret", sender: self)
+				}
 				).buttonStyle(.borderedProminent)
 			}
 			if resourceType == "configmaps" {

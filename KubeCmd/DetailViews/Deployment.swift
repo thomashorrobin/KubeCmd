@@ -57,10 +57,8 @@ struct RestartDeployment: View {
 	@EnvironmentObject var resources: ClusterResources
 	var body: some View{
 		Button("Restart", action: {
-			do {
-				try resources.restartDeployment(deployment: self.deployment)
-			} catch {
-				print(error)
+			Task {
+				try await resources.restartDeployment(deployment: self.deployment)
 			}
 		})
 	}

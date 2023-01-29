@@ -17,20 +17,20 @@ struct LogsHandler: View {
 		logs = "no logs yet received by KubeCmd"
 	}
 	var podName: String
-	func refreashLogs() -> Void {
+	func refreashLogs() async -> Void {
 		do {
-			logs = try resources.getLogs(name: podName, all: false)
+			logs = try await resources.getLogs(name: podName, all: false)
 		} catch  {
 			print("error")
 		}
 	}
-	func downloadLogs() -> Void {
+	func downloadLogs() async -> Void {
 		let paths = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask)
 		let firstPath = paths[0]
 		let filename = firstPath.appendingPathComponent("\(podName).log")
 		print(filename.absoluteString)
 		do {
-			let downloadedLogs = try resources.getLogs(name: podName, all: true)
+			let downloadedLogs = try await resources.getLogs(name: podName, all: true)
 			try downloadedLogs.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
 		} catch {
 			print(error)
@@ -39,21 +39,25 @@ struct LogsHandler: View {
 	}
 	var body: some View {
 		LogsView(logs: logs, refreashLogs: refreashLogs, downloadLogs: downloadLogs).padding(40).frame(width: 800, height: 500, alignment: .center).task {
-			refreashLogs()
+			await refreashLogs()
 		}
 	}
 }
 
 struct LogsView: View {
 	var logs:String
-	var refreashLogs:() -> Void
-	var downloadLogs:() -> Void
+	var refreashLogs:() async -> Void
+	var downloadLogs:() async -> Void
 	var body: some View {
 		VStack(alignment: .leading){
 			HStack{
 				Text("Logs").font(.title2).frame(alignment: .center)
 				Spacer()
-				Button(action: refreashLogs) {
+				Button(action: {
+					Task{
+						await refreashLogs()
+					}
+				}) {
 					Image(systemName: "arrow.clockwise")
 				}
 			}
@@ -68,7 +72,9 @@ struct LogsView: View {
 			}
 			HStack(alignment: .top) {
 				Button {
-					downloadLogs()
+					Task {
+						await downloadLogs()
+					}
 				} label: {
 					Image(systemName: "icloud.and.arrow.down")
 					Text("Save to Downloads")
