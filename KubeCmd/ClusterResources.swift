@@ -108,10 +108,18 @@ class ClusterResources: ObservableObject {
 	@Published var namespaces = core.v1.NamespaceList(metadata: nil, items: [core.v1.Namespace]())
 	@Published var errors = [Error]()
 	var client:KubernetesClient
-	var k8sTasks = [SwiftkubeClientTask<Any>]()
+    var podWatcher:SwiftkubeClientTask<WatchEvent<core.v1.Pod>>
+    var jobWatcher:SwiftkubeClientTask<WatchEvent<batch.v1.Job>>
 	
-	init(client:KubernetesClient) {
+	init(client:KubernetesClient) throws {
 		self.client = client
+        let strategy = RetryStrategy(
+            policy: .maxAttempts(20),
+            backoff: .exponential(maximumDelay: 60, multiplier: 2.0)
+        )
+        
+        podWatcher = try client.pods.watch(in: .default, retryStrategy: strategy)
+        jobWatcher = try client.batchV1.jobs.watch(in: .default, retryStrategy: strategy)
 		Task {
 			   try await refreshData()
 		   }
@@ -305,73 +313,70 @@ class ClusterResources: ObservableObject {
 	}
 	
 	func disconnectWatches() -> Void {
-		for t in k8sTasks {
-			t.cancel()
-		}
+        podWatcher.cancel()
+        jobWatcher.cancel()
 	}
 	
-	func connectWatches() -> Void {
-		print("this was a mistake")
-//		let strategy = RetryStrategy(
-//			policy: .maxAttempts(20),
-//			backoff: .exponential(maximumDelay: 60, multiplier: 2.0)
-//		)
-//		let podWatcher = try client.pods.watch(in: .default, retryStrategy: strategy) { (event, pod) in
-//			let uuid = try! UUID.fromK8sMetadata(resource: pod)
-//			switch event.rawValue {
-//			case "ADDED":
-//				DispatchQueue.main.async {
-//					do {
-//						try self.setPod(pod: pod)
-//					} catch {
-//						print(error)
-//					}
-//				}
-//			case "MODIFIED":
-//				DispatchQueue.main.async {
-//					do {
-//						try self.setPod(pod: pod)
-//					} catch {
-//						print(error)
-//					}
-//				}
-//			case "DELETED":
-//				DispatchQueue.main.async {
-//					self.removePod(uid: uuid)
-//				}
-//			default:
-//				break
-//			}
-//		}
-//		let jobWatcher = try client.batchV1.jobs.watch(in: .default, retryStrategy: strategy).start() { (event, job) in
-//			let uuid = try! UUID.fromK8sMetadata(resource: job)
-//			switch event.rawValue {
-//			case "ADDED":
-//				DispatchQueue.main.async {
-//					do {
-//						try self.setJob(job: job)
-//					} catch {
-//						print(error)
-//					}
-//				}
-//			case "MODIFIED":
-//				DispatchQueue.main.async {
-//					do {
-//						try self.setJob(job: job)
-//					} catch {
-//						print(error)
-//					}
-//				}
-//			case "DELETED":
-//				DispatchQueue.main.async {
-//					self.removeJob(uid: uuid)
-//				}
-//			default:
-//				break
-//			}
-//		}
-//		k8sTasks.append(podWatcher)
-//		k8sTasks.append(jobWatcher)
+	func connectWatches() async throws -> Void {
+        let podStream = podWatcher.start()
+        for try await event in podStream {
+            let pod = event.resource
+			let uuid = try! UUID.fromK8sMetadata(resource: pod)
+            switch event.type {
+            case .added:
+				DispatchQueue.main.async {
+					do {
+						try self.setPod(pod: pod)
+					} catch {
+						print(error)
+					}
+				}
+            case .modified:
+				DispatchQueue.main.async {
+					do {
+						try self.setPod(pod: pod)
+					} catch {
+						print(error)
+					}
+				}
+            case .deleted:
+				DispatchQueue.main.async {
+					self.removePod(uid: uuid)
+				}
+			default:
+				break
+			}
+		}
+        
+        let jobStream = jobWatcher.start()
+        for try await event in jobStream {
+            let job = event.resource
+			let uuid = try! UUID.fromK8sMetadata(resource: job)
+            switch event.type {
+            case .added:
+				DispatchQueue.main.async {
+					do {
+						try self.setJob(job: job)
+					} catch {
+						print(error)
+					}
+				}
+            case .modified:
+				DispatchQueue.main.async {
+					do {
+						try self.setJob(job: job)
+					} catch {
+						print(error)
+					}
+				}
+            case .deleted:
+				DispatchQueue.main.async {
+					self.removeJob(uid: uuid)
+				}
+			default:
+				break
+			}
+		}
 	}
 	
 	func setSelectedResource(resource: KubernetesResources) -> Void {

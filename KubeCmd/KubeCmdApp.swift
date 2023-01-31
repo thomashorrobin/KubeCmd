@@ -39,9 +39,9 @@ struct MainAppContainer: View {
 	}
 	
 	var body: some View {
-		if let client = client {
-			ContentView(resources: ClusterResources(client: client), setClientNil: setClientNil)
-				   .environment(\.managedObjectContext, persistenceController.container.viewContext)
+        if let client = client, let resources = try? ClusterResources(client: client) {
+                ContentView(resources: resources, setClientNil: setClientNil)
+                       .environment(\.managedObjectContext, persistenceController.container.viewContext)
 		   } else {
 			   StartupScreen { client in
 				   self.client = client

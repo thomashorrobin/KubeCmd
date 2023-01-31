@@ -56,10 +56,14 @@ struct ContentView: View {
 			Task {
 				try await resources.refreshData()
 			}
-			Task {
-				try await resources.fetchNamespaces()
-			}
-			resources.connectWatches()
+            Task {
+                try await resources.fetchNamespaces()
+            }
+            Task {
+                do {
+                    try await resources.connectWatches()
+                }
+            }
 //			do {
 //				try resources.connectWatches()
 //			} catch {
