@@ -413,7 +413,9 @@ class ClusterResources: ObservableObject {
 			let job = try await client.batchV1.jobs.create(inNamespace: .default, job)
 			try setJob(job: job)
 		} catch {
-			errors.append(error)
+            DispatchQueue.main.async {
+                self.errors.append(error)
+            }
 		}
 	}
 	
