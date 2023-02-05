@@ -135,26 +135,47 @@ class ClusterResources: ObservableObject {
 	}
 	
 	func refreshConfigMaps(ns: NamespaceSelector) async throws -> Void {
-		self.configmaps = try await self.client.configMaps.list(in: ns)
+		let configmaps = try await self.client.configMaps.list(in: ns)
+        DispatchQueue.main.async {
+            self.configmaps = configmaps
+        }
 	}
 	func refreshSecrets(ns: NamespaceSelector) async throws -> Void {
-		self.secrets = try await self.client.secrets.list(in: ns)
+		let secrets = try await self.client.secrets.list(in: ns)
+        DispatchQueue.main.async {
+            self.secrets = secrets
+        }
 	}
 	func refreshCronJobs(ns: NamespaceSelector) async throws -> Void {
-		self.cronjobs = try await self.client.batchV1.cronJobs.list(in: ns)
+		let cronjobs = try await self.client.batchV1.cronJobs.list(in: ns)
+        DispatchQueue.main.async {
+            self.cronjobs = cronjobs
+        }
 	}
 	func refreshDeployments(ns: NamespaceSelector) async throws -> Void {
-		self.deployments = try await self.client.appsV1.deployments.list(in: ns)
+		let deployments = try await self.client.appsV1.deployments.list(in: ns)
+        DispatchQueue.main.async {
+            self.deployments = deployments
+        }
 	}
 	func refreshIngresses(ns: NamespaceSelector) async throws -> Void {
-		self.ingresses = try await self.client.networkingV1.ingresses.list(in: ns)
+		let ingresses = try await self.client.networkingV1.ingresses.list(in: ns)
+        DispatchQueue.main.async {
+            self.ingresses = ingresses
+        }
 	}
 	func refreshServices(ns: NamespaceSelector) async throws -> Void {
-		self.services = try await self.client.services.list(in: ns)
+		let services = try await self.client.services.list(in: ns)
+        DispatchQueue.main.async {
+            self.services = services
+        }
 	}
 	
 	func fetchNamespaces() async throws -> Void {
-		self.namespaces = try await client.namespaces.list(options: nil)
+		let namespaces = try await client.namespaces.list(options: nil)
+        DispatchQueue.main.async {
+            self.namespaces = namespaces
+        }
 	}
 	
 //	func followLogs(name: String, cb: @escaping LogWatcherCallback.LineHandler) throws -> SwiftkubeClientTask {
@@ -318,65 +339,69 @@ class ClusterResources: ObservableObject {
 	}
 	
 	func connectWatches() async throws -> Void {
-        let podStream = podWatcher.start()
-        for try await event in podStream {
-            let pod = event.resource
-			let uuid = try! UUID.fromK8sMetadata(resource: pod)
-            switch event.type {
-            case .added:
-				DispatchQueue.main.async {
-					do {
-						try self.setPod(pod: pod)
-					} catch {
-						print(error)
-					}
-				}
-            case .modified:
-				DispatchQueue.main.async {
-					do {
-						try self.setPod(pod: pod)
-					} catch {
-						print(error)
-					}
-				}
-            case .deleted:
-				DispatchQueue.main.async {
-					self.removePod(uid: uuid)
-				}
-			default:
-				break
-			}
-		}
+        Task {
+            let podStream = podWatcher.start()
+            for try await event in podStream {
+                let pod = event.resource
+                let uuid = try! UUID.fromK8sMetadata(resource: pod)
+                switch event.type {
+                case .added:
+                    DispatchQueue.main.async {
+                        do {
+                            try self.setPod(pod: pod)
+                        } catch {
+                            print(error)
+                        }
+                    }
+                case .modified:
+                    DispatchQueue.main.async {
+                        do {
+                            try self.setPod(pod: pod)
+                        } catch {
+                            print(error)
+                        }
+                    }
+                case .deleted:
+                    DispatchQueue.main.async {
+                        self.removePod(uid: uuid)
+                    }
+                default:
+                    break
+                }
+            }
+        }
         
-        let jobStream = jobWatcher.start()
-        for try await event in jobStream {
-            let job = event.resource
-			let uuid = try! UUID.fromK8sMetadata(resource: job)
-            switch event.type {
-            case .added:
-				DispatchQueue.main.async {
-					do {
-						try self.setJob(job: job)
-					} catch {
-						print(error)
-					}
-				}
-            case .modified:
-				DispatchQueue.main.async {
-					do {
-						try self.setJob(job: job)
-					} catch {
-						print(error)
-					}
-				}
-            case .deleted:
-				DispatchQueue.main.async {
-					self.removeJob(uid: uuid)
-				}
-			default:
-				break
-			}
-		}
+        Task {
+            let jobStream = jobWatcher.start()
+            for try await event in jobStream {
+                let job = event.resource
+                let uuid = try! UUID.fromK8sMetadata(resource: job)
+                switch event.type {
+                case .added:
+                    DispatchQueue.main.async {
+                        do {
+                            try self.setJob(job: job)
+                        } catch {
+                            print(error)
+                        }
+                    }
+                case .modified:
+                    DispatchQueue.main.async {
+                        do {
+                            try self.setJob(job: job)
+                        } catch {
+                            print(error)
+                        }
+                    }
+                case .deleted:
+                    DispatchQueue.main.async {
+                        self.removeJob(uid: uuid)
+                    }
+                default:
+                    break
+                }
+            }
+        }
 	}
 	
 	func setSelectedResource(resource: KubernetesResources) -> Void {
