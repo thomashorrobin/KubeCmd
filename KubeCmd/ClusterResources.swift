@@ -431,7 +431,9 @@ class ClusterResources: ObservableObject {
 			try self.cronjobs.replaceOrAdd(cj: updatedCronjob)
 		} catch {
 			print(error)
-			errors.append(error)
+			DispatchQueue.main.async {
+				self.errors.append(error)
+			}
 		}
 	}
 	func suspendCronJob(cronjob: batch.v1.CronJob) async -> Void {
@@ -441,7 +443,9 @@ class ClusterResources: ObservableObject {
 			try self.cronjobs.replaceOrAdd(cj: updatedCronjob)
 		} catch {
 			print(error)
-			errors.append(error)
+			DispatchQueue.main.async {
+				self.errors.append(error)
+			}
 		}
 	}
 	func deleteResource(resource:KubernetesAPIResource) async throws -> Void {
