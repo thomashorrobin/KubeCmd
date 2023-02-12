@@ -110,14 +110,14 @@ struct CustomButtons: View {
 		case "CronJob":
 			let cronJob = resource as! batch.v1.CronJob
 			HStack(spacing: 15){
-				SuspendButton(cronJob: cronJob)
+//				SuspendButton(cronJob: cronJob)
 				TriggerCronJobButton(cronJob: cronJob)
 			}.padding(.all, 40)
-		case "Deployment":
-			let deployment = resource as! apps.v1.Deployment
-			HStack(spacing: 15){
-				RestartDeployment(deployment: deployment)
-			}.padding(.all, 40)
+//		case "Deployment":
+//			let deployment = resource as! apps.v1.Deployment
+//			HStack(spacing: 15){
+//				RestartDeployment(deployment: deployment)
+//			}.padding(.all, 40)
 		case "Pod":
 			let pod = resource as! core.v1.Pod
 			HStack(spacing: 15){

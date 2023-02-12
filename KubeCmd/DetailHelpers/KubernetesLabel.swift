@@ -15,9 +15,9 @@ struct KubernetesLabel: View {
 		ZStack{
 			HStack{
 				Text("\(key): \(value)").padding(.all, 6).fixedSize()
-				Button(action: delete) {
-					Image(systemName: "x.circle")
-				}.buttonStyle(PlainButtonStyle())
+//				Button(action: delete) {
+//					Image(systemName: "x.circle")
+//				}.buttonStyle(PlainButtonStyle())
 			}.padding(.all, 5).background(content: {
 				RoundedRectangle(cornerRadius: 16).fill(Color.gray.opacity(0.5))
 			})

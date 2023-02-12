@@ -39,21 +39,21 @@ struct MetaDataSection: View {
 				}
 			}
 		}
-		Button("Edit labels") {
-			showingSheet.toggle()
-		}
-		.sheet(isPresented: $showingSheet) {
-			SheetView(dismiss: {
-				showingSheet = false
-			}, labels: resource.metadata?.labels ?? [String: String]()) { value in
-				if let metadata = resource.metadata {
-					Task {
-						await resources.setLabels(kind: resource.kind, cronJob: metadata.name!, value: value)
-					}
-				}
-				showingSheet = false
-			}
-		}
+//		Button("Edit labels") {
+//			showingSheet.toggle()
+//		}
+//		.sheet(isPresented: $showingSheet) {
+//			SheetView(dismiss: {
+//				showingSheet = false
+//			}, labels: resource.metadata?.labels ?? [String: String]()) { value in
+//				if let metadata = resource.metadata {
+//					Task {
+//						await resources.setLabels(kind: resource.kind, cronJob: metadata.name!, value: value)
+//					}
+//				}
+//				showingSheet = false
+//			}
+//		}
 	}
 }
 
