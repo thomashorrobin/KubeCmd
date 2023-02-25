@@ -111,7 +111,7 @@ class ClusterResources: ObservableObject {
     var podWatcher:SwiftkubeClientTask<WatchEvent<core.v1.Pod>>
     var jobWatcher:SwiftkubeClientTask<WatchEvent<batch.v1.Job>>
 	
-	init(client:KubernetesClient) throws {
+	init(client:KubernetesClient, pubsub: PubSubBoillerPlate) throws {
 		self.client = client
         let strategy = RetryStrategy(
             policy: .maxAttempts(20),
@@ -120,10 +120,23 @@ class ClusterResources: ObservableObject {
         
         podWatcher = try client.pods.watch(in: .default, retryStrategy: strategy)
         jobWatcher = try client.batchV1.jobs.watch(in: .default, retryStrategy: strategy)
+        pubsub.Subscribe(fn: dropAndRefreshData)
 		Task {
 			   try await refreshData()
 		   }
 	}
+    
+    func dropAndRefreshData() async throws -> Void {
+        DispatchQueue.main.sync {
+            configmaps = core.v1.ConfigMapList(metadata: nil, items: [])
+            secrets = core.v1.SecretList(metadata: nil, items: [])
+            cronjobs = batch.v1.CronJobList(metadata: nil, items: [])
+            deployments = apps.v1.DeploymentList(metadata: nil, items: [])
+            ingresses = networking.v1.IngressList(metadata: nil, items: [])
+            services = core.v1.ServiceList(metadata: nil, items: [])
+        }
+        try await refreshData()
+    }
 	
 	func refreshData() async throws -> Void {
 		try await refreshConfigMaps(ns: namespace)
