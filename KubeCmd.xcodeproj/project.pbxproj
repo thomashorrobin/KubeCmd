@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		491C6E912703980400FCA5DC /* NamespaceFilterable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491C6E902703980400FCA5DC /* NamespaceFilterable.swift */; };
 		4944731B26C2F2F60070E338 /* ClusterResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4944731A26C2F2F60070E338 /* ClusterResources.swift */; };
-		4944731D26C2F3D10070E338 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4944731C26C2F3D10070E338 /* Extensions.swift */; };
+		4944731D26C2F3D10070E338 /* UUID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4944731C26C2F3D10070E338 /* UUID.swift */; };
 		494CE6402757AB0B00B5007F /* StartupScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494CE63F2757AB0B00B5007F /* StartupScreen.swift */; };
 		49595D4B27047EE3005F9D42 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49595D4A27047EE3005F9D42 /* AppDelegate.swift */; };
 		495A6904267F98FF00DA2EDD /* K8sResourceDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495A6903267F98FF00DA2EDD /* K8sResourceDetail.swift */; };
@@ -33,6 +33,7 @@
 		4995D4D126BEFA2D00A7831B /* KeyValueDetailSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4995D4D026BEFA2D00A7831B /* KeyValueDetailSection.swift */; };
 		4995D4D426C146A000A7831B /* MetaDataSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4995D4D326C146A000A7831B /* MetaDataSection.swift */; };
 		49A5A6DF2708B91D002BDF5B /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 49A5A6DE2708B91D002BDF5B /* Credits.rtf */; };
+		49AF40D929AB769C0075B6ED /* KubernetesResourceListExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AF40D829AB769C0075B6ED /* KubernetesResourceListExtensions.swift */; };
 		49B0FADB26E1EDC0002679A3 /* LogsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B0FADA26E1EDC0002679A3 /* LogsHandler.swift */; };
 		49DF339F28C4DEE000EF0166 /* ColouredByLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DF339E28C4DEE000EF0166 /* ColouredByLine.swift */; };
 		49E33BCB27EA0A4300C7619C /* helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E33BCA27EA0A4300C7619C /* helpers.swift */; };
@@ -70,7 +71,7 @@
 /* Begin PBXFileReference section */
 		491C6E902703980400FCA5DC /* NamespaceFilterable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamespaceFilterable.swift; sourceTree = "<group>"; };
 		4944731A26C2F2F60070E338 /* ClusterResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterResources.swift; sourceTree = "<group>"; };
-		4944731C26C2F3D10070E338 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		4944731C26C2F3D10070E338 /* UUID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UUID.swift; sourceTree = "<group>"; };
 		494CE63F2757AB0B00B5007F /* StartupScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupScreen.swift; sourceTree = "<group>"; };
 		49595D4A27047EE3005F9D42 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		495A6903267F98FF00DA2EDD /* K8sResourceDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = K8sResourceDetail.swift; sourceTree = "<group>"; };
@@ -101,6 +102,7 @@
 		4995D4D026BEFA2D00A7831B /* KeyValueDetailSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueDetailSection.swift; sourceTree = "<group>"; };
 		4995D4D326C146A000A7831B /* MetaDataSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetaDataSection.swift; sourceTree = "<group>"; };
 		49A5A6DE2708B91D002BDF5B /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
+		49AF40D829AB769C0075B6ED /* KubernetesResourceListExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KubernetesResourceListExtensions.swift; sourceTree = "<group>"; };
 		49B0FADA26E1EDC0002679A3 /* LogsHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogsHandler.swift; sourceTree = "<group>"; };
 		49DF339E28C4DEE000EF0166 /* ColouredByLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColouredByLine.swift; sourceTree = "<group>"; };
 		49E33BCA27EA0A4300C7619C /* helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = helpers.swift; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 		49782B1125E08DD700D92F4C /* KubeCmd */ = {
 			isa = PBXGroup;
 			children = (
+				49AF40D729AB74D00075B6ED /* Extensions */,
 				49E7DB84270E08DC0010F079 /* CreateResourceViews */,
 				49A5A6DE2708B91D002BDF5B /* Credits.rtf */,
 				4995D4CF26BEFA0700A7831B /* DetailHelpers */,
@@ -200,7 +203,6 @@
 				49FBB8E6267CAC73004C7824 /* KubernetesAPIResourceList.swift */,
 				495A6903267F98FF00DA2EDD /* K8sResourceDetail.swift */,
 				4944731A26C2F2F60070E338 /* ClusterResources.swift */,
-				4944731C26C2F3D10070E338 /* Extensions.swift */,
 				491C6E902703980400FCA5DC /* NamespaceFilterable.swift */,
 				49595D4A27047EE3005F9D42 /* AppDelegate.swift */,
 				494CE63F2757AB0B00B5007F /* StartupScreen.swift */,
@@ -245,6 +247,15 @@
 				4973D20D2763A15A000F65C1 /* KubernetesLabel.swift */,
 			);
 			path = DetailHelpers;
+			sourceTree = "<group>";
+		};
+		49AF40D729AB74D00075B6ED /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				4944731C26C2F3D10070E338 /* UUID.swift */,
+				49AF40D829AB769C0075B6ED /* KubernetesResourceListExtensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		49E7DB84270E08DC0010F079 /* CreateResourceViews */ = {
@@ -421,11 +432,12 @@
 				491C6E912703980400FCA5DC /* NamespaceFilterable.swift in Sources */,
 				49E7DB8A270E0BB40010F079 /* ViewExtensions.swift in Sources */,
 				49782B4F25E2F4BF00D92F4C /* TopLevelK8sMenu.swift in Sources */,
+				49AF40D929AB769C0075B6ED /* KubernetesResourceListExtensions.swift in Sources */,
 				4961B4D026B1E4A5000A55D7 /* Deployment.swift in Sources */,
 				49782B1325E08DD700D92F4C /* KubeCmdApp.swift in Sources */,
 				495A6904267F98FF00DA2EDD /* K8sResourceDetail.swift in Sources */,
 				49FBB8E7267CAC73004C7824 /* KubernetesAPIResourceList.swift in Sources */,
-				4944731D26C2F3D10070E338 /* Extensions.swift in Sources */,
+				4944731D26C2F3D10070E338 /* UUID.swift in Sources */,
 				49E33BCB27EA0A4300C7619C /* helpers.swift in Sources */,
 				4973D20E2763A15A000F65C1 /* KubernetesLabel.swift in Sources */,
 				4961B4CE26B1DC53000A55D7 /* ConfigMap.swift in Sources */,
