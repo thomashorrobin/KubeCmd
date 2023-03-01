@@ -9,7 +9,19 @@ import SwiftUI
 import SwiftkubeModel
 
 struct Job: View {
+    var resources: ClusterResources
 	var job:batch.v1.Job
+    var pods:[core.v1.Pod]
+    init(job: batch.v1.Job, resources: ClusterResources) {
+        self.job = job
+        self.resources = resources
+        self.pods = [core.v1.Pod]()
+        do {
+            try pods.append(contentsOf: job.getPods(pods: resources.pods))
+        } catch  {
+            print(error)
+        }
+    }
 	var body: some View {
 		VStack(alignment: .leading, spacing: CGFloat(5), content: {
 			if let status = job.status {
@@ -37,8 +49,15 @@ struct Job: View {
 				Text("Parallelism: \(spec.parallelism ?? 0)").textSelection(.enabled)
 				Text("TTL Seconds After Finished: \(spec.ttlSecondsAfterFinished ?? 0)").textSelection(.enabled)
 			}
+            if pods.count > 0 {
+                Divider().padding(.vertical, 30)
+                Text("Pods").font(.title2)
+                ForEach(pods, id: \.name) { pod in
+                    Text(pod.name ?? "unknown").textSelection(.enabled)
+                }
+            }
 		})
-	}
+    }
 }
 
 func makeJobStatusBar(status:batch.v1.JobStatus) -> ColouredByLine? {

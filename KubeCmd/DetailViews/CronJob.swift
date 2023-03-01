@@ -41,9 +41,18 @@ struct SuspendButton: View {
 }
 
 struct CronJob: View {
+    var resources: ClusterResources
 	let cronJob:batch.v1.CronJob
-	init(res:KubernetesAPIResource) {
+    var jobs:[batch.v1.Job]
+	init(res:KubernetesAPIResource, resources: ClusterResources) {
 		self.cronJob = res as! batch.v1.CronJob
+        self.resources = resources
+        jobs = [batch.v1.Job]()
+        do {
+            try jobs.append(contentsOf: cronJob.getJobs(jobs: resources.jobs))
+        } catch  {
+            print(error)
+        }
 	}
 	var body: some View {
 		VStack(alignment: .leading, spacing: CGFloat(5), content: {
@@ -59,6 +68,13 @@ struct CronJob: View {
 				Text("Schedule: \(spec.schedule)")
 				Text("Suspended: \(String(spec.suspend ?? true))")
 			}
+            if jobs.count > 0 {
+                Divider().padding(.vertical, 30)
+                Text("Jobs").font(.title2)
+                ForEach(jobs, id: \.name) { job in
+                    Text(job.name ?? "unknown").textSelection(.enabled)
+                }
+            }
 		})
 	}
 }
@@ -83,8 +99,8 @@ struct TriggerCronJobButton : View {
 	}
 }
 
-struct CronJob_Previews: PreviewProvider {
-	static var previews: some View {
-		CronJob(res: ClusterResources.dummyCronJob() as KubernetesAPIResource)
-	}
-}
+//struct CronJob_Previews: PreviewProvider {
+//	static var previews: some View {
+//		CronJob(res: ClusterResources.dummyCronJob() as KubernetesAPIResource)
+//	}
+//}

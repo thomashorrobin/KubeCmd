@@ -41,9 +41,9 @@ struct K8sResourceDetail: View {
 					case "Pod":
 						Pod(pod: resource as! core.v1.Pod).padding(.all, 40)
 					case "CronJob":
-						CronJob(res: resource).padding(.all, 40)
+						CronJob(res: resource, resources: resources).padding(.all, 40)
 					case "Job":
-						Job(job: resource as! batch.v1.Job).padding(.all, 40)
+                        Job(job: resource as! batch.v1.Job, resources: resources).padding(.all, 40)
 					case "Secret":
 						Secret(secret: resource as! core.v1.Secret).padding(.all, 40)
 					case "Deployment":
