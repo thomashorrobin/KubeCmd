@@ -49,7 +49,7 @@ struct CronJob: View {
         self.resources = resources
         jobs = [batch.v1.Job]()
         do {
-            try jobs.append(contentsOf: cronJob.getJobs(jobs: resources.jobs))
+            try jobs.append(contentsOf: cronJob.getJobs(jobs: resources.jobs.items))
         } catch  {
             print(error)
         }

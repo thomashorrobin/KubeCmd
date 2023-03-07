@@ -19,6 +19,8 @@
 		4961B4D026B1E4A5000A55D7 /* Deployment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4961B4CF26B1E4A5000A55D7 /* Deployment.swift */; };
 		4961B4D226B1E4BB000A55D7 /* Pod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4961B4D126B1E4BB000A55D7 /* Pod.swift */; };
 		4961B4D426B1E4C9000A55D7 /* Job.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4961B4D326B1E4C9000A55D7 /* Job.swift */; };
+		49662F3729B7EB050054CB5A /* ResourceWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49662F3629B7EB050054CB5A /* ResourceWrapper.swift */; };
+		49662F3829B7EB050054CB5A /* ResourceWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49662F3629B7EB050054CB5A /* ResourceWrapper.swift */; };
 		4973D20E2763A15A000F65C1 /* KubernetesLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4973D20D2763A15A000F65C1 /* KubernetesLabel.swift */; };
 		49782B1325E08DD700D92F4C /* KubeCmdApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49782B1225E08DD700D92F4C /* KubeCmdApp.swift */; };
 		49782B1525E08DD700D92F4C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49782B1425E08DD700D92F4C /* ContentView.swift */; };
@@ -83,6 +85,7 @@
 		4961B4CF26B1E4A5000A55D7 /* Deployment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deployment.swift; sourceTree = "<group>"; };
 		4961B4D126B1E4BB000A55D7 /* Pod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pod.swift; sourceTree = "<group>"; };
 		4961B4D326B1E4C9000A55D7 /* Job.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Job.swift; sourceTree = "<group>"; };
+		49662F3629B7EB050054CB5A /* ResourceWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceWrapper.swift; sourceTree = "<group>"; };
 		4973D20D2763A15A000F65C1 /* KubernetesLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KubernetesLabel.swift; sourceTree = "<group>"; };
 		49782B0F25E08DD700D92F4C /* KubeCmd.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KubeCmd.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49782B1225E08DD700D92F4C /* KubeCmdApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KubeCmdApp.swift; sourceTree = "<group>"; };
@@ -212,6 +215,7 @@
 				494CE63F2757AB0B00B5007F /* StartupScreen.swift */,
 				49E33BCA27EA0A4300C7619C /* helpers.swift */,
 				49DF339E28C4DEE000EF0166 /* ColouredByLine.swift */,
+				49662F3629B7EB050054CB5A /* ResourceWrapper.swift */,
 			);
 			path = KubeCmd;
 			sourceTree = "<group>";
@@ -436,6 +440,7 @@
 				49782B1525E08DD700D92F4C /* ContentView.swift in Sources */,
 				49B0FADB26E1EDC0002679A3 /* LogsHandler.swift in Sources */,
 				491C6E912703980400FCA5DC /* NamespaceFilterable.swift in Sources */,
+				49662F3729B7EB050054CB5A /* ResourceWrapper.swift in Sources */,
 				49E7DB8A270E0BB40010F079 /* ViewExtensions.swift in Sources */,
 				49782B4F25E2F4BF00D92F4C /* TopLevelK8sMenu.swift in Sources */,
 				49AF40D929AB769C0075B6ED /* KubernetesResourceListExtensions.swift in Sources */,
@@ -464,6 +469,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				49782B2B25E08DD800D92F4C /* KubeCmdTests.swift in Sources */,
+				49662F3829B7EB050054CB5A /* ResourceWrapper.swift in Sources */,
 				49E33BCC27EA0A4300C7619C /* helpers.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -12,11 +12,11 @@ import SwiftUI
 
 class ClusterResources: ObservableObject {
 	@Published var selectedResource = KubernetesResources.pods
-	@Published var pods = [UUID:core.v1.Pod]()
+	@Published var pods = ResourceWrapper<core.v1.Pod>()
 	@Published var configmaps:core.v1.ConfigMapList = core.v1.ConfigMapList(metadata: nil, items: [])
 	@Published var secrets:core.v1.SecretList = core.v1.SecretList(metadata: nil, items: [])
 	@Published var cronjobs:batch.v1.CronJobList = batch.v1.CronJobList(metadata: nil, items: [])
-	@Published var jobs = [UUID:batch.v1.Job]()
+	@Published var jobs = ResourceWrapper<batch.v1.Job>()
 	@Published var deployments:apps.v1.DeploymentList = apps.v1.DeploymentList(metadata: nil, items: [])
 	@Published var ingresses:networking.v1.IngressList = networking.v1.IngressList(metadata: nil, items: [])
 	@Published var services:core.v1.ServiceList = core.v1.ServiceList(metadata: nil, items: [])
@@ -116,21 +116,19 @@ class ClusterResources: ObservableObject {
 	}
 	
 	func removePod(uid:UUID) -> Void {
-		self.pods.removeValue(forKey: uid)
+        self.pods.delete(uuid: uid)
 	}
 	
 	func removeJob(uid:UUID) -> Void {
-		self.jobs.removeValue(forKey: uid)
+		self.jobs.delete(uuid: uid)
 	}
 	
 	func setPod(pod:core.v1.Pod) throws -> Void {
-		let uid = try UUID.fromK8sMetadata(resource: pod)
-		pods[uid] = pod
+        try self.pods.upsert(resource: pod)
 	}
 	
 	func setJob(job:batch.v1.Job) throws -> Void {
-		let uid = try UUID.fromK8sMetadata(resource: job)
-		jobs[uid] = job
+        try self.jobs.upsert(resource: job)
 	}
 	
 	func dropLabel(kind: String, cronJob: String, name: String) async -> Void {
@@ -139,8 +137,7 @@ class ClusterResources: ObservableObject {
 			case .pods:
 				do {
 					let newResource = try await client.pods.deleteLabel(in: self.namespace, name: cronJob, labelName: name)
-					let uid = try UUID.fromK8sMetadata(resource: newResource)
-					self.pods[uid] = newResource
+                    try self.pods.upsert(resource: newResource)
 				} catch {
 					print(error)
 				}
@@ -161,8 +158,7 @@ class ClusterResources: ObservableObject {
 			case .jobs:
 				do {
 					let newResource = try await client.batchV1.jobs.deleteLabel(in: self.namespace, name: cronJob, labelName: name)
-					let uid = try UUID.fromK8sMetadata(resource: newResource)
-					self.jobs[uid] = newResource
+                    try self.jobs.upsert(resource: newResource)
 				} catch {
 					print(error)
 				}
@@ -204,8 +200,7 @@ class ClusterResources: ObservableObject {
 			case .pods:
 				do {
 					let newResource = try await client.pods.setLabels(in: self.namespace, name: cronJob, labelName: name, value: value)
-					let uid = try UUID.fromK8sMetadata(resource: newResource)
-					self.pods[uid] = newResource
+                    try self.pods.upsert(resource: newResource)
 				} catch {
 					print(error)
 				}
@@ -226,8 +221,7 @@ class ClusterResources: ObservableObject {
 			case .jobs:
 				do {
 					let newResource = try await client.batchV1.jobs.setLabels(in: self.namespace, name: cronJob, labelName: name, value: value)
-					let uid = try UUID.fromK8sMetadata(resource: newResource)
-					self.jobs[uid] = newResource
+                    try self.jobs.upsert(resource: newResource)
 				} catch {
 					print(error)
 				}

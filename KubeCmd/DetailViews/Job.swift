@@ -17,7 +17,7 @@ struct Job: View {
         self.resources = resources
         self.pods = [core.v1.Pod]()
         do {
-            try pods.append(contentsOf: job.getPods(pods: resources.pods))
+            try pods.append(contentsOf: job.getPods(pods: resources.pods.items))
         } catch  {
             print(error)
         }
