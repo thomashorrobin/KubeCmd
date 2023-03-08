@@ -6,12 +6,15 @@
 //
 
 import Foundation
+import SwiftkubeClient
 import SwiftkubeModel
 
-internal class ResourceWrapper<Resource: KubernetesAPIResource>: ObservableObject {
+internal class ResourceWrapper<Resource: KubernetesAPIResource & NamespacedResource & ListableResource>: ObservableObject {
     @Published private(set) var items:[UUID:Resource]
-    init() {
+    private var resourceFetcher: NamespacedGenericKubernetesClient<Resource>
+    init(resourceFetcher: NamespacedGenericKubernetesClient<Resource>) {
         self.items = [UUID:Resource]()
+        self.resourceFetcher = resourceFetcher
     }
     public func upsert(resource: Resource) throws {
         let uuid = try UUID.fromK8sMetadata(resource: resource)
@@ -23,5 +26,8 @@ internal class ResourceWrapper<Resource: KubernetesAPIResource>: ObservableObjec
     }
     public func delete(uuid resourceKey: UUID) {
         items.removeValue(forKey: resourceKey)
+    }
+    public func refresh() async throws -> [Resource] {
+        return try await resourceFetcher.list(in: .default) as! [Resource]
     }
 }

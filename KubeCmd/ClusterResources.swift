@@ -12,11 +12,11 @@ import SwiftUI
 
 class ClusterResources: ObservableObject {
 	@Published var selectedResource = KubernetesResources.pods
-	@Published var pods = ResourceWrapper<core.v1.Pod>()
+    @Published var pods: ResourceWrapper<core.v1.Pod>
 	@Published var configmaps:core.v1.ConfigMapList = core.v1.ConfigMapList(metadata: nil, items: [])
 	@Published var secrets:core.v1.SecretList = core.v1.SecretList(metadata: nil, items: [])
 	@Published var cronjobs:batch.v1.CronJobList = batch.v1.CronJobList(metadata: nil, items: [])
-	@Published var jobs = ResourceWrapper<batch.v1.Job>()
+    @Published var jobs: ResourceWrapper<batch.v1.Job>
 	@Published var deployments:apps.v1.DeploymentList = apps.v1.DeploymentList(metadata: nil, items: [])
 	@Published var ingresses:networking.v1.IngressList = networking.v1.IngressList(metadata: nil, items: [])
 	@Published var services:core.v1.ServiceList = core.v1.ServiceList(metadata: nil, items: [])
@@ -33,7 +33,8 @@ class ClusterResources: ObservableObject {
             policy: .maxAttempts(20),
             backoff: .exponential(maximumDelay: 60, multiplier: 2.0)
         )
-        
+        self.pods = ResourceWrapper<core.v1.Pod>(resourceFetcher: client.pods)
+        self.jobs = ResourceWrapper<batch.v1.Job>(resourceFetcher: client.batchV1.jobs)
         podWatcher = try client.pods.watch(in: .default, retryStrategy: strategy)
         jobWatcher = try client.batchV1.jobs.watch(in: .default, retryStrategy: strategy)
         pubsub.Subscribe(fn: dropAndRefreshData)
