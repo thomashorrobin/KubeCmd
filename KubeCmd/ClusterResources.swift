@@ -20,8 +20,7 @@ class ClusterResources: ObservableObject {
 	@Published var deployments:apps.v1.DeploymentList = apps.v1.DeploymentList(metadata: nil, items: [])
 	@Published var ingresses:networking.v1.IngressList = networking.v1.IngressList(metadata: nil, items: [])
 	@Published var services:core.v1.ServiceList = core.v1.ServiceList(metadata: nil, items: [])
-	@Published var namespace = NamespaceSelector.namespace("default")
-	@Published var namespaces = core.v1.NamespaceList(metadata: nil, items: [core.v1.Namespace]())
+    @Published var namespaceManager:NamespaceManager
 	@Published var errors = [Error]()
 	var client:KubernetesClient
     var podWatcher:SwiftkubeClientTask<WatchEvent<core.v1.Pod>>
@@ -29,6 +28,7 @@ class ClusterResources: ObservableObject {
 	
 	init(client:KubernetesClient, pubsub: PubSubBoillerPlate) throws {
 		self.client = client
+        namespaceManager = try NamespaceManager(client: client)
         let strategy = RetryStrategy(
             policy: .maxAttempts(20),
             backoff: .exponential(maximumDelay: 60, multiplier: 2.0)
@@ -55,12 +55,12 @@ class ClusterResources: ObservableObject {
     }
 	
 	func refreshData() async throws -> Void {
-		try await refreshConfigMaps(ns: namespace)
-		try await refreshSecrets(ns: namespace)
-		try await refreshCronJobs(ns: namespace)
-		try await refreshDeployments(ns: namespace)
-		try await refreshIngresses(ns: namespace)
-		try await refreshServices(ns: namespace)
+        try await refreshConfigMaps(ns: namespaceManager.namespace)
+		try await refreshSecrets(ns: namespaceManager.namespace)
+		try await refreshCronJobs(ns: namespaceManager.namespace)
+		try await refreshDeployments(ns: namespaceManager.namespace)
+		try await refreshIngresses(ns: namespaceManager.namespace)
+		try await refreshServices(ns: namespaceManager.namespace)
 	}
 	
 	func refreshConfigMaps(ns: NamespaceSelector) async throws -> Void {
@@ -100,13 +100,6 @@ class ClusterResources: ObservableObject {
         }
 	}
 	
-	func fetchNamespaces() async throws -> Void {
-		let namespaces = try await client.namespaces.list(options: nil)
-        DispatchQueue.main.async {
-            self.namespaces = namespaces
-        }
-	}
-	
 //	func followLogs(name: String, cb: @escaping LogWatcherCallback.LineHandler) throws -> SwiftkubeClientTask {
 //		return try await client.pods.follow(name: name, lineHandler: cb)
 //	}
@@ -136,56 +129,56 @@ class ClusterResources: ObservableObject {
 			switch kind {
 			case .pods:
 				do {
-					let newResource = try await client.pods.deleteLabel(in: self.namespace, name: cronJob, labelName: name)
+					let newResource = try await client.pods.deleteLabel(in: self.namespaceManager.namespace, name: cronJob, labelName: name)
                     try self.pods.upsert(resource: newResource)
 				} catch {
 					print(error)
 				}
 			case .cronjobs:
 				do {
-					let newResource = try await client.batchV1.cronJobs.deleteLabel(in: self.namespace, name: cronJob, labelName: name)
+					let newResource = try await client.batchV1.cronJobs.deleteLabel(in: self.namespaceManager.namespace, name: cronJob, labelName: name)
 					try self.cronjobs.replaceOrAdd(cj: newResource)
 				} catch {
 					print(error)
 				}
 			case .deployments:
 				do {
-					let newResource = try await client.appsV1.deployments.deleteLabel(in: self.namespace, name: cronJob, labelName: name)
+					let newResource = try await client.appsV1.deployments.deleteLabel(in: self.namespaceManager.namespace, name: cronJob, labelName: name)
 					try self.deployments.replaceOrAdd(d: newResource)
 				} catch {
 					print(error)
 				}
 			case .jobs:
 				do {
-					let newResource = try await client.batchV1.jobs.deleteLabel(in: self.namespace, name: cronJob, labelName: name)
+					let newResource = try await client.batchV1.jobs.deleteLabel(in: self.namespaceManager.namespace, name: cronJob, labelName: name)
                     try self.jobs.upsert(resource: newResource)
 				} catch {
 					print(error)
 				}
 			case .configmaps:
 				do {
-					let newResource = try await client.configMaps.deleteLabel(in: self.namespace, name: cronJob, labelName: name)
+					let newResource = try await client.configMaps.deleteLabel(in: self.namespaceManager.namespace, name: cronJob, labelName: name)
 					try self.configmaps.replaceOrAdd(cm: newResource)
 				} catch {
 					print(error)
 				}
 			case .secrets:
 				do {
-					let newResource = try await client.secrets.deleteLabel(in: self.namespace, name: cronJob, labelName: name)
+					let newResource = try await client.secrets.deleteLabel(in: self.namespaceManager.namespace, name: cronJob, labelName: name)
 					try self.secrets.replaceOrAdd(s: newResource)
 				} catch {
 					print(error)
 				}
 			case .ingresses:
 				do {
-					let newResource = try await client.networkingV1.ingresses.deleteLabel(in: self.namespace, name: cronJob, labelName: name)
+					let newResource = try await client.networkingV1.ingresses.deleteLabel(in: self.namespaceManager.namespace, name: cronJob, labelName: name)
 					try self.ingresses.replaceOrAdd(ing: newResource)
 				} catch {
 					print(error)
 				}
 			case .services:
 				do {
-					let newResource = try await client.services.deleteLabel(in: self.namespace, name: cronJob, labelName: name)
+					let newResource = try await client.services.deleteLabel(in: self.namespaceManager.namespace, name: cronJob, labelName: name)
 					try self.services.replaceOrAdd(s: newResource)
 				} catch {
 					print(error)
@@ -199,56 +192,56 @@ class ClusterResources: ObservableObject {
 			switch kind {
 			case .pods:
 				do {
-					let newResource = try await client.pods.setLabels(in: self.namespace, name: cronJob, labelName: name, value: value)
+					let newResource = try await client.pods.setLabels(in: self.namespaceManager.namespace, name: cronJob, labelName: name, value: value)
                     try self.pods.upsert(resource: newResource)
 				} catch {
 					print(error)
 				}
 			case .cronjobs:
 				do {
-					let newResource = try await client.batchV1.cronJobs.setLabels(in: self.namespace, name: cronJob, labelName: name, value: value)
+					let newResource = try await client.batchV1.cronJobs.setLabels(in: self.namespaceManager.namespace, name: cronJob, labelName: name, value: value)
 					try self.cronjobs.replaceOrAdd(cj: newResource)
 				} catch {
 					print(error)
 				}
 			case .deployments:
 				do {
-					let newResource = try await client.appsV1.deployments.setLabels(in: self.namespace, name: cronJob, labelName: name, value: value)
+					let newResource = try await client.appsV1.deployments.setLabels(in: self.namespaceManager.namespace, name: cronJob, labelName: name, value: value)
 					try self.deployments.replaceOrAdd(d: newResource)
 				} catch {
 					print(error)
 				}
 			case .jobs:
 				do {
-					let newResource = try await client.batchV1.jobs.setLabels(in: self.namespace, name: cronJob, labelName: name, value: value)
+					let newResource = try await client.batchV1.jobs.setLabels(in: self.namespaceManager.namespace, name: cronJob, labelName: name, value: value)
                     try self.jobs.upsert(resource: newResource)
 				} catch {
 					print(error)
 				}
 			case .configmaps:
 				do {
-					let newResource = try await client.configMaps.setLabels(in: self.namespace, name: cronJob, labelName: name, value: value)
+					let newResource = try await client.configMaps.setLabels(in: self.namespaceManager.namespace, name: cronJob, labelName: name, value: value)
 					try self.configmaps.replaceOrAdd(cm: newResource)
 				} catch {
 					print(error)
 				}
 			case .secrets:
 				do {
-					let newResource = try await client.secrets.setLabels(in: self.namespace, name: cronJob, labelName: name, value: value)
+					let newResource = try await client.secrets.setLabels(in: self.namespaceManager.namespace, name: cronJob, labelName: name, value: value)
 					try self.secrets.replaceOrAdd(s: newResource)
 				} catch {
 					print(error)
 				}
 			case .ingresses:
 				do {
-					let newResource = try await client.networkingV1.ingresses.setLabels(in: self.namespace, name: cronJob, labelName: name, value: value)
+					let newResource = try await client.networkingV1.ingresses.setLabels(in: self.namespaceManager.namespace, name: cronJob, labelName: name, value: value)
 					try self.ingresses.replaceOrAdd(ing: newResource)
 				} catch {
 					print(error)
 				}
 			case .services:
 				do {
-					let newResource = try await client.services.setLabels(in: self.namespace, name: cronJob, labelName: name, value: value)
+					let newResource = try await client.services.setLabels(in: self.namespaceManager.namespace, name: cronJob, labelName: name, value: value)
 					try self.services.replaceOrAdd(s: newResource)
 				} catch {
 					print(error)
@@ -349,7 +342,7 @@ class ClusterResources: ObservableObject {
 	}
 	
 	func restartDeployment(deployment: apps.v1.Deployment) async throws -> Void {
-		let deployment = try await client.appsV1.deployments.restartDeployment(in: namespace, name: deployment.name!)
+		let deployment = try await client.appsV1.deployments.restartDeployment(in: namespaceManager.namespace, name: deployment.name!)
 		try self.deployments.replaceOrAdd(d: deployment)
 	}
 	
@@ -388,29 +381,29 @@ class ClusterResources: ObservableObject {
 		switch resource.kind {
 		case "CronJob":
 			_ = try await client.batchV1.cronJobs.delete(inNamespace: .namespace(namespace), name: name, options: deleteOptions)
-			try await refreshCronJobs(ns: self.namespace)
+			try await refreshCronJobs(ns: self.namespaceManager.namespace)
 		case "Job":
 			_ = try await  client.batchV1.jobs.delete(inNamespace: .namespace(namespace), name: name, options: deleteOptions)
 			
 		case "Deployment":
 			_ = try await  client.appsV1.deployments.delete(inNamespace: .namespace(namespace), name: name, options: deleteOptions)
-			try await refreshDeployments(ns: self.namespace)
+			try await refreshDeployments(ns: self.namespaceManager.namespace)
 			
 		case "Pod":
 			_ = try await  client.pods.delete(inNamespace: .namespace(namespace), name: name, options: deleteOptions)
 			
 		case "ConfigMap":
 			_ = try await  client.configMaps.delete(inNamespace: .namespace(namespace), name: name, options: deleteOptions)
-			try await refreshConfigMaps(ns: self.namespace)
+			try await refreshConfigMaps(ns: self.namespaceManager.namespace)
 		case "Secret":
 			_ = try await  client.secrets.delete(inNamespace: .namespace(namespace), name: name, options: deleteOptions)
-			try await refreshSecrets(ns: self.namespace)
+			try await refreshSecrets(ns: self.namespaceManager.namespace)
 		case "Ingress":
 			_ = try await  client.networkingV1.ingresses.delete(inNamespace: .namespace(namespace), name: name, options: deleteOptions)
-			try await  refreshIngresses(ns: self.namespace)
+			try await  refreshIngresses(ns: self.namespaceManager.namespace)
 		case "Service":
 			_ = try await client.services.delete(inNamespace: .namespace(namespace), name: name, options: deleteOptions)
-			try await refreshSecrets(ns: self.namespace)
+			try await refreshSecrets(ns: self.namespaceManager.namespace)
 		default:
 			print("resource.kind not handled by deleteResource()")
 		}

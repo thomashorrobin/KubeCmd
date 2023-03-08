@@ -15,7 +15,7 @@ struct TopLevelK8sMenu: View {
 		guard let metadata = kubernetesAPIResource.metadata else { return false }
 		guard let ns = metadata.namespace else { return false }
 		let x = NamespaceSelector.namespace(ns)
-		let namespaceMatch = x == resources.namespace
+		let namespaceMatch = x == resources.namespaceManager.namespace
 		return namespaceMatch
 	}
 	var body: some View {

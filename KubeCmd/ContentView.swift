@@ -45,7 +45,6 @@ struct ContentView: View {
 				buttonText = "loading..."
 				Task {
 					try await resources.refreshData()
-					try await resources.fetchNamespaces()
 				}
 				buttonText = "Load data again"
 			}, label: {
@@ -56,9 +55,6 @@ struct ContentView: View {
 			Task {
 				try await resources.refreshData()
 			}
-            Task {
-                try await resources.fetchNamespaces()
-            }
             Task {
                 do {
                     try await resources.connectWatches()
@@ -84,8 +80,8 @@ struct ContentView: View {
 			}
 			ToolbarItem(placement: .primaryAction) {
 				Menu{
-					Picker("Namespace", selection: $resources.namespace) {
-						ForEach(resources.namespaces.items, id: \.name) { ns in
+					Picker("Namespace", selection: $resources.namespaceManager.namespace) {
+						ForEach(resources.namespaceManager.namespaces.items, id: \.name) { ns in
 							Text(ns.name!).tag(NamespaceSelector.namespace(ns.name!))
 						}
 					}
