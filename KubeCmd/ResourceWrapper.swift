@@ -27,7 +27,11 @@ internal class ResourceWrapper<Resource: KubernetesAPIResource & NamespacedResou
     public func delete(uuid resourceKey: UUID) {
         items.removeValue(forKey: resourceKey)
     }
-    public func refresh() async throws -> [Resource] {
-        return try await resourceFetcher.list(in: .default) as! [Resource]
+    public func refresh() async throws {
+        items.removeAll()
+        let resources = try await resourceFetcher.list(in: .default)
+        for resource in resources.items {
+            try upsert(resource: resource as! Resource)
+        }
     }
 }

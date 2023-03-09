@@ -44,6 +44,8 @@ class ClusterResources: ObservableObject {
 	}
     
     func dropAndRefreshData() async throws -> Void {
+        try await self.pods.refresh()
+        try await self.jobs.refresh()
         DispatchQueue.main.sync {
             configmaps = core.v1.ConfigMapList(metadata: nil, items: [])
             secrets = core.v1.SecretList(metadata: nil, items: [])
