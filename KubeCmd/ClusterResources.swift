@@ -28,13 +28,14 @@ class ClusterResources: ObservableObject {
 	
 	init(client:KubernetesClient, pubsub: PubSubBoillerPlate) throws {
 		self.client = client
-        namespaceManager = try NamespaceManager(client: client)
+        let namespaceManager = try NamespaceManager(client: client)
+        self.namespaceManager = namespaceManager
         let strategy = RetryStrategy(
             policy: .maxAttempts(20),
             backoff: .exponential(maximumDelay: 60, multiplier: 2.0)
         )
-        self.pods = ResourceWrapper<core.v1.Pod>(resourceFetcher: client.pods)
-        self.jobs = ResourceWrapper<batch.v1.Job>(resourceFetcher: client.batchV1.jobs)
+        self.pods = ResourceWrapper<core.v1.Pod>(resourceFetcher: client.pods, namespaceManager: namespaceManager)
+        self.jobs = ResourceWrapper<batch.v1.Job>(resourceFetcher: client.batchV1.jobs, namespaceManager: namespaceManager)
         podWatcher = try client.pods.watch(in: .default, retryStrategy: strategy)
         jobWatcher = try client.batchV1.jobs.watch(in: .default, retryStrategy: strategy)
         pubsub.Subscribe(fn: dropAndRefreshData)

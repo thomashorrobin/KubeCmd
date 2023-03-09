@@ -12,9 +12,11 @@ import SwiftkubeModel
 internal class ResourceWrapper<Resource: KubernetesAPIResource & NamespacedResource & ListableResource>: ObservableObject {
     @Published private(set) var items:[UUID:Resource]
     private var resourceFetcher: NamespacedGenericKubernetesClient<Resource>
-    init(resourceFetcher: NamespacedGenericKubernetesClient<Resource>) {
+    private var namespaceManager: NamespaceManager
+    init(resourceFetcher: NamespacedGenericKubernetesClient<Resource>, namespaceManager: NamespaceManager) {
         self.items = [UUID:Resource]()
         self.resourceFetcher = resourceFetcher
+        self.namespaceManager = namespaceManager
     }
     public func upsert(resource: Resource) throws {
         let uuid = try UUID.fromK8sMetadata(resource: resource)
@@ -29,7 +31,7 @@ internal class ResourceWrapper<Resource: KubernetesAPIResource & NamespacedResou
     }
     public func refresh() async throws {
         items.removeAll()
-        let resources = try await resourceFetcher.list(in: .default)
+        let resources = try await resourceFetcher.list(in: namespaceManager.namespace)
         for resource in resources.items {
             try upsert(resource: resource as! Resource)
         }
