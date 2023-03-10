@@ -59,12 +59,13 @@ class ClusterResources: ObservableObject {
     }
 	
 	func refreshData() async throws -> Void {
-        try await refreshConfigMaps(ns: namespaceManager.namespace)
-		try await refreshSecrets(ns: namespaceManager.namespace)
-		try await refreshCronJobs(ns: namespaceManager.namespace)
-		try await refreshDeployments(ns: namespaceManager.namespace)
-		try await refreshIngresses(ns: namespaceManager.namespace)
-		try await refreshServices(ns: namespaceManager.namespace)
+        async let x1:Void = refreshConfigMaps(ns: namespaceManager.namespace)
+        async let x2:Void = refreshSecrets(ns: namespaceManager.namespace)
+        async let x3:Void = refreshCronJobs(ns: namespaceManager.namespace)
+        async let x4:Void = refreshDeployments(ns: namespaceManager.namespace)
+        async let x5:Void = refreshIngresses(ns: namespaceManager.namespace)
+        async let x6:Void = refreshServices(ns: namespaceManager.namespace)
+        let _ = try await [x1, x2, x3, x4, x5, x6]
 	}
 	
 	func refreshConfigMaps(ns: NamespaceSelector) async throws -> Void {
