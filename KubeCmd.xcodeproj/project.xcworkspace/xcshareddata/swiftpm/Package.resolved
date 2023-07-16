@@ -10,6 +10,15 @@
       }
     },
     {
+      "identity" : "client",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/swiftkube/client.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "73bec95547cfdf9a9d328cc936d1b8d344fef84c"
+      }
+    },
+    {
       "identity" : "model",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/swiftkube/model.git",
@@ -59,8 +68,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-nio",
       "state" : {
-        "revision" : "6213ba7a06febe8fef60563a4a7d26a4085783cf",
-        "version" : "2.54.0"
+        "revision" : "5f542894dd8efbd766d8adf73ef2f947b0cd5e21",
+        "version" : "2.56.0"
       }
     },
     {
@@ -97,15 +106,6 @@
       "state" : {
         "revision" : "41f4098903878418537020075a4d8a6e20a0b182",
         "version" : "1.17.0"
-      }
-    },
-    {
-      "identity" : "swiftkubeclient",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/thomashorrobin/SwiftkubeClient.git",
-      "state" : {
-        "branch" : "main",
-        "revision" : "73bec95547cfdf9a9d328cc936d1b8d344fef84c"
       }
     },
     {

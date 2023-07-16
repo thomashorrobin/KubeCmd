@@ -803,7 +803,7 @@
 /* Begin XCRemoteSwiftPackageReference section */
 		499C02D52864D82100F74695 /* XCRemoteSwiftPackageReference "SwiftkubeClient" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/thomashorrobin/SwiftkubeClient.git";
+			repositoryURL = "https://github.com/swiftkube/client.git";
 			requirement = {
 				branch = main;
 				kind = branch;
