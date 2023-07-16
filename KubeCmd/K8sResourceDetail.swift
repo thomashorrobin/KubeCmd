@@ -10,7 +10,7 @@ import SwiftkubeModel
 
 struct K8sResourceDetail: View {
 	@EnvironmentObject var resources: ClusterResources
-	var resource:KubernetesAPIResource
+    var resource:any KubernetesAPIResource
 	@State var resourceDeleting = false
 	@State var deleted = false
 	func deleteResource() -> Void {
@@ -104,7 +104,7 @@ struct ReRunJob: View {
 }
 
 struct CustomButtons: View {
-	var resource:KubernetesAPIResource
+    var resource:any KubernetesAPIResource
 	var body: some View {
 		switch resource.kind {
 		case "CronJob":

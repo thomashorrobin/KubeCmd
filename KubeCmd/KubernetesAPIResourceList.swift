@@ -9,18 +9,18 @@ import SwiftUI
 import SwiftkubeClient
 import SwiftkubeModel
 
-func nameSort(x:KubernetesAPIResource, y:KubernetesAPIResource) -> Bool {
+func nameSort(x:any KubernetesAPIResource, y:any KubernetesAPIResource) -> Bool {
 	return x.name! < y.name!
 }
 
-func dateSort(x:KubernetesAPIResource, y:KubernetesAPIResource) -> Bool {
+func dateSort(x:any KubernetesAPIResource, y:any KubernetesAPIResource) -> Bool {
 	return x.metadata!.creationTimestamp! > y.metadata!.creationTimestamp!
 }
 
 struct KubernetesAPIResourceList: View, NamespaceFilterable {
 	@EnvironmentObject var clusterResources: ClusterResources
-	var resources: [KubernetesAPIResource]
-	var sortingFucntion: (KubernetesAPIResource, KubernetesAPIResource) -> Bool
+	var resources: [any KubernetesAPIResource]
+	var sortingFucntion: (any KubernetesAPIResource, any KubernetesAPIResource) -> Bool
 	var namespace: NamespaceSelector
 	var resourceType: String
 	@State private var searchText = ""
@@ -57,7 +57,7 @@ struct KubernetesAPIResourceList: View, NamespaceFilterable {
 		}.searchable(text: $searchText, prompt: "Search \(resourceType)")
 	}
 	
-	var searchResults: [KubernetesAPIResource] {
+	var searchResults: [any KubernetesAPIResource] {
 		if searchText.isEmpty {
 			return resources
 		} else {
@@ -67,7 +67,7 @@ struct KubernetesAPIResourceList: View, NamespaceFilterable {
 }
 
 struct KubernetesAPIResourceRow: View {
-	var resource: KubernetesAPIResource
+	var resource: any KubernetesAPIResource
 	var body: some View {
 		HStack{
 			NavigationLink(resource.name ?? "unknown", destination: K8sResourceDetail(resource: resource )).buttonStyle(PlainButtonStyle()).navigationTitle("\(resource.kind)s")

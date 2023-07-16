@@ -11,7 +11,7 @@ import SwiftkubeModel
 
 struct TopLevelK8sMenu: View {
 	@EnvironmentObject var resources: ClusterResources
-	func filterByNamespace(kubernetesAPIResource: KubernetesAPIResource) -> Bool {
+    func filterByNamespace(kubernetesAPIResource: any KubernetesAPIResource) -> Bool {
 		guard let metadata = kubernetesAPIResource.metadata else { return false }
 		guard let ns = metadata.namespace else { return false }
 		let x = NamespaceSelector.namespace(ns)

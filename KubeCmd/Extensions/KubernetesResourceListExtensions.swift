@@ -10,9 +10,9 @@ import SwiftkubeModel
 
 public extension batch.v1.CronJobList {
     mutating func replaceOrAdd(cj:batch.v1.CronJob) throws {
-        let uid = try UUID.fromK8sMetadata(resource: cj as KubernetesAPIResource)
+        let uid = try UUID.fromK8sMetadata(resource: cj as (any KubernetesAPIResource))
         for (i, item) in items.enumerated() {
-            let xx_uid = try UUID.fromK8sMetadata(resource: item as KubernetesAPIResource)
+            let xx_uid = try UUID.fromK8sMetadata(resource: item as (any KubernetesAPIResource))
             if xx_uid == uid {
                 items[i] = cj
                 return
@@ -24,9 +24,9 @@ public extension batch.v1.CronJobList {
 
 public extension core.v1.SecretList {
     mutating func replaceOrAdd(s:core.v1.Secret) throws {
-        let uid = try UUID.fromK8sMetadata(resource: s as KubernetesAPIResource)
+        let uid = try UUID.fromK8sMetadata(resource: s as (any KubernetesAPIResource))
         for (i, item) in items.enumerated() {
-            let xx_uid = try UUID.fromK8sMetadata(resource: item as KubernetesAPIResource)
+            let xx_uid = try UUID.fromK8sMetadata(resource: item as (any KubernetesAPIResource))
             if xx_uid == uid {
                 items[i] = s
                 return
@@ -38,9 +38,9 @@ public extension core.v1.SecretList {
 
 public extension core.v1.ConfigMapList {
     mutating func replaceOrAdd(cm:core.v1.ConfigMap) throws {
-        let uid = try UUID.fromK8sMetadata(resource: cm as KubernetesAPIResource)
+        let uid = try UUID.fromK8sMetadata(resource: cm as (any KubernetesAPIResource))
         for (i, item) in items.enumerated() {
-            let xx_uid = try UUID.fromK8sMetadata(resource: item as KubernetesAPIResource)
+            let xx_uid = try UUID.fromK8sMetadata(resource: item as (any KubernetesAPIResource))
             if xx_uid == uid {
                 items[i] = cm
                 return
@@ -52,9 +52,9 @@ public extension core.v1.ConfigMapList {
 
 public extension apps.v1.DeploymentList {
     mutating func replaceOrAdd(d:apps.v1.Deployment) throws {
-        let uid = try UUID.fromK8sMetadata(resource: d as KubernetesAPIResource)
+        let uid = try UUID.fromK8sMetadata(resource: d as (any KubernetesAPIResource))
         for (i, item) in items.enumerated() {
-            let xx_uid = try UUID.fromK8sMetadata(resource: item as KubernetesAPIResource)
+            let xx_uid = try UUID.fromK8sMetadata(resource: item as (any KubernetesAPIResource))
             if xx_uid == uid {
                 items[i] = d
                 return
@@ -66,9 +66,9 @@ public extension apps.v1.DeploymentList {
 
 public extension networking.v1.IngressList {
     mutating func replaceOrAdd(ing:networking.v1.Ingress) throws {
-        let uid = try UUID.fromK8sMetadata(resource: ing as KubernetesAPIResource)
+        let uid = try UUID.fromK8sMetadata(resource: ing as (any KubernetesAPIResource))
         for (i, item) in items.enumerated() {
-            let xx_uid = try UUID.fromK8sMetadata(resource: item as KubernetesAPIResource)
+            let xx_uid = try UUID.fromK8sMetadata(resource: item as (any KubernetesAPIResource))
             if xx_uid == uid {
                 items[i] = ing
                 return
@@ -80,9 +80,9 @@ public extension networking.v1.IngressList {
 
 public extension core.v1.ServiceList {
     mutating func replaceOrAdd(s:core.v1.Service) throws {
-        let uid = try UUID.fromK8sMetadata(resource: s as KubernetesAPIResource)
+        let uid = try UUID.fromK8sMetadata(resource: s as (any KubernetesAPIResource))
         for (i, item) in items.enumerated() {
-            let xx_uid = try UUID.fromK8sMetadata(resource: item as KubernetesAPIResource)
+            let xx_uid = try UUID.fromK8sMetadata(resource: item as (any KubernetesAPIResource))
             if xx_uid == uid {
                 items[i] = s
                 return

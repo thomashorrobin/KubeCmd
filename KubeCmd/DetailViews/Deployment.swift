@@ -52,18 +52,6 @@ struct Deployment: View {
 	}
 }
 
-struct RestartDeployment: View {
-	let deployment: apps.v1.Deployment
-	@EnvironmentObject var resources: ClusterResources
-	var body: some View{
-		Button("Restart", action: {
-			Task {
-				try await resources.restartDeployment(deployment: self.deployment)
-			}
-		})
-	}
-}
-
 //struct Deployment_Previews: PreviewProvider {
 //    static var previews: some View {
 //        Deployment()

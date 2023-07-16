@@ -9,42 +9,11 @@ import SwiftUI
 import SwiftkubeModel
 
 
-struct SuspendButton: View {
-	@EnvironmentObject var resources: ClusterResources
-	let cronJob:batch.v1.CronJob
-	let suspended:Bool
-	init(cronJob:batch.v1.CronJob) {
-		self.suspended = cronJob.spec?.suspend ?? false
-		self.cronJob = cronJob
-	}
-	var body: some View {
-		if suspended {
-			Button(action: unsuspendCronJob, label: {
-				Text("Unsuspend")
-			})
-		} else {
-			Button(action: suspendCronJob, label: {
-				Text("Suspend")
-			})
-		}
-	}
-	func unsuspendCronJob() -> Void {
-		Task {
-			await resources.unsuspendCronJob(cronjob: self.cronJob)
-		}
-	}
-	func suspendCronJob() -> Void {
-		Task {
-			await resources.suspendCronJob(cronjob: self.cronJob)
-		}
-	}
-}
-
 struct CronJob: View {
     var resources: ClusterResources
 	let cronJob:batch.v1.CronJob
     var jobs:[batch.v1.Job]
-	init(res:KubernetesAPIResource, resources: ClusterResources) {
+    init(res:any KubernetesAPIResource, resources: ClusterResources) {
 		self.cronJob = res as! batch.v1.CronJob
         self.resources = resources
         jobs = [batch.v1.Job]()

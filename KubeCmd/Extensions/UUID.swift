@@ -15,7 +15,7 @@ enum UUIDErrors: Error {
 }
 
 public extension UUID {
-	static func fromK8sMetadata(resource: KubernetesAPIResource) throws -> UUID {
+    static func fromK8sMetadata(resource: any KubernetesAPIResource) throws -> UUID {
 		guard let metadata = resource.metadata else { throw UUIDErrors.noMetadata }
 		guard let uid = metadata.uid else { throw UUIDErrors.noUid }
 		guard let uuid = UUID(uuidString: uid) else { throw

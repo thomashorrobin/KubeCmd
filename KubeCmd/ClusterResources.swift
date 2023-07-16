@@ -110,7 +110,7 @@ class ClusterResources: ObservableObject {
 //	}
 	
 	func getLogs(name: String, all: Bool) async throws -> String {
-		return try await client.pods.logs(name: name, tailLines: all ? nil : 5000)
+		return try await client.pods.logs(name: name)
 	}
 	
 	func removePod(uid:UUID) -> Void {
@@ -127,131 +127,6 @@ class ClusterResources: ObservableObject {
 	
 	func setJob(job:batch.v1.Job) throws -> Void {
         try self.jobs.upsert(resource: job)
-	}
-	
-	func dropLabel(kind: String, cronJob: String, name: String) async -> Void {
-		guard let kind = KubernetesResources.init(rawValue: kind) else { return }
-			switch kind {
-			case .pods:
-				do {
-					let newResource = try await client.pods.deleteLabel(in: self.namespaceManager.namespace, name: cronJob, labelName: name)
-                    try self.pods.upsert(resource: newResource)
-				} catch {
-					print(error)
-				}
-			case .cronjobs:
-				do {
-					let newResource = try await client.batchV1.cronJobs.deleteLabel(in: self.namespaceManager.namespace, name: cronJob, labelName: name)
-					try self.cronjobs.replaceOrAdd(cj: newResource)
-				} catch {
-					print(error)
-				}
-			case .deployments:
-				do {
-					let newResource = try await client.appsV1.deployments.deleteLabel(in: self.namespaceManager.namespace, name: cronJob, labelName: name)
-					try self.deployments.replaceOrAdd(d: newResource)
-				} catch {
-					print(error)
-				}
-			case .jobs:
-				do {
-					let newResource = try await client.batchV1.jobs.deleteLabel(in: self.namespaceManager.namespace, name: cronJob, labelName: name)
-                    try self.jobs.upsert(resource: newResource)
-				} catch {
-					print(error)
-				}
-			case .configmaps:
-				do {
-					let newResource = try await client.configMaps.deleteLabel(in: self.namespaceManager.namespace, name: cronJob, labelName: name)
-					try self.configmaps.replaceOrAdd(cm: newResource)
-				} catch {
-					print(error)
-				}
-			case .secrets:
-				do {
-					let newResource = try await client.secrets.deleteLabel(in: self.namespaceManager.namespace, name: cronJob, labelName: name)
-					try self.secrets.replaceOrAdd(s: newResource)
-				} catch {
-					print(error)
-				}
-			case .ingresses:
-				do {
-					let newResource = try await client.networkingV1.ingresses.deleteLabel(in: self.namespaceManager.namespace, name: cronJob, labelName: name)
-					try self.ingresses.replaceOrAdd(ing: newResource)
-				} catch {
-					print(error)
-				}
-			case .services:
-				do {
-					let newResource = try await client.services.deleteLabel(in: self.namespaceManager.namespace, name: cronJob, labelName: name)
-					try self.services.replaceOrAdd(s: newResource)
-				} catch {
-					print(error)
-				}
-			}
-	}
-	
-	func setLabels(kind: String, cronJob: String, value: [String:String]) async -> Void {
-		let name = ""
-		guard let kind = KubernetesResources.init(rawValue: kind) else { return }
-			switch kind {
-			case .pods:
-				do {
-					let newResource = try await client.pods.setLabels(in: self.namespaceManager.namespace, name: cronJob, labelName: name, value: value)
-                    try self.pods.upsert(resource: newResource)
-				} catch {
-					print(error)
-				}
-			case .cronjobs:
-				do {
-					let newResource = try await client.batchV1.cronJobs.setLabels(in: self.namespaceManager.namespace, name: cronJob, labelName: name, value: value)
-					try self.cronjobs.replaceOrAdd(cj: newResource)
-				} catch {
-					print(error)
-				}
-			case .deployments:
-				do {
-					let newResource = try await client.appsV1.deployments.setLabels(in: self.namespaceManager.namespace, name: cronJob, labelName: name, value: value)
-					try self.deployments.replaceOrAdd(d: newResource)
-				} catch {
-					print(error)
-				}
-			case .jobs:
-				do {
-					let newResource = try await client.batchV1.jobs.setLabels(in: self.namespaceManager.namespace, name: cronJob, labelName: name, value: value)
-                    try self.jobs.upsert(resource: newResource)
-				} catch {
-					print(error)
-				}
-			case .configmaps:
-				do {
-					let newResource = try await client.configMaps.setLabels(in: self.namespaceManager.namespace, name: cronJob, labelName: name, value: value)
-					try self.configmaps.replaceOrAdd(cm: newResource)
-				} catch {
-					print(error)
-				}
-			case .secrets:
-				do {
-					let newResource = try await client.secrets.setLabels(in: self.namespaceManager.namespace, name: cronJob, labelName: name, value: value)
-					try self.secrets.replaceOrAdd(s: newResource)
-				} catch {
-					print(error)
-				}
-			case .ingresses:
-				do {
-					let newResource = try await client.networkingV1.ingresses.setLabels(in: self.namespaceManager.namespace, name: cronJob, labelName: name, value: value)
-					try self.ingresses.replaceOrAdd(ing: newResource)
-				} catch {
-					print(error)
-				}
-			case .services:
-				do {
-					let newResource = try await client.services.setLabels(in: self.namespaceManager.namespace, name: cronJob, labelName: name, value: value)
-					try self.services.replaceOrAdd(s: newResource)
-				} catch {
-					print(error)
-				}
-			}
 	}
 	
 	func disconnectWatches() -> Void {
@@ -346,36 +221,7 @@ class ClusterResources: ObservableObject {
 		}
 	}
 	
-	func restartDeployment(deployment: apps.v1.Deployment) async throws -> Void {
-		let deployment = try await client.appsV1.deployments.restartDeployment(in: namespaceManager.namespace, name: deployment.name!)
-		try self.deployments.replaceOrAdd(d: deployment)
-	}
-	
-	func unsuspendCronJob(cronjob: batch.v1.CronJob) async -> Void {
-		print("starting unsuspend")
-		do {
-			let updatedCronjob = try await client.batchV1.cronJobs.unsuspend(in: .default, name: cronjob.name ?? "")
-			try self.cronjobs.replaceOrAdd(cj: updatedCronjob)
-		} catch {
-			print(error)
-			DispatchQueue.main.async {
-				self.errors.append(error)
-			}
-		}
-	}
-	func suspendCronJob(cronjob: batch.v1.CronJob) async -> Void {
-		print("starting suspend")
-		do {
-			let updatedCronjob = try await client.batchV1.cronJobs.suspend(in: .default, name: cronjob.name ?? "")
-			try self.cronjobs.replaceOrAdd(cj: updatedCronjob)
-		} catch {
-			print(error)
-			DispatchQueue.main.async {
-				self.errors.append(error)
-			}
-		}
-	}
-	func deleteResource(resource:KubernetesAPIResource) async throws -> Void {
+	func deleteResource(resource:any KubernetesAPIResource) async throws -> Void {
 		let deleteOptions = meta.v1.DeleteOptions(
 			gracePeriodSeconds: 10,
 			propagationPolicy: "Foreground"
@@ -431,10 +277,10 @@ class ClusterResources: ObservableObject {
 	}
 	
 	static func dummyCronJob() -> batch.v1.CronJob {
-		return batch.v1.CronJob(metadata: meta.v1.ObjectMeta(clusterName: "directly-apply-main-cluster", creationTimestamp: Date(), deletionGracePeriodSeconds: 100, labels: ["feed" : "ziprecruiter"], managedFields: [meta.v1.ManagedFieldsEntry](), name: "great cronjob", namespace: "default", ownerReferences: [meta.v1.OwnerReference](), resourceVersion: "appv1", uid: "F3493650-A9DF-410F-B1A4-E8F5386E5B53"), spec: batch.v1.CronJobSpec(failedJobsHistoryLimit: 5, jobTemplate: batch.v1.JobTemplateSpec(), schedule: "15 10 * * *", startingDeadlineSeconds: 100, successfulJobsHistoryLimit: 2, suspend: false), status: batch.v1.CronJobStatus(active: [core.v1.ObjectReference](), lastScheduleTime: Date()))
+		return batch.v1.CronJob(metadata: meta.v1.ObjectMeta(creationTimestamp: Date(), deletionGracePeriodSeconds: 100, labels: ["feed" : "ziprecruiter"], managedFields: [meta.v1.ManagedFieldsEntry](), name: "great cronjob", namespace: "default", ownerReferences: [meta.v1.OwnerReference](), resourceVersion: "appv1", uid: "F3493650-A9DF-410F-B1A4-E8F5386E5B53"), spec: batch.v1.CronJobSpec(failedJobsHistoryLimit: 5, jobTemplate: batch.v1.JobTemplateSpec(), schedule: "15 10 * * *", startingDeadlineSeconds: 100, successfulJobsHistoryLimit: 2, suspend: false), status: batch.v1.CronJobStatus(active: [core.v1.ObjectReference](), lastScheduleTime: Date()))
 	}
 	
 	static func dummyPod() -> core.v1.Pod {
-		return core.v1.Pod(metadata: meta.v1.ObjectMeta(clusterName: "directly-apply-main-cluster", creationTimestamp: Date(), deletionGracePeriodSeconds: 100, labels: ["feed" : "ziprecruiter"], managedFields: [meta.v1.ManagedFieldsEntry](), name: "great pod", namespace: "default", ownerReferences: [meta.v1.OwnerReference](), resourceVersion: "appv1", uid: "F3493650-A9DF-410F-B1A4-E8F5386E5B46"), spec: core.v1.PodSpec(activeDeadlineSeconds: 400, containers: [core.v1.Container](), enableServiceLinks: true, ephemeralContainers: [core.v1.EphemeralContainer](), hostAliases: [core.v1.HostAlias](), hostname: "bigboy.directlyapply.com", initContainers: [core.v1.Container](), nodeName: "big-boy", readinessGates: [core.v1.PodReadinessGate](), restartPolicy: "Always", topologySpreadConstraints: [core.v1.TopologySpreadConstraint](), volumes: [core.v1.Volume]()), status: core.v1.PodStatus(startTime: Date()))
+		return core.v1.Pod(metadata: meta.v1.ObjectMeta(creationTimestamp: Date(), deletionGracePeriodSeconds: 100, labels: ["feed" : "ziprecruiter"], managedFields: [meta.v1.ManagedFieldsEntry](), name: "great pod", namespace: "default", ownerReferences: [meta.v1.OwnerReference](), resourceVersion: "appv1", uid: "F3493650-A9DF-410F-B1A4-E8F5386E5B46"), spec: core.v1.PodSpec(activeDeadlineSeconds: 400, containers: [core.v1.Container](), enableServiceLinks: true, ephemeralContainers: [core.v1.EphemeralContainer](), hostAliases: [core.v1.HostAlias](), hostname: "bigboy.directlyapply.com", initContainers: [core.v1.Container](), nodeName: "big-boy", readinessGates: [core.v1.PodReadinessGate](), restartPolicy: "Always", topologySpreadConstraints: [core.v1.TopologySpreadConstraint](), volumes: [core.v1.Volume]()), status: core.v1.PodStatus(startTime: Date()))
 	}
 }
