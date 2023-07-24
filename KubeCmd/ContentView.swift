@@ -55,11 +55,6 @@ struct ContentView: View {
 			Task {
 				try await resources.refreshData()
 			}
-            Task {
-                do {
-                    try await resources.connectWatches()
-                }
-            }
 //			do {
 //				try resources.connectWatches()
 //			} catch {
@@ -70,7 +65,6 @@ struct ContentView: View {
 				showingErrorsAlert = true
 			}
 		}).onDisappear(perform: {
-			resources.disconnectWatches()
 			setClientNil()
 		}).toolbar(content: {
 			ToolbarItem(placement: .navigation) {

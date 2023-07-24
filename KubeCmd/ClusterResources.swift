@@ -23,21 +23,17 @@ class ClusterResources: ObservableObject {
     @Published var namespaceManager:NamespaceManager
 	@Published var errors = [Error]()
 	var client:KubernetesClient
-    var podWatcher:SwiftkubeClientTask<WatchEvent<core.v1.Pod>>
-    var jobWatcher:SwiftkubeClientTask<WatchEvent<batch.v1.Job>>
 	
 	init(client:KubernetesClient, pubsub: PubSubBoillerPlate) throws {
 		self.client = client
         let namespaceManager = try NamespaceManager(client: client)
         self.namespaceManager = namespaceManager
-        let strategy = RetryStrategy(
+        _ = RetryStrategy(
             policy: .maxAttempts(20),
             backoff: .exponential(maximumDelay: 60, multiplier: 2.0)
         )
-        self.pods = ResourceWrapper<core.v1.Pod>(resourceFetcher: client.pods, namespaceManager: namespaceManager)
-        self.jobs = ResourceWrapper<batch.v1.Job>(resourceFetcher: client.batchV1.jobs, namespaceManager: namespaceManager)
-        podWatcher = try client.pods.watch(in: .default, retryStrategy: strategy)
-        jobWatcher = try client.batchV1.jobs.watch(in: .default, retryStrategy: strategy)
+        self.pods = try ResourceWrapper<core.v1.Pod>(resourceFetcher: client.pods, namespaceManager: namespaceManager)
+        self.jobs = try ResourceWrapper<batch.v1.Job>(resourceFetcher: client.batchV1.jobs, namespaceManager: namespaceManager)
         pubsub.Subscribe(fn: dropAndRefreshData)
 		Task {
 			   try await refreshData()
@@ -127,77 +123,6 @@ class ClusterResources: ObservableObject {
 	
 	func setJob(job:batch.v1.Job) throws -> Void {
         try self.jobs.upsert(resource: job)
-	}
-	
-	func disconnectWatches() -> Void {
-        podWatcher.cancel()
-        jobWatcher.cancel()
-	}
-	
-	func connectWatches() async throws -> Void {
-        Task {
-            let podStream = podWatcher.start()
-            for try await event in podStream {
-                let pod = event.resource
-                let uuid = try! UUID.fromK8sMetadata(resource: pod)
-                switch event.type {
-                case .added:
-                    DispatchQueue.main.async {
-                        do {
-                            try self.setPod(pod: pod)
-                        } catch {
-                            print(error)
-                        }
-                    }
-                case .modified:
-                    DispatchQueue.main.async {
-                        do {
-                            try self.setPod(pod: pod)
-                        } catch {
-                            print(error)
-                        }
-                    }
-                case .deleted:
-                    DispatchQueue.main.async {
-                        self.removePod(uid: uuid)
-                    }
-                default:
-                    break
-                }
-            }
-        }
-        
-        Task {
-            let jobStream = jobWatcher.start()
-            for try await event in jobStream {
-                let job = event.resource
-                let uuid = try! UUID.fromK8sMetadata(resource: job)
-                switch event.type {
-                case .added:
-                    DispatchQueue.main.async {
-                        do {
-                            try self.setJob(job: job)
-                        } catch {
-                            print(error)
-                        }
-                    }
-                case .modified:
-                    DispatchQueue.main.async {
-                        do {
-                            try self.setJob(job: job)
-                        } catch {
-                            print(error)
-                        }
-                    }
-                case .deleted:
-                    DispatchQueue.main.async {
-                        self.removeJob(uid: uuid)
-                    }
-                default:
-                    break
-                }
-            }
-        }
 	}
 	
 	func setSelectedResource(resource: KubernetesResources) -> Void {
