@@ -27,13 +27,13 @@ struct KubernetesAPIResourceList: View, NamespaceFilterable {
 	func createSecret(secret: core.v1.Secret) {
 			Task {
 				let createdSecret = try await clusterResources.client.secrets.create(inNamespace: .default, secret)
-				 try clusterResources.secrets.replaceOrAdd(s: createdSecret)
+                try clusterResources.secrets.upsert(resource: createdSecret)
 			}
 	}
 	func createConfigMap(configMap: core.v1.ConfigMap) {
 		Task {
 			let createdConfigMap = try await clusterResources.client.configMaps.create(inNamespace: .default, configMap)
-			try clusterResources.configmaps.replaceOrAdd(cm: createdConfigMap)
+            try clusterResources.configmaps.upsert(resource: createdConfigMap)
 		}
 	}
 	

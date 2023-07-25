@@ -19,6 +19,12 @@ internal class ResourceWrapper<Resource: KubernetesAPIResource & NamespacedResou
         self.resourceFetcher = resourceFetcher
         self.namespaceManager = namespaceManager
         self.watcher = try resourceFetcher.watch(in: namespaceManager.namespace)
+        Task {
+            let resources = try await resourceFetcher.list(in: namespaceManager.namespace)
+            for resource in resources.items {
+                try upsert(resource: resource as! Resource)
+            }
+        }
         try connect()
     }
     public func upsert(resource: Resource) throws {
