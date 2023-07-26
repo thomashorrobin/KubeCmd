@@ -23,18 +23,6 @@ struct ContentView: View {
 	
 	var setClientNil: () -> Void
 	
-	@State var errors = [Error]()
-	@State private var showingErrorsAlert = false
-	private func getErrorsAsString() -> Text? {
-		if errors.isEmpty {
-			return nil
-		}
-		let descriptions = errors.map { e in
-			return e.localizedDescription
-		}
-		return Text(descriptions.joined(separator: "\n"))
-	}
-	
 	var body: some View {
 		NavigationView
 		{
@@ -44,23 +32,7 @@ struct ContentView: View {
                 Text("The URL for the kuberentes API server")
                 Text(resources.masterURL().absoluteString).bold()
             }.frame(width: 375, height: 500)
-		}.environmentObject(resources).onAppear(perform: {
-			let startUpErrors = [Error]()
-//            let totalCount = resources.countItems()
-//            print("xxxxxx: \(totalCount)")
-			Task {
-                try await resources.dropAndRefreshData()
-			}
-//			do {
-//				try resources.connectWatches()
-//			} catch {
-//				startUpErrors.append(error)
-//			}
-			if !startUpErrors.isEmpty {
-				errors = startUpErrors
-				showingErrorsAlert = true
-			}
-		}).onDisappear(perform: {
+		}.environmentObject(resources).onDisappear(perform: {
 			setClientNil()
 		}).toolbar(content: {
 			ToolbarItem(placement: .navigation) {
@@ -80,11 +52,7 @@ struct ContentView: View {
 					Label("Namespace Filter", systemImage: "square.on.square.dashed")
 				}
 			}
-		}).frame(minWidth: 1290).alert(isPresented: $showingErrorsAlert, content: {
-			Alert(title: Text("errors:"), message: getErrorsAsString(), dismissButton: .default(Text("dismiss")) {
-				errors = []
-			})
-		})
+		}).frame(minWidth: 1290)
 	}
 	
 	func toggleSidebar() {
