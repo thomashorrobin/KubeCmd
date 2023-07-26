@@ -39,6 +39,10 @@ class ClusterResources: ObservableObject {
         pubsub.Subscribe(fn: dropAndRefreshData)
     }
     
+    func masterURL() -> URL {
+        return client.config.masterURL
+    }
+    
     func dropAndRefreshData() async throws -> Void {
         async let podsRefreshJob:Void = self.pods.refresh()
         async let jobsRefreshJob:Void = self.jobs.refresh()

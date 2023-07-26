@@ -21,8 +21,6 @@ struct ContentView: View {
 		animation: .default)
 	private var items: FetchedResults<Item>
 	
-	@State var buttonText = "Load data again"
-	
 	var setClientNil: () -> Void
 	
 	@State var errors = [Error]()
@@ -42,15 +40,10 @@ struct ContentView: View {
 		{
 			TopLevelK8sMenu().frame(minWidth: 290, idealWidth: 390)
 			SecondLevelK8sItems().frame(minWidth: 290, idealWidth: 390)
-			Button(action: {
-				buttonText = "loading..."
-				Task {
-                    try await resources.dropAndRefreshData()
-				}
-				buttonText = "Load data again"
-			}, label: {
-				Text(buttonText)
-			}).frame(width: 250, height: 500)
+            VStack {
+                Text("The URL for the kuberentes API server")
+                Text(resources.masterURL().absoluteString).bold()
+            }.frame(width: 375, height: 500)
 		}.environmentObject(resources).onAppear(perform: {
 			let startUpErrors = [Error]()
 //            let totalCount = resources.countItems()
