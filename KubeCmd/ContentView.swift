@@ -42,15 +42,15 @@ struct ContentView: View {
 		{
 			TopLevelK8sMenu().frame(minWidth: 290, idealWidth: 390)
 			SecondLevelK8sItems().frame(minWidth: 290, idealWidth: 390)
-//			Button(action: {
-//				buttonText = "loading..."
-//				Task {
-//					try await resources.refreshData()
-//				}
-//				buttonText = "Load data again"
-//			}, label: {
-//				Text(buttonText)
-//			}).frame(width: 250, height: 500)
+			Button(action: {
+				buttonText = "loading..."
+				Task {
+                    try await resources.dropAndRefreshData()
+				}
+				buttonText = "Load data again"
+			}, label: {
+				Text(buttonText)
+			}).frame(width: 250, height: 500)
 		}.environmentObject(resources).onAppear(perform: {
 			let startUpErrors = [Error]()
 //            let totalCount = resources.countItems()

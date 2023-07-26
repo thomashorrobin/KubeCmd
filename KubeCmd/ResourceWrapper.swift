@@ -14,18 +14,19 @@ internal class ResourceWrapper<Resource: KubernetesAPIResource & NamespacedResou
     private var resourceFetcher: NamespacedGenericKubernetesClient<Resource>
     private var namespaceManager: NamespaceManager
     var watcher:SwiftkubeClientTask<WatchEvent<Resource>>
-    init(resourceFetcher: NamespacedGenericKubernetesClient<Resource>, namespaceManager: NamespaceManager) throws {
+    private init(rf: NamespacedGenericKubernetesClient<Resource>, nsm: NamespaceManager) throws {
         self.items = [UUID:Resource]()
-        self.resourceFetcher = resourceFetcher
-        self.namespaceManager = namespaceManager
-        self.watcher = try resourceFetcher.watch(in: namespaceManager.namespace)
-        Task {
-            let resources = try await resourceFetcher.list(in: namespaceManager.namespace)
-            for resource in resources.items {
-                try upsert(resource: resource as! Resource)
-            }
+        self.resourceFetcher = rf
+        self.namespaceManager = nsm
+        self.watcher = try rf.watch(in: nsm.namespace)
+    }
+    convenience init(resourceFetcher: NamespacedGenericKubernetesClient<Resource>, namespaceManager: NamespaceManager) async throws {
+        try self.init(rf: resourceFetcher, nsm: namespaceManager)
+        let resources = try await resourceFetcher.list(in: namespaceManager.namespace)
+        for resource in resources.items {
+            try upsert(resource: resource as! Resource)
         }
-        try connect()
+        try self.connect()
     }
     public func upsert(resource: Resource) throws {
         let uuid = try UUID.fromK8sMetadata(resource: resource)

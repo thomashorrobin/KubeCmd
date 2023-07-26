@@ -42,18 +42,18 @@ struct MainAppContainer: View {
     let persistenceController = PersistenceController.shared
     let pubsub: PubSubBoillerPlate
     
-    @State var client:KubernetesClient? = nil
+    @State var clusterResources:ClusterResources? = nil
     func setClientNil() -> Void {
-        client = nil
+        clusterResources = nil
     }
     
     var body: some View {
-        if let client = client, let resources = try? ClusterResources(client: client, pubsub: pubsub) {
+        if let resources = clusterResources {
             ContentView(resources: resources, setClientNil: setClientNil)
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         } else {
-            StartupScreen { client in
-                self.client = client
+            StartupScreen { clusterResources in
+                self.clusterResources = clusterResources
             }
         }
     }

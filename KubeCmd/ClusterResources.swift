@@ -24,18 +24,18 @@ class ClusterResources: ObservableObject {
     @Published var errors = [Error]()
     var client:KubernetesClient
     
-    init(client:KubernetesClient, pubsub: PubSubBoillerPlate) throws {
+    init(client:KubernetesClient, pubsub: PubSubBoillerPlate) async throws {
         self.client = client
         let namespaceManager = try NamespaceManager(client: client)
         self.namespaceManager = namespaceManager
-        self.pods = try ResourceWrapper<core.v1.Pod>(resourceFetcher: client.pods, namespaceManager: namespaceManager)
-        self.jobs = try ResourceWrapper<batch.v1.Job>(resourceFetcher: client.batchV1.jobs, namespaceManager: namespaceManager)
-        self.configmaps = try ResourceWrapper<core.v1.ConfigMap>(resourceFetcher: client.configMaps, namespaceManager: namespaceManager)
-        self.secrets = try ResourceWrapper<core.v1.Secret>(resourceFetcher: client.secrets, namespaceManager: namespaceManager)
-        self.cronjobs = try ResourceWrapper<batch.v1.CronJob>(resourceFetcher: client.batchV1.cronJobs, namespaceManager: namespaceManager)
-        self.deployments = try ResourceWrapper<apps.v1.Deployment>(resourceFetcher: client.appsV1.deployments, namespaceManager: namespaceManager)
-        self.ingresses = try ResourceWrapper<networking.v1.Ingress>(resourceFetcher: client.networkingV1.ingresses, namespaceManager: namespaceManager)
-        self.services = try ResourceWrapper<core.v1.Service>(resourceFetcher: client.services, namespaceManager: namespaceManager)
+        self.pods = try await ResourceWrapper<core.v1.Pod>(resourceFetcher: client.pods, namespaceManager: namespaceManager)
+        self.jobs = try await ResourceWrapper<batch.v1.Job>(resourceFetcher: client.batchV1.jobs, namespaceManager: namespaceManager)
+        self.configmaps = try await ResourceWrapper<core.v1.ConfigMap>(resourceFetcher: client.configMaps, namespaceManager: namespaceManager)
+        self.secrets = try await ResourceWrapper<core.v1.Secret>(resourceFetcher: client.secrets, namespaceManager: namespaceManager)
+        self.cronjobs = try await ResourceWrapper<batch.v1.CronJob>(resourceFetcher: client.batchV1.cronJobs, namespaceManager: namespaceManager)
+        self.deployments = try await ResourceWrapper<apps.v1.Deployment>(resourceFetcher: client.appsV1.deployments, namespaceManager: namespaceManager)
+        self.ingresses = try await ResourceWrapper<networking.v1.Ingress>(resourceFetcher: client.networkingV1.ingresses, namespaceManager: namespaceManager)
+        self.services = try await ResourceWrapper<core.v1.Service>(resourceFetcher: client.services, namespaceManager: namespaceManager)
         pubsub.Subscribe(fn: dropAndRefreshData)
     }
     

@@ -10,7 +10,7 @@ import SwiftkubeClient
 import UniformTypeIdentifiers
 
 struct StartupScreen: View {
-	var setConfig:(KubernetesClient) -> Void
+	var setConfig:(ClusterResources) -> Void
 	@State private var showingFailedLoadAlert = false
 	@State private var loading = false
 	var body: some View {
@@ -28,24 +28,36 @@ struct StartupScreen: View {
 			Alert(title: Text("yaml file failed to load"))
 		})
 	}
-	func openFile() -> Void {
+    func openFile() -> Void {
+        do {
+            let client = try getClientFromFile()
+            loading = true
+            Task {
+                let clusterResources = try await ClusterResources(client: client, pubsub: PubSubBoillerPlate())
+                setConfig(clusterResources)
+                loading = false
+            }
+        } catch {
+            showingFailedLoadAlert = true
+        }
+    }
+	func getClientFromFile() throws -> KubernetesClient {
 		let panel = NSOpenPanel()
 		panel.allowsMultipleSelection = false
 		panel.canChooseDirectories = false
 		panel.showsHiddenFiles = true
 		panel.allowedContentTypes = [UTType(filenameExtension: "yaml")!, UTType(filenameExtension: "yml")!]
-		loading = true
 		if panel.runModal() == .OK {
 			print(panel.url?.path ?? "<none>")
 			if let u = panel.url {
 				if let client = KubernetesClient(fromURL: URL(fileURLWithPath: u.path)) {
-					setConfig(client)
+                    return client
 				} else {
-					loading = false
-					showingFailedLoadAlert = true
+                    throw SwiftkubeClientError.emptyResponse
 				}
 			}
 		}
+        throw SwiftkubeClientError.emptyResponse
 	}
 }
 
