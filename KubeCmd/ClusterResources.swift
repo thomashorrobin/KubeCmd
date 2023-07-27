@@ -55,14 +55,6 @@ class ClusterResources: ObservableObject {
         let _ = try await [podsRefreshJob, jobsRefreshJob, configmapsRefreshJob, secretsRefreshJob, cronjobsRefreshJob, deploymentsRefreshJob, ingressesRefreshJob, servicesRefreshJob]
     }
     
-    func countItems() -> Int {
-        return self.pods.items.count + self.jobs.items.count
-    }
-    
-    //	func followLogs(name: String, cb: @escaping LogWatcherCallback.LineHandler) throws -> SwiftkubeClientTask {
-    //		return try await client.pods.follow(name: name, lineHandler: cb)
-    //	}
-    
     func getLogs(name: String, all: Bool) async throws -> String {
         return try await client.pods.logs(name: name)
     }
