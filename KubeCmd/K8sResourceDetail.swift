@@ -36,7 +36,7 @@ struct K8sResourceDetail: View {
 					})
 				}.padding(.all, 40)
 				Divider()
-				ScrollView(.vertical){
+				ScrollView(.vertical, showsIndicators: true){
 					switch resource.kind {
 					case "Pod":
 						Pod(pod: resource as! core.v1.Pod).padding(.all, 40)
